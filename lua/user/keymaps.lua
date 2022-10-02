@@ -4,7 +4,11 @@ local keyset = vim.keymap.set
 -- ####### Generic ########
 -- ########################
 
-vim.g.mapleader = '<space>'
+-- Set space as leader
+vim.g.mapleader = " "
+keyset("", "<Space>", "<Nop>")
+
+-- Avoid press shift to type :
 keyset("n", ";", ":")
 
 -- ###############################
@@ -12,6 +16,15 @@ keyset("n", ";", ":")
 -- ###############################
 
 keyset("n", "<leader>c", "<cmd>Bdelete<cr>") -- "Close window"
+
+-- ###############################
+-- ####### comments.nvim #######
+-- ###############################
+
+keyset("n", "<leader>/", function()
+    require("Comment.api").toggle.linewise.current()
+end)
+keyset("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>")
 
 -- ###############################
 -- ####### bufferline.nvim #######
@@ -151,7 +164,7 @@ keyset("x", "<C-s>", "<Plug>(coc-range-select)", {
 
 -- Mappings for CoCList
 -- code actions and coc stuff
---@diagnostic disable-next-line: redefined-local
+-- @diagnostic disable-next-line: redefined-local
 local opts = {
     silent = true,
     nowait = true
