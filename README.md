@@ -17,4 +17,4 @@ I will add specific support to other technologies.
 
 ## Usage
 
-The important thing to know is that the leader key is the space key.
+The most important thing to know is that the leader key is the space key.
