@@ -29,4 +29,9 @@ return require("packer").startup(function(use)
         run = ':TSUpdate'
     }
     use {'numToStr/Comment.nvim'}
+    use {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.x',
+        requires = {{'nvim-lua/plenary.nvim'}}
+    }
 end)

@@ -1,5 +1,10 @@
 local keyset = vim.keymap.set
 
+local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
+if not status_ok then
+    return
+end
+
 -- ########################
 -- ####### Generic ########
 -- ########################
@@ -10,6 +15,27 @@ keyset("", "<Space>", "<Nop>")
 
 -- Avoid press shift to type :
 keyset("n", ";", ":")
+
+-- ###############################
+-- ####### telescope.nvim ########
+-- ###############################
+
+keyset('n', '<leader>ff', tsbuiltin.find_files, {})
+keyset('n', '<leader>fg', tsbuiltin.live_grep, {})
+keyset('n', '<leader>fb', tsbuiltin.buffers, {})
+keyset('n', '<leader>fh', tsbuiltin.help_tags, {})
+
+-- Search among words
+keyset('n', '<leader>fw', function()
+    require("telescope.builtin").live_grep()
+end, {})
+keyset('n', '<leader>fW', function()
+    require("telescope.builtin").live_grep {
+        additional_args = function(args)
+            return vim.list_extend(args, {"--hidden", "--no-ignore"})
+        end
+    }
+end, {}) -- In ll files
 
 -- ###############################
 -- ####### bufdelete.nvim #######
