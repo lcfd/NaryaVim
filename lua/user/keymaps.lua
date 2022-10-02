@@ -38,6 +38,14 @@ keyset('n', '<leader>fW', function()
 end, {}) -- In ll files
 
 -- ###############################
+-- ####### nvim-tree #######
+-- ###############################
+
+keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>") -- Open or close the tree. Takes an optional path argument.
+keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>") -- Open the tree if it is closed, and then focus on the tree.
+keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>") -- Collapses the nvim-tree recursively.
+
+-- ###############################
 -- ####### bufdelete.nvim #######
 -- ###############################
 
