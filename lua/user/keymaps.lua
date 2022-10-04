@@ -73,6 +73,12 @@ keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>") -- "Previous buffer tab"
 -- ####### coc.nvim #######
 -- ########################
 
+-- Personal
+
+keyset("n", "<leader>df", "<cmd>CocCommand editor.action.formatDocument<cr>") -- "Format document"
+
+-- Suggested
+
 -- Use tab for trigger completion with characters ahead and navigate.
 -- NOTE: There's always complete item selected by default, you may want to enable
 -- no select by `"suggest.noselect": true` in your configuration file.
