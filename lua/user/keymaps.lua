@@ -66,8 +66,8 @@ keyset("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(v
 
 keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>") -- "Next buffer tab"
 keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>") -- "Previous buffer tab"
-keyset("n", ">b", "<cmd>BufferLineMoveNext<cr>") -- "Move buffer tab right"
-keyset("n", "<b", "<cmd>BufferLineMovePrev<cr>") -- "Move buffer tab left"
+-- keyset("n", ">b", "<cmd>BufferLineMoveNext<cr>") -- "Move buffer tab right"
+-- keyset("n", "<b", "<cmd>BufferLineMovePrev<cr>") -- "Move buffer tab left"
 
 -- ########################
 -- ####### coc.nvim #######
