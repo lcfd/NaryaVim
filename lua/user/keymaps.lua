@@ -23,6 +23,10 @@ keyset("", "<Space>", "<Nop>")
 -- Avoid press shift to type :
 keyset("n", ";", ":")
 
+-- Go to the start and the end of a sentence
+keyset("n", "<C-e>", "$")
+keyset("n", "<C-a>", "^")
+
 -- ###############################
 -- ####### telescope.nvim ########
 -- ###############################
