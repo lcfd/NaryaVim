@@ -5,6 +5,13 @@ if not status_ok then
     return
 end
 
+local status_ok, neogit = pcall(require, "neogit")
+if not status_ok then
+    return
+end
+
+
+
 -- ########################
 -- ####### Generic ########
 -- ########################
@@ -35,11 +42,11 @@ keyset('n', '<leader>fW', function()
             return vim.list_extend(args, {"--hidden", "--no-ignore"})
         end
     }
-end, {}) -- In ll files
+end, {}) -- In all files
 
--- ###############################
--- ####### nvim-tree #######
--- ###############################
+-- #############################
+-- ######## nvim-tree ##########
+-- #############################
 
 keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>") -- Open or close the tree. Takes an optional path argument.
 keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>") -- Open the tree if it is closed, and then focus on the tree.
@@ -68,6 +75,13 @@ keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>") -- "Next buffer tab"
 keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>") -- "Previous buffer tab"
 -- keyset("n", ">b", "<cmd>BufferLineMoveNext<cr>") -- "Move buffer tab right"
 -- keyset("n", "<b", "<cmd>BufferLineMovePrev<cr>") -- "Move buffer tab left"
+
+-- #########################
+-- ####### Neogit ##########
+-- #########################
+
+keyset("n", "<leader>g", "<cmd>Neogit<cr>") -- "Commit"
+
 
 -- ########################
 -- ####### coc.nvim #######
