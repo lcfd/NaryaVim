@@ -34,4 +34,14 @@ return require("packer").startup(function(use)
         tag = '0.1.x',
         requires = {{'nvim-lua/plenary.nvim'}}
     }
+
+    -- Git
+
+    use {
+        'TimUntersberger/neogit',
+        requires = 'nvim-lua/plenary.nvim'
+    } -- https://github.com/TimUntersberger/neogit
+
+    -- Maybe
+    use("nathom/filetype.nvim") -- https://github.com/nathom/filetype.nvim
 end)
