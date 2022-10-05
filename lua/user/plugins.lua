@@ -44,4 +44,5 @@ return require("packer").startup(function(use)
 
     -- Maybe
     use("nathom/filetype.nvim") -- https://github.com/nathom/filetype.nvim
+    use("ellisonleao/glow.nvim") -- https://github.com/ellisonleao/glow.nvim 
 end)
