@@ -6,7 +6,7 @@ end
 telescope.setup {
         defaults = {
                 file_ignore_patterns = {
-                        "node_modules", ".git", "dist", "output", ".mypy_cache", "__pycache__", "*.pyc"
+                        "node_modules", ".git", "dist", "output", ".mypy_cache", "__pycache__", "*.pyc", ".jekyll-cache"
                 },
         },
         pickers = {
