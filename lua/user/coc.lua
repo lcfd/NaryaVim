@@ -11,7 +11,8 @@ vim.g.coc_global_extensions = {"coc-snippets", -- Add snippets https://github.co
 "coc-rust-analyzer", -- rust-analyzer for Neovim https://github.com/fannheyward/coc-rust-analyzer
 "coc-fish", -- Asynchronous completion source for Coc and fish. https://github.com/oncomouse/coc-fish
 "@yaegassy/coc-tailwindcss3", -- https://github.com/yaegassy/coc-tailwindcss3
-"coc-emoji" -- Emoji words, default enabled for markdown file only.
+"coc-emoji", -- Emoji words, default enabled for markdown file only.
+"coc-pairs" -- Autopairs for brackets
 }
 
 -- Auto complete
