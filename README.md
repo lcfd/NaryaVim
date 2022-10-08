@@ -28,3 +28,6 @@ I will add specific support to other technologies.
 
 The most important thing to know is that the leader key is the space key.
 
+## Neovim version
+
+I'm using this configuration in Neovim `0.8`.
