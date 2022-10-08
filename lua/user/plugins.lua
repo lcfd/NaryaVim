@@ -2,6 +2,7 @@
 return require("packer").startup(function(use)
     use "wbthomason/packer.nvim"
     use "folke/tokyonight.nvim"
+    use 'honza/vim-snippets' -- Fill coc-snippets
     use {
         "neoclide/coc.nvim",
         branch = "release"
@@ -44,5 +45,6 @@ return require("packer").startup(function(use)
 
     -- Maybe
     use("nathom/filetype.nvim") -- https://github.com/nathom/filetype.nvim
-    use("ellisonleao/glow.nvim") -- https://github.com/ellisonleao/glow.nvim 
+    use("ellisonleao/glow.nvim") -- https://github.com/ellisonleao/glow.nvim
+    use("ja-ford/delaytrain.nvim")
 end)
