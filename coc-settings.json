@@ -1,0 +1,4 @@
+{
+  "Lua.telemetry.enable": false,
+  "python.formatting.provider": "black"
+}
