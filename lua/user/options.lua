@@ -55,3 +55,4 @@ vim.opt.showmode = false
 -- Disable netrw at the very start of your init.lua
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_perl_provider = 0
