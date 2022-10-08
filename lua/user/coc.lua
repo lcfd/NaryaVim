@@ -5,6 +5,7 @@ vim.g.coc_global_extensions = {"coc-snippets", -- Add snippets https://github.co
 "coc-json", -- Json language server https://github.com/neoclide/coc-json
 "coc-pyright", -- https://github.com/fannheyward/coc-pyright
 "coc-htmldjango", -- https://github.com/yaegassy/coc-htmldjango
+"coc-prettier", -- https://github.com/neoclide/coc-prettier
 "coc-markdownlint", -- markdownlint for Neovim https://github.com/fannheyward/coc-markdownlint
 "coc-sumneko-lua", -- Lua extension using sumneko lua-language-server https://github.com/xiyaowong/coc-sumneko-lua
 "coc-yaml", -- Fork of vscode-yaml that works with coc.nvim https://github.com/neoclide/coc-yaml

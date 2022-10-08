@@ -1,0 +1,7 @@
+{
+  "tabWidth": 2,
+  "indent_size": 2,
+  "indent_style": "space",
+  "singleAttributePerLine": false,
+  "printWidth": 180
+}

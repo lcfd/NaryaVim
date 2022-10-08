@@ -1,4 +1,6 @@
 {
   "Lua.telemetry.enable": false,
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "html.format.provider": "black",
+  "html.format.enable": false
 }
