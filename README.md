@@ -3,6 +3,11 @@
   <p>A configuration for Neovim that inspires hope and resolution 🔥</p>
 </div>
 
+
+<div align="center">
+  <img src="img/logo.webp" align="center" alt="Logo" />
+</div>
+
 ## Why
 
 I wanted a config that was truly mine and that would help me be fast and accurate
