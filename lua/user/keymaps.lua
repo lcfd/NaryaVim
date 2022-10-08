@@ -10,8 +10,6 @@ if not status_ok then
     return
 end
 
-
-
 -- ########################
 -- ####### Generic ########
 -- ########################
@@ -69,7 +67,9 @@ keyset("n", "<leader>c", "<cmd>Bdelete<cr>") -- "Close window"
 keyset("n", "<leader>/", function()
     require("Comment.api").toggle.linewise.current()
 end)
-keyset("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>")
+keyset("v", "<leader>/", function()
+    require("Comment.api").toggle.linewise(vim.fn.visualmode())
+end)
 
 -- ###############################
 -- ####### bufferline.nvim #######
@@ -85,7 +85,6 @@ keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>") -- "Previous buffer tab"
 -- #########################
 
 keyset("n", "<leader>g", "<cmd>Neogit<cr>") -- "Commit"
-
 
 -- ########################
 -- ####### coc.nvim #######
@@ -105,7 +104,8 @@ keyset("n", "<leader>df", "<cmd>CocCommand editor.action.formatDocument<cr>") --
 local opts = {
     silent = true,
     noremap = true,
-    expr = true
+    expr = true,
+    replace_keycodes = false
 }
 keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
 keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
@@ -115,9 +115,9 @@ keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
 keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
 -- Use <c-j> to trigger snippets
-keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+keyset("i", "<C-j>", "<Plug>(coc-snippets-expand-jump)")
 -- Use <c-space> to trigger completion.
-keyset("i", "<c-space>", "coc#refresh()", {
+keyset("i", "<C-space>", "coc#refresh()", {
     silent = true,
     expr = true
 })
