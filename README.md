@@ -24,6 +24,16 @@ This configuration is intended to be used primarily with:
 
 I will add specific support to other technologies.
 
+## Install
+
+Create a virtual environment
+
+`python3 -m venv ~/.config/nvim/venv`
+
+Install `pynvim`
+
+`~/.config/nvim/venv/bin/pip install pynvim`
+
 ## Usage
 
 The most important thing to know is that the leader key is the space key.
