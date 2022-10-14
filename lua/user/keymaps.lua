@@ -22,29 +22,19 @@ keyset("", "<Space>", "<Nop>")
 keyset("n", ";", ":")
 
 -- Go to the start and the end of a sentence
-keyset("n", "<C-e>", "$")
-keyset("n", "<C-a>", "^")
+
+keyset("n", "<leader>ee", "$")
+keyset("n", "<leader>aa", "^")
 
 -- ###############################
 -- ####### telescope.nvim ########
 -- ###############################
 
 keyset('n', '<leader>ff', tsbuiltin.find_files, {})
-keyset('n', '<leader>fg', tsbuiltin.live_grep, {})
+keyset('n', '<leader>fw', tsbuiltin.live_grep, {})
 keyset('n', '<leader>fb', tsbuiltin.buffers, {})
 keyset('n', '<leader>fh', tsbuiltin.help_tags, {})
-
--- Search among words
-keyset('n', '<leader>fw', function()
-    require("telescope.builtin").live_grep()
-end, {})
-keyset('n', '<leader>fW', function()
-    require("telescope.builtin").live_grep {
-        additional_args = function(args)
-            return vim.list_extend(args, {"--hidden", "--no-ignore"})
-        end
-    }
-end, {}) -- In all files
+keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {})
 
 -- #############################
 -- ######## nvim-tree ##########
@@ -58,18 +48,13 @@ keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>") -- Collapses the nvim-tre
 -- ####### bufdelete.nvim #######
 -- ###############################
 
-keyset("n", "<leader>c", "<cmd>Bdelete<cr>") -- "Close window"
+keyset("n", "<leader>bc", "<cmd>Bdelete<cr>") -- "Close window"
 
 -- ###############################
 -- ####### comments.nvim #######
 -- ###############################
 
-keyset("n", "<leader>/", function()
-    require("Comment.api").toggle.linewise.current()
-end)
-keyset("v", "<leader>/", function()
-    require("Comment.api").toggle.linewise(vim.fn.visualmode())
-end)
+-- Look at lua/user/comment.lua
 
 -- ###############################
 -- ####### bufferline.nvim #######
@@ -156,17 +141,18 @@ function _G.show_docs()
         vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
     end
 end
+
 keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {
     silent = true
 })
 
 -- Formatting selected code.
-keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {
-    silent = true
-})
-keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {
-    silent = true
-})
+-- keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {
+--  silent = true
+-- })
+-- keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {
+-- silent = true
+-- })
 
 -- Applying codeAction to the selected region.
 -- Example: `<leader>aap` for current paragraph

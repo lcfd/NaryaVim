@@ -3,6 +3,12 @@ vim.o.writebackup = false
 
 vim.opt.fileencoding = "utf-8"
 
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.mouse = "a"
+vim.o.hlsearch = false
+vim.o.scrolloff = 20
+
 -- Use the colors set in terminal configuration -> NO
 -- vim.o.termguicolors = true
 
