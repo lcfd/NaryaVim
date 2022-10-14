@@ -36,7 +36,7 @@ Install `pynvim`
 
 ## Usage
 
-The most important thing to know is that the leader key is the space key.
+Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).
 
 ## Neovim version
 
