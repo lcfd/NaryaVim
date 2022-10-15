@@ -20,17 +20,18 @@
 
 ## ⭐️ Why
 
-I wanted a config that was truly mine and that would help me be fast and accurate
-in coding.
+I wanted a config that was truly mine and that would help me be fast and accurate.
 
-Neovim configurations are really personal.
+Neovim configurations are *really* personal.
 I hope that this repository will be a source of inspiration for you.
 
 This configuration is intended to be used primarily with:
 
-- Django
-- Pelican
-- TailwindCSS
+- [Django](https://github.com/django/django)
+- [HTMX](https://github.com/bigskysoftware/htmx)
+- [Alpine.js](https://github.com/alpinejs/alpine)
+- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
+- [Pelican](https://github.com/getpelican/pelican)
 
 I will add specific support to other technologies.
 
