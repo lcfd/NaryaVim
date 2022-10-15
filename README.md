@@ -1,13 +1,15 @@
 <div align="center">
+  <img src="img/logo.webp" alt="Logo" />
+</div>
+
+<div align="center">
   <h1>NaryaVim</h1>
-</div>
-
-<div align="center">
-  <img src="img/logo.webp" align="center" alt="Logo" />
-</div>
-
-<div align="center">
   <p>A configuration for Neovim that inspires hope and resolution 🔥</p>
+</div>
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Neovim-0.8%2B-green?style=flat&logo=neovim" />
+  <img src="https://img.shields.io/github/license/lcfd/NaryaVim?label=License&logo=GNU&style=flat" />
 </div>
 
 - [⭐️ Why](#️-why)
