@@ -34,11 +34,24 @@ keyset("n", "<leader>aa", "^", {
 -- ####### telescope.nvim #######
 -- ##############################
 
-keyset('n', '<leader>ff', tsbuiltin.find_files, {})
-keyset('n', '<leader>fw', tsbuiltin.live_grep, {})
-keyset('n', '<leader>fb', tsbuiltin.buffers, {})
-keyset('n', '<leader>fh', tsbuiltin.help_tags, {})
-keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {})
+keyset('n', '<leader>ff', tsbuiltin.find_files, {
+    desc = "Lists files in your current working directory, respects .gitignore (find_files)."
+})
+keyset('n', '<leader>fw', tsbuiltin.live_grep, {
+    desc = "Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)."
+})
+keyset('n', '<leader>fb', tsbuiltin.buffers, {
+    desc = "Lists open buffers in current Neovim instance (buffers)."
+})
+keyset('n', '<leader>fh', tsbuiltin.help_tags, {
+    desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)."
+})
+keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {
+    desc = "Lists available help tags and opens a new window with the relevant help info on."
+})
+keyset('n', '<leader>fc', "<CMD>Telescope command_center<CR>", {
+    desc = "List commands and search fuzzy search them."
+})
 
 -- ###########################
 -- ######## nvim-tree ########
