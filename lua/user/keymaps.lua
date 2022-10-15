@@ -23,12 +23,16 @@ keyset("n", ";", ":")
 
 -- Go to the start and the end of a sentence
 
-keyset("n", "<leader>ee", "$")
-keyset("n", "<leader>aa", "^")
+keyset("n", "<leader>ee", "$", {
+    desc = "Go to the end of the line."
+})
+keyset("n", "<leader>aa", "^", {
+    desc = "Go to the start of the line."
+})
 
--- ###############################
--- ####### telescope.nvim ########
--- ###############################
+-- ##############################
+-- ####### telescope.nvim #######
+-- ##############################
 
 keyset('n', '<leader>ff', tsbuiltin.find_files, {})
 keyset('n', '<leader>fw', tsbuiltin.live_grep, {})
@@ -36,22 +40,30 @@ keyset('n', '<leader>fb', tsbuiltin.buffers, {})
 keyset('n', '<leader>fh', tsbuiltin.help_tags, {})
 keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {})
 
--- #############################
--- ######## nvim-tree ##########
--- #############################
+-- ###########################
+-- ######## nvim-tree ########
+-- ###########################
 
-keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>") -- Open or close the tree. Takes an optional path argument.
-keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>") -- Open the tree if it is closed, and then focus on the tree.
-keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>") -- Collapses the nvim-tree recursively.
+keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>", {
+    desc = "Toggle the tree view."
+})
+keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>", {
+    desc = "Focus the tree view."
+})
+keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>", {
+    desc = "Close the tree view."
+})
 
--- ###############################
+-- ##############################
 -- ####### bufdelete.nvim #######
--- ###############################
+-- ##############################
 
-keyset("n", "<leader>bc", "<cmd>Bdelete<cr>") -- "Close window"
+keyset("n", "<leader>bc", "<cmd>Bdelete<cr>", {
+    desc = "Close gracefully the current buffer."
+}) -- "Close window"
 
 -- ###############################
--- ####### comments.nvim #######
+-- ####### comments.nvim #########
 -- ###############################
 
 -- Look at lua/user/comment.lua
@@ -60,16 +72,20 @@ keyset("n", "<leader>bc", "<cmd>Bdelete<cr>") -- "Close window"
 -- ####### bufferline.nvim #######
 -- ###############################
 
-keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>") -- "Next buffer tab"
-keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>") -- "Previous buffer tab"
--- keyset("n", ">b", "<cmd>BufferLineMoveNext<cr>") -- "Move buffer tab right"
--- keyset("n", "<b", "<cmd>BufferLineMovePrev<cr>") -- "Move buffer tab left"
+keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
+    desc = "Go to the next buffer."
+})
+keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
+    desc = "Go to the previous buffer."
+})
 
--- #########################
--- ####### Neogit ##########
--- #########################
+-- ######################
+-- ####### Neogit #######
+-- ######################
 
-keyset("n", "<leader>g", "<cmd>Neogit<cr>") -- "Commit"
+keyset("n", "<leader>g", "<cmd>Neogit<cr>", {
+    desc = "Open the Git panel."
+})
 
 -- ########################
 -- ####### coc.nvim #######
@@ -77,7 +93,9 @@ keyset("n", "<leader>g", "<cmd>Neogit<cr>") -- "Commit"
 
 -- Personal
 
-keyset("n", "<leader>df", "<cmd>CocCommand editor.action.formatDocument<cr>") -- "Format document"
+keyset("n", "<leader>df", "<cmd>CocCommand editor.action.formatDocument<cr>", {
+    desc = "Format the current buffer."
+})
 
 -- Suggested
 
@@ -145,14 +163,6 @@ end
 keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {
     silent = true
 })
-
--- Formatting selected code.
--- keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {
---  silent = true
--- })
--- keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {
--- silent = true
--- })
 
 -- Applying codeAction to the selected region.
 -- Example: `<leader>aap` for current paragraph
