@@ -49,6 +49,9 @@ keyset('n', '<leader>fh', tsbuiltin.help_tags, {
 keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {
     desc = "Lists available help tags and opens a new window with the relevant help info on."
 })
+keyset('n', '<leader>fo', tsbuiltin.oldfiles, {
+    desc = "Lists previously open files."
+})
 keyset('n', '<leader>fc', "<CMD>Telescope command_center<CR>", {
     desc = "List commands and search fuzzy search them."
 })

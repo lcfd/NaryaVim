@@ -71,4 +71,5 @@ I'm using this configuration in Neovim `0.8`.
 
 ## 📸 Screenshots
 
-![screenshot-1](img/screen-1.png "screenshot 1")
+![screenshot-1](img/screen-1.png "Screenshot 1")
+![screenshot-2](img/screen-2.png "Screenshot 2")

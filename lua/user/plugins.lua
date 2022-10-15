@@ -32,6 +32,10 @@ return require("packer").startup(function(use)
         tag = '0.1.x',
         requires = {{'nvim-lua/plenary.nvim'}}
     }
+    use {
+        'goolord/alpha-nvim',
+        requires = {'kyazdani42/nvim-web-devicons'}
+    }
 
     -- Git
 
