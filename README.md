@@ -4,7 +4,7 @@
 
 <div align="center">
   <h1>NaryaVim</h1>
-  <p>A configuration for Neovim that inspires hope and resolution 🔥</p>
+  <p><b>A configuration for Neovim that inspires hope and resolution 🔥</b></p>
 </div>
 
 <div align="center">
