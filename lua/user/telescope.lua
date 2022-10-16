@@ -13,5 +13,14 @@ telescope.setup {
             hidden = true,
             no_ignore = true
         }
+    },
+    extensions = {
+        file_browser = {
+            -- theme = "ivy",
+            hijack_netrw = false,
+        }
     }
 }
+
+telescope.load_extension("file_browser")
+telescope.load_extension('project')
