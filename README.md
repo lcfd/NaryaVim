@@ -10,6 +10,7 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Neovim-0.8%2B-green?style=flat&logo=neovim" />
   <img src="https://img.shields.io/github/license/lcfd/NaryaVim?label=License&logo=GNU&style=flat" />
+  <img src="https://img.shields.io/badge/WIP-orange?style=flat" />
 </div>
 
 - [⭐️ Why](#️-why)

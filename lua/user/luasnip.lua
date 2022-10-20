@@ -3,6 +3,9 @@ if not status_ok then
     return
 end
 
-require("luasnip.loaders.from_vscode").lazy_load()
-luasnip.filetype_extend("html", {"djangohtml"})
+luasnip.setup({})
+
+luasnip.filetype_extend("htmldjango", {"html"})
 luasnip.filetype_extend("python", {"django"})
+
+require("luasnip.loaders.from_vscode").lazy_load()

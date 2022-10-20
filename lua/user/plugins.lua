@@ -18,18 +18,14 @@ return packer.startup(function(use)
     use("hrsh7th/cmp-path")
     use("hrsh7th/cmp-cmdline")
     use("hrsh7th/nvim-cmp")
-    use({
-        "L3MON4D3/LuaSnip",
-        tag = "v<CurrentMajor>.*"
-    })
+    use("L3MON4D3/LuaSnip")
 
     -- Snippets
-    use("saadparwaiz1/cmp_luasnip")
     use("rafamadriz/friendly-snippets")
+    use("saadparwaiz1/cmp_luasnip")
     use("windwp/nvim-autopairs")
 
     -- lsp
-    use("neovim/nvim-lspconfig")
     use("williamboman/mason.nvim")
     use("williamboman/mason-lspconfig.nvim")
     use("neovim/nvim-lspconfig")

@@ -12,10 +12,11 @@ end
 
 null_ls.setup({
     sources = {null_ls.builtins.formatting.stylua, null_ls.builtins.formatting.black,
-               null_ls.builtins.formatting.prettier, null_ls.builtins.code_actions.eslint_d}
+               null_ls.builtins.formatting.djlint, null_ls.builtins.formatting.prettier,
+               null_ls.builtins.code_actions.eslint_d}
 })
 
 mason_null_ls.setup({
-    ensure_installed = {"stylua", "black", "eslint_d", "prettier"},
+    ensure_installed = {"stylua", "black", "eslint_d", "prettier", "djlint"},
     automatic_installation = true
 })
