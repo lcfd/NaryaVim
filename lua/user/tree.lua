@@ -4,6 +4,9 @@ if not status_ok then
 end
 
 tree.setup({
+    view = {
+        adaptive_size = true
+    },
     hijack_directories = {
         enable = true,
         auto_open = true

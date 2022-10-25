@@ -64,3 +64,8 @@ vim.g.loaded_perl_provider = 0
 
 -- Python
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python3"
+
+vim.notify = require("notify")
+
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"

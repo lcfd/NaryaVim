@@ -10,8 +10,6 @@ end
 -- Use Poetry virtualenv in the folder without activating it manually
 -- *if* there is no activated virtualenv.
 
--- TODO: Not really performant, maybe there are better solutions.
-
 local path = lspconfig.util.path
 
 local function get_python_path(workspace)
@@ -36,3 +34,14 @@ lspconfig.pyright.setup({
         config.settings.python.pythonPath = get_python_path(config.root_dir)
     end
 })
+
+lspconfig.tailwindcss.setup({
+    -- filetypes = {"html", "htmldjango", "django-html"},
+    root_dir = lspconfig.util.root_pattern("project/theme/static_src/tailwind.config.js",
+        "theme/static_src/tailwind.config.js", "tailwind.config.js", "tailwind.config.ts", "postcss.config.js",
+        "postcss.config.ts", "package.json", "node_modules", ".git")
+})
+
+-- lspconfig.html.setup({
+--     filetypes = {"html", "htmldjango", "django-html"}
+-- })

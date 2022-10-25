@@ -3,19 +3,25 @@ if not status_ok then
     return
 end
 
+local function getWords()
+    if vim.bo.filetype == "markdown" then
+        return string.format("✍️  %s", tostring(vim.fn.wordcount().words))
+    end
+
+    return "• 🍜 •"
+end
+
 lualine.setup {
     options = {
         icons_enabled = true,
         theme = 'tokyonight',
         component_separators = {
-            -- left = '',
-            -- right = ''
-            left = '🍜',
-            right = '🍜'
+            left = '• 🍜 •',
+            right = '• 🍜 •'
         },
         section_separators = {
-            left = '',
-            right = ''
+            left = '',
+            right = ''
         },
         disabled_filetypes = {
             statusline = {},
@@ -33,12 +39,21 @@ lualine.setup {
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'g:coc_status'},
+        -- lualine_c = {'buffers', {
+        --     'filename',
+        --     path = 1
+        -- }},
+        lualine_c = {{
+            'filename',
+            newfile_status = true,
+            path = 1
+        }},
+        -- lualine_c = {'g:coc_status'},
         -- lualine_x = {'encoding', 'fileformat', 'filetype'},
         -- lualine_x = {'encoding', 'filetype'},
         lualine_x = {'filetype'},
         -- lualine_y = {'progress'},
-        lualine_y = {},
+        lualine_y = {{getWords}},
         lualine_z = {'location'}
     },
     inactive_sections = {

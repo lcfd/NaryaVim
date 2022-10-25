@@ -10,7 +10,7 @@ end
 return packer.startup(function(use)
     use("wbthomason/packer.nvim")
     use("lewis6991/impatient.nvim")
-    use("folke/tokyonight.nvim")
+    use({"folke/tokyonight.nvim"})
 
     -- lsp
     use({
@@ -62,8 +62,10 @@ return packer.startup(function(use)
     use("saadparwaiz1/cmp_luasnip")
 
     -- null-ls
-    use("jose-elias-alvarez/null-ls.nvim")
-    use("jayp0521/mason-null-ls.nvim")
+    use({"jose-elias-alvarez/null-ls.nvim" -- after = "lspconfig"
+    })
+    use({"jayp0521/mason-null-ls.nvim" -- after = "lspconfig"
+    })
 
     use({
         "nvim-lualine/lualine.nvim",
@@ -75,15 +77,15 @@ return packer.startup(function(use)
         tag = "v2.*",
         requires = "kyazdani42/nvim-web-devicons"
     })
-    use({
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate"
+    use({"nvim-treesitter/nvim-treesitter" -- run = ":TSUpdate"
+    -- after = "lspconfig"
     })
     use("numToStr/Comment.nvim")
 
     -- Telescope
     use({
         "nvim-telescope/telescope.nvim",
+        -- after = "lspconfig",
         tag = "0.1.x",
         requires = {{"nvim-lua/plenary.nvim"}}
     })
@@ -108,4 +110,15 @@ return packer.startup(function(use)
         requires = {"kyazdani42/nvim-web-devicons"},
         tag = "nightly"
     })
+
+    use({
+        "ggandor/leap.nvim",
+        config = function()
+            require("leap").add_default_mappings()
+        end
+    })
+
+    use({"rcarriga/nvim-notify"})
+
+    use({"lukas-reineke/indent-blankline.nvim"})
 end)
