@@ -46,6 +46,9 @@ keyset('n', '<leader>ff', tsbuiltin.find_files, {
 keyset('n', '<leader>fw', tsbuiltin.live_grep, {
     desc = "Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)."
 })
+keyset('n', '<leader>fg', tsbuiltin.grep_string, {
+    desc = "Searches for the string under your cursor in your current working directory (grep_string)."
+})
 keyset('n', '<leader>fb', tsbuiltin.buffers, {
     desc = "Lists open buffers in current Neovim instance (buffers)."
 })
