@@ -100,10 +100,10 @@ return packer.startup(function(use)
     })
 
     -- Git
-    use({
-        "TimUntersberger/neogit",
-        requires = "nvim-lua/plenary.nvim"
-    }) -- https://github.com/TimUntersberger/neogit
+    -- use({
+    --     "TimUntersberger/neogit",
+    --     requires = "nvim-lua/plenary.nvim"
+    -- }) -- https://github.com/TimUntersberger/neogit
 
     use({
         "kyazdani42/nvim-tree.lua",

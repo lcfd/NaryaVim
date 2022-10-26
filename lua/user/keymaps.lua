@@ -5,11 +5,6 @@ if not status_ok then
     return
 end
 
-local status_ok, neogit = pcall(require, "neogit")
-if not status_ok then
-    return
-end
-
 -- ########################
 -- ####### Generic ########
 -- ########################
@@ -149,6 +144,11 @@ keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
 -- ####### Neogit #######
 -- ######################
 
-keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
-    desc = "Open the Git panel."
-})
+-- local status_ok, neogit = pcall(require, "neogit")
+-- if not status_ok then
+--     return
+-- end
+
+-- keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
+--     desc = "Open the Git panel."
+-- })
