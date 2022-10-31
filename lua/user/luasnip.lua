@@ -20,7 +20,10 @@ luasnip.config.set_config({
 -- luasnip.filetype_extend("html", {"htmldjango"})
 luasnip.filetype_extend("python", {"django"})
 --
-require("luasnip.loaders.from_vscode").lazy_load({
-    paths = {"./snippets"}
-})
+-- require("luasnip.loaders.from_vscode").lazy_load({
+--     paths = {"./snippets"}
+-- })
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
 -- require("luasnip.loaders.from_vscode").lazy_load()
