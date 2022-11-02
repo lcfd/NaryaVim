@@ -14,5 +14,15 @@ tree.setup({
     filters = {
         dotfiles = false,
         custom = {"^.git$"}
+    },
+    -- respect_buf_cwd = true,
+    update_focused_file = {
+        enable = true,
+        update_root = false,
+        ignore_list = {}
+    },
+    hijack_cursor = true,
+    diagnostics = {
+        enable = true
     }
 })
