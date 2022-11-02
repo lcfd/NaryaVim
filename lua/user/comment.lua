@@ -9,5 +9,11 @@ comment.setup({
         line = '<leader>1',
         ---Block-comment toggle keymap
         block = '<leader>2'
+    },
+    opleader = {
+        ---Line-comment keymap
+        line = '<leader>1',
+        ---Block-comment keymap
+        block = '<leader>2'
     }
 })
