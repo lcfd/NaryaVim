@@ -69,3 +69,5 @@ vim.notify = require("notify")
 
 vim.opt.list = true
 vim.opt.listchars:append "space:⋅"
+
+vim.api.nvim_set_option("clipboard","unnamed")
