@@ -62,6 +62,23 @@ keyset('n', '<leader>ft', tsbuiltin.treesitter, {
 
 -- Git
 
+-- local Terminal = require('toggleterm.terminal').Terminal
+-- local gitui = Terminal:new({
+--     cmd = "gitui",
+--     hidden = true,
+--     direction = "float",
+--     close_on_exit = true
+-- })
+
+-- function _gitui_toggle()
+--     gitui:toggle()
+-- end
+
+-- keyset("n", "<leader>gg", "<cmd>lua _gitui_toggle()<CR>", {
+--     noremap = true,
+--     silent = true
+-- })
+
 keyset('n', '<leader>gb', tsbuiltin.git_branches, {
     desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>."
 })
@@ -140,6 +157,25 @@ keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
     desc = "Go to the previous buffer."
 })
 
+-- Terminal
+keyset('t', '<esc>', [[<C-\><C-n>]]) -- close terminal
+
+-- local grip = Terminal:new({
+--     cmd = "grip",
+--     hidden = true,
+--     direction = "float",
+--     close_on_exit = true
+-- })
+
+-- function _grip_toggle()
+--     grip:toggle()
+-- end
+
+-- keyset("n", "<leader>mp", "<cmd>lua _grip_toggle()<CR>", {
+--     noremap = true,
+--     silent = true
+-- })
+
 -- ######################
 -- ####### Neogit #######
 -- ######################
@@ -149,6 +185,6 @@ keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
 --     return
 -- end
 
--- keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
---     desc = "Open the Git panel."
--- })
+keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
+    desc = "Open the Git panel."
+})

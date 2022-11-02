@@ -100,10 +100,11 @@ return packer.startup(function(use)
     })
 
     -- Git
-    -- use({
-    --     "TimUntersberger/neogit",
-    --     requires = "nvim-lua/plenary.nvim"
-    -- }) -- https://github.com/TimUntersberger/neogit
+    use({
+        "TimUntersberger/neogit",
+        requires = "nvim-lua/plenary.nvim",
+        ccommit = "71651625b0cccb95bd1ae152d26bcf26d96e5182"
+    }) -- https://github.com/TimUntersberger/neogit
 
     use({
         "kyazdani42/nvim-tree.lua",
@@ -121,4 +122,20 @@ return packer.startup(function(use)
     use({"rcarriga/nvim-notify"})
 
     use({"lukas-reineke/indent-blankline.nvim"})
+
+    use({
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({})
+        end
+    })
+
+    use {
+        "akinsho/toggleterm.nvim",
+        tag = '*',
+        config = function()
+            require("user.toggleterm")
+        end
+    }
 end)

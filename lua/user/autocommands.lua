@@ -50,3 +50,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end,
     group = group
 })
+
+-- Autofocus current file in NeovimTree
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = {"*"},
+    callback = function()
+        vim.cmd "NvimTreeFindFile"
+    end,
+    group = group
+})
