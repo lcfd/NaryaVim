@@ -100,12 +100,16 @@ keyset('n', '<leader>lr', tsbuiltin.lsp_references, {
 keyset('n', '<leader>ld', tsbuiltin.lsp_definitions, {
     desc = "Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope."
 })
-keyset('n', '<leader>lp', function()
+keyset('n', '<leader>lk', function()
     tsbuiltin.diagnostics({
         bufnr = 0
     })
 end, {
     desc = "Lists Diagnostics for all open buffers or a specific buffer. Use option bufnr=0 for current buffer."
+})
+
+keyset('n', '<leader>lt', vim.lsp.buf.hover, {
+    desc = "Show the details of what is under the cursor."
 })
 
 -- Project

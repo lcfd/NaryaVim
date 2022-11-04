@@ -7,10 +7,10 @@ tree.setup({
     view = {
         adaptive_size = true
     },
-    hijack_directories = {
-        enable = true,
-        auto_open = true
-    },
+    -- hijack_directories = {
+    --     enable = true,
+    --     auto_open = true
+    -- },
     filters = {
         dotfiles = false,
         custom = {"^.git$"}
@@ -21,7 +21,7 @@ tree.setup({
         update_root = false,
         ignore_list = {}
     },
-    hijack_cursor = true,
+    -- hijack_cursor = true,
     diagnostics = {
         enable = true
     }

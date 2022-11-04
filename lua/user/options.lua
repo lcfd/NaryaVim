@@ -10,7 +10,9 @@ vim.o.hlsearch = false
 vim.o.scrolloff = 20
 
 -- Use the colors set in terminal configuration -> NO
+-- vim.o.background = "dark"
 -- vim.o.termguicolors = true
+-- vim.g.colors_name = "default_theme"
 
 -- vim.o.syntax = 'on'
 -- vim.o.errorbells = false
@@ -42,10 +44,6 @@ vim.wo.relativenumber = true
 -- highlight the current line
 vim.opt.cursorline = true
 
--- vim.wo.signcolumn = 'yes'
--- vim.wo.wrap = false
--- vim.wo.wrap = false
-
 vim.wo.wrap = true
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
@@ -53,6 +51,20 @@ vim.o.updatetime = 300
 -- Always show the signcolumn, otherwise it would shift the text each time
 -- diagnostics appear/become resolved.
 vim.opt.signcolumn = "yes"
+local signs = {
+    Error = " ",
+    Warn = " ",
+    Hint = " ",
+    Info = " "
+}
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, {
+        text = icon,
+        texthl = hl,
+        numhl = hl
+    })
+end
 
 -- Hide mode because shown in Lualine
 vim.opt.showmode = false
@@ -67,7 +79,32 @@ vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python3"
 
 vim.notify = require("notify")
 
+-- Invisible chars
 vim.opt.list = true
 vim.opt.listchars:append "space:⋅"
 
-vim.api.nvim_set_option("clipboard","unnamed")
+-- Clipboard management
+vim.api.nvim_set_option("clipboard", "unnamed")
+
+-- Diagnostic
+local _border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"}
+vim.diagnostic.config({
+    virtual_text = false,
+    severity_sort = true,
+    float = {
+        border = _border,
+        source = "always"
+    }
+})
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = _border
+  opts.source = "always"
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
+-- Show line diagnostic on hover
+vim.opt.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

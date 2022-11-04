@@ -119,7 +119,11 @@ return packer.startup(function(use)
         end
     })
 
-    use({"rcarriga/nvim-notify"})
+    use({"rcarriga/nvim-notify", require("notify").setup({
+        background_colour = "#00000090",
+        stages = "static"
+        -- stages = "fade"
+    })})
 
     use({"lukas-reineke/indent-blankline.nvim"})
 
