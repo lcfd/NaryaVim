@@ -24,7 +24,10 @@ keyset("n", "<leader>ee", "$", {
 keyset("n", "<leader>aa", "^", {
     desc = "Go to the start of the line."
 })
-keyset("n", "<leader>df", "<CMD>lua vim.lsp.buf.format()<CR>", {
+-- keyset("n", "<leader>df", "<CMD>lua vim.lsp.buf.format()<CR>", {
+--     desc = "Format file."
+-- })
+keyset("n", "<leader>df", vim.lsp.buf.format, {
     desc = "Format file."
 })
 
@@ -62,23 +65,6 @@ keyset('n', '<leader>ft', tsbuiltin.treesitter, {
 
 -- Git
 
--- local Terminal = require('toggleterm.terminal').Terminal
--- local gitui = Terminal:new({
---     cmd = "gitui",
---     hidden = true,
---     direction = "float",
---     close_on_exit = true
--- })
-
--- function _gitui_toggle()
---     gitui:toggle()
--- end
-
--- keyset("n", "<leader>gg", "<cmd>lua _gitui_toggle()<CR>", {
---     noremap = true,
---     silent = true
--- })
-
 keyset('n', '<leader>gb', tsbuiltin.git_branches, {
     desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>."
 })
@@ -107,9 +93,20 @@ keyset('n', '<leader>lk', function()
 end, {
     desc = "Lists Diagnostics for all open buffers or a specific buffer. Use option bufnr=0 for current buffer."
 })
+keyset('n', '<leader>lj', function()
+    vim.diagnostic.open_float(nil, {
+        focus = false
+    })
+end, {
+    desc = "Diagnostic of element in hover."
+})
 
 keyset('n', '<leader>lt', vim.lsp.buf.hover, {
     desc = "Show the details of what is under the cursor."
+})
+
+keyset('n', '<leader>lr', vim.lsp.buf.rename, {
+    desc = "Rename what's under the cursor'."
 })
 
 -- Project
@@ -126,15 +123,15 @@ keyset('n', '<leader>li', tsbuiltin.lsp_implementations, {
 -- ######## nvim-tree ########
 -- ###########################
 
-keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>", {
-    desc = "Toggle the tree view."
-})
-keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>", {
-    desc = "Focus the tree view."
-})
-keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>", {
-    desc = "Close the tree view."
-})
+-- keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>", {
+--     desc = "Toggle the tree view."
+-- })
+-- keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>", {
+--     desc = "Focus the tree view."
+-- })
+-- keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>", {
+--     desc = "Close the tree view."
+-- })
 
 -- ##############################
 -- ####### bufdelete.nvim #######
@@ -143,6 +140,12 @@ keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>", {
 keyset("n", "<leader>bc", "<cmd>Bdelete<cr>", {
     desc = "Close gracefully the current buffer."
 }) -- "Close window"
+keyset("n", "<leader>xx", "<cmd>Bdelete<cr>", {
+  desc = "Close gracefully the current buffer."
+}) -- "Close window"
+keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
+  desc = "Close gracefully the current buffer."
+}) -- "Close all buffers"
 
 -- ###############################
 -- ####### comments.nvim #########
@@ -154,12 +157,15 @@ keyset("n", "<leader>bc", "<cmd>Bdelete<cr>", {
 -- ####### bufferline.nvim #######
 -- ###############################
 
-keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
-    desc = "Go to the next buffer."
-})
-keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
-    desc = "Go to the previous buffer."
-})
+-- At the moment I consider them really slow
+-- I don't have more than 3 buffer opened usually so I can cycle using m
+
+-- keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
+--     desc = "Go to the next buffer."
+-- })
+-- keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
+--     desc = "Go to the previous buffer."
+-- })
 
 -- Terminal
 keyset('t', '<esc>', [[<C-\><C-n>]]) -- close terminal
@@ -191,4 +197,32 @@ keyset('t', '<esc>', [[<C-\><C-n>]]) -- close terminal
 
 keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
     desc = "Open the Git panel."
+})
+
+-- #####################
+-- ####### Quick #######
+-- #####################
+
+keyset('i', 'jj', "<Esc>", {
+    desc = "Rename what's under the cursor'."
+})
+
+keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
+    desc = "Go to the next buffer."
+})
+keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
+    desc = "Go to the next buffer."
+})
+
+keyset("n", "gf", vim.lsp.buf.format, {
+    desc = "Format file."
+})
+keyset('n', 'gr', vim.lsp.buf.references, {
+    desc = "Reference."
+})
+keyset('n', 'gt', vim.lsp.buf.hover, {
+    desc = "Hover informations."
+})
+keyset('n', 'gi', vim.lsp.buf.implementation, {
+    desc = "Hover informations."
 })

@@ -17,7 +17,8 @@ telescope.setup {
     extensions = {
         file_browser = {
             -- theme = "ivy",
-            hijack_netrw = false,
+            -- hijack_netrw = true
+            hijack_netrw = false
         }
     }
 }

@@ -1,41 +1,41 @@
-vim.o.backup = false
-vim.o.writebackup = false
+vim.opt.backup = false
+vim.opt.writebackup = false
 
 vim.opt.fileencoding = "utf-8"
 
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.mouse = "a"
-vim.o.hlsearch = false
-vim.o.scrolloff = 20
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.mouse = "a"
+vim.opt.hlsearch = false
+vim.opt.scrolloff = 20
+vim.opt.linebreak = true
 
 -- Use the colors set in terminal configuration -> NO
 -- vim.o.background = "dark"
 -- vim.o.termguicolors = true
 -- vim.g.colors_name = "default_theme"
+vim.opt.termguicolors = true
 
 -- vim.o.syntax = 'on'
 -- vim.o.errorbells = false
--- vim.o.smartcase = true
 -- vim.o.showmode = false
 -- vim.bo.swapfile = false
 -- vim.o.undodir = vim.fn.stdpath('config') .. '/undodir'
 -- vim.o.undofile = true
 -- vim.o.incsearch = true
--- vim.o.hidden = true
+vim.opt.hidden = false
 -- vim.o.completeopt = 'menuone,noinsert,noselect'
 -- vim.bo.autoindent = true
 -- vim.bo.smartindent = true
 
 -- TAB = 2 spaces
-vim.o.tabstop = 2
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 
 -- convert TAB to spaces
 vim.opt.expandtab = true
 
 -- vim.o.softtabstop = 2
--- vim.o.shiftwidth = 2
--- vim.o.expandtab = true
 
 -- Enable relative line number
 vim.wo.number = true
@@ -99,12 +99,12 @@ vim.diagnostic.config({
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = _border
-  opts.source = "always"
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = _border
+    opts.source = "always"
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
 -- Show line diagnostic on hover
-vim.opt.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+-- vim.opt.updatetime = 250
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

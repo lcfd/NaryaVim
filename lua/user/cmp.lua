@@ -62,56 +62,69 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({
             select = true
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback()
-            end
+        ["<C-j>"] = cmp.mapping(function(fallback)
+            luasnip.jump(1)
         end, {"i", "s"}),
-
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
+        ["<C-k>"] = cmp.mapping(function(fallback)
+            luasnip.jump(-1)
         end, {"i", "s"})
+
+        -- ["<Tab>"] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_next_item()
+        --     elseif luasnip.expand_or_jumpable() then
+        --         luasnip.expand_or_jump()
+        --     elseif has_words_before() then
+        --         cmp.complete()
+        --     else
+        --         fallback()
+        --     end
+        -- end, {"i", "s"}),
+
+        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_prev_item()
+        --     elseif luasnip.jumpable(-1) then
+        --         luasnip.jump(-1)
+        --     else
+        --         fallback()
+        --     end
+        -- end, {"i", "s"})
     }),
     formatting = {
         fields = {"kind", "abbr", "menu"},
-        -- fields = {"abbr", "kind"},
         format = function(entry, vim_item)
             vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
                 luasnip = "[SN]",
                 buffer = "[BU]",
-                path = "[Path]"
+                path = "[PA]"
             })[entry.source.name]
             return vim_item
         end
     },
     sources = cmp.config.sources({{
-        name = "luasnip"
+        name = 'nvim_lsp_signature_help'
     }, {
         name = "nvim_lsp"
     }, {
-        name = "buffer"
-    }})
+        name = "luasnip"
+    }, {
+        name = "buffer",
+        keyword_length = 5
+    }}),
+
+    experimental = {
+        ghost_text = true
+    }
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
