@@ -163,6 +163,21 @@ function M.setup()
 
     webicons.setup()
 
+    -- ########################
+    -- ######## Notify ########
+    -- ########################
+
+    local status_ok, notify = pcall(require, "notify")
+    if not status_ok then
+        vim.notify("Require notify", "error")
+        return
+    end
+
+    notify.setup({
+        background_colour = "#00000090",
+        stages = "static"
+    })
+
 end
 
 return M
