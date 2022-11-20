@@ -117,23 +117,9 @@ function M.setup()
         }
     end
 
-    -- lspconfig.pyright.setup({
-    --     -- before_init = function(_, config)
-    --     --     config.settings.python.pythonPath = get_python_path(config.root_dir)
-    --     -- end
-    --     -- on_attach = on_attach,
-    --     capabilities = capabilities
-    -- })
-
 end
 
 return M
--- lspconfig.tailwindcss.setup({
---     filetypes = {"html", "htmldjango", "django-html", "djangohtml"},
---     root_dir = lspconfig.util.root_pattern("project/theme/static_src/tailwind.config.js",
---         "theme/static_src/tailwind.config.js", "tailwind.config.js", "tailwind.config.ts", "postcss.config.js",
---         "postcss.config.ts", "package.json", "node_modules", ".git")
--- })
 
 -- ########################################
 -- ############### HACK ###################
