@@ -1,12 +1,21 @@
+-- [[ Basic Keymaps ]]
+-- Set <space> as the leader key
+vim.g.mapleader = " "
+-- vim.g.maplocalleader = " "
+-- Keymaps for better default experience
+vim.keymap.set({"n", "v"}, '<Space>', '<Nop>')
+
+vim.opt.hlsearch = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
 vim.opt.fileencoding = "utf-8"
 
+-- Case insensitive searching UNLESS /C or capital in search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
 vim.opt.mouse = "a"
-vim.opt.hlsearch = false
 vim.opt.scrolloff = 20
 vim.opt.linebreak = true
 
@@ -14,6 +23,8 @@ vim.opt.linebreak = true
 -- vim.o.background = "dark"
 -- vim.o.termguicolors = true
 -- vim.g.colors_name = "default_theme"
+
+-- Set colorscheme
 vim.opt.termguicolors = true
 
 -- vim.o.syntax = 'on'
@@ -21,12 +32,12 @@ vim.opt.termguicolors = true
 -- vim.o.showmode = false
 -- vim.bo.swapfile = false
 -- vim.o.undodir = vim.fn.stdpath('config') .. '/undodir'
+
+-- Save undo history
 -- vim.o.undofile = true
+
 -- vim.o.incsearch = true
 vim.opt.hidden = false
--- vim.o.completeopt = 'menuone,noinsert,noselect'
--- vim.bo.autoindent = true
--- vim.bo.smartindent = true
 
 -- TAB = 2 spaces
 vim.opt.tabstop = 2
@@ -44,13 +55,15 @@ vim.wo.relativenumber = true
 -- highlight the current line
 vim.opt.cursorline = true
 
+-- Wrap text
 vim.wo.wrap = true
--- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
--- delays and poor user experience.
-vim.o.updatetime = 300
+
+-- Decrease update time (default: 4000)
+vim.o.updatetime = 250
 -- Always show the signcolumn, otherwise it would shift the text each time
 -- diagnostics appear/become resolved.
 vim.opt.signcolumn = "yes"
+
 local signs = {
     Error = " ",
     Warn = " ",
@@ -105,6 +118,3 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- Show line diagnostic on hover
--- vim.opt.updatetime = 250
--- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

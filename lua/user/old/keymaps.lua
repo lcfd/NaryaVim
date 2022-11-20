@@ -9,10 +9,6 @@ end
 -- ####### Generic ########
 -- ########################
 
--- Set space as leader
-vim.g.mapleader = " "
-keyset("", "<Space>", "<Nop>")
-
 -- Avoid press shift to type :
 keyset("n", ";", ":")
 
@@ -24,12 +20,10 @@ keyset("n", "<leader>ee", "$", {
 keyset("n", "<leader>aa", "^", {
     desc = "Go to the start of the line."
 })
--- keyset("n", "<leader>df", "<CMD>lua vim.lsp.buf.format()<CR>", {
+
+-- keyset("n", "<leader>df", vim.lsp.buf.format, {
 --     desc = "Format file."
 -- })
-keyset("n", "<leader>df", vim.lsp.buf.format, {
-    desc = "Format file."
-})
 
 -- ##############################
 -- ####### telescope.nvim #######
@@ -38,9 +32,14 @@ keyset("n", "<leader>df", vim.lsp.buf.format, {
 keyset('n', '<leader>fm', "<CMD>Telescope file_browser<CR>", {
     desc = "Synchronized creation, deletion, renaming, and moving of files and folders."
 })
+
 keyset('n', '<leader>ff', tsbuiltin.find_files, {
     desc = "Lists files in your current working directory, respects .gitignore (find_files)."
 })
+keyset('n', '<leader><space>', tsbuiltin.find_files, {
+    desc = "Lists files in your current working directory, respects .gitignore (find_files)."
+})
+
 keyset('n', '<leader>fw', tsbuiltin.live_grep, {
     desc = "Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)."
 })
@@ -77,15 +76,78 @@ keyset('n', '<leader>gs', tsbuiltin.git_status, {
 
 -- LSP
 
-keyset('n', '<leader>lo', tsbuiltin.lsp_document_symbols, {
-    desc = "Lists LSP document symbols in the current buffer."
-})
-keyset('n', '<leader>lr', tsbuiltin.lsp_references, {
-    desc = "Lists LSP references for word under the cursor."
-})
-keyset('n', '<leader>ld', tsbuiltin.lsp_definitions, {
-    desc = "Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope."
-})
+-- LSP settings.
+--  This function gets run when an LSP connects to a particular buffer.
+-- local on_attach = function(_, bufnr)
+--     -- NOTE: Remember that lua is a real programming language, and as such it is possible
+--     -- to define small helper and utility functions so you don't have to repeat yourself
+--     -- many times.
+--     --
+--     -- In this case, we create a function that lets us more easily define mappings specific
+--     -- for LSP related items. It sets the mode, buffer and description for us each time.
+--     local nmap = function(keys, func, desc)
+--         if desc then
+--             desc = 'LSP: ' .. desc
+--         end
+
+--         vim.keymap.set('n', keys, func, {
+--             buffer = bufnr,
+--             desc = desc
+--         })
+--     end
+
+--     nmap('<leader>rn', vim.lsp.buf.rename, "[R]e[n]ame")
+--     nmap("<leader>lr", vim.lsp.buf.rename, "Rename what's under the cursor.")
+--     nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+
+--     -- nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+--     nmap("gd", tsbuiltin.lsp_definitions, "[G]oto [D]efinition")
+--     nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+--     nmap("gr", tsbuiltin.lsp_references, "[G]oto [R]eferences")
+--     nmap("<leader>ds", tsbuiltin.lsp_document_symbols, "[D]ocument [S]ymbols")
+--     nmap("<leader>ws", tsbuiltin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+
+--     -- See `:help K` for why this keymap
+--     nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+--     nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+--     -- Lesser used LSP functionality
+--     nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+--     nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+--     nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+--     nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+--     nmap("<leader>wl", function()
+--         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+--     end, "[W]orkspace [L]ist Folders")
+
+--     -- Create a command `:Format` local to the LSP buffer
+--     local formatfunc = function(_)
+--         if vim.lsp.buf.format then
+--             vim.lsp.buf.format()
+--         elseif vim.lsp.buf.formatting then
+--             vim.lsp.buf.formatting()
+--         end
+--     end
+--     vim.api.nvim_buf_create_user_command(bufnr, "Format", formatfunc, {
+--         desc = "Format current buffer with LSP"
+--     })
+--     nmap("<leader>df", formatfunc, "Format file.")
+-- end
+
+-- keyset('n', '<leader>lo', tsbuiltin.lsp_document_symbols, {
+--     desc = "Lists LSP document symbols in the current buffer."
+-- })
+-- keyset('n', '<leader>lr', tsbuiltin.lsp_references, {
+--     desc = "Lists LSP references for word under the cursor."
+-- })
+-- keyset('n', '<leader>ld', tsbuiltin.lsp_definitions, {
+--     desc = "Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope."
+-- })
+
+-- ####################################
+-- ######## Diagnostic keymaps ########
+-- ####################################
+
 keyset('n', '<leader>lk', function()
     tsbuiltin.diagnostics({
         bufnr = 0
@@ -100,14 +162,11 @@ keyset('n', '<leader>lj', function()
 end, {
     desc = "Diagnostic of element in hover."
 })
-
-keyset('n', '<leader>lt', vim.lsp.buf.hover, {
-    desc = "Show the details of what is under the cursor."
-})
-
-keyset('n', '<leader>lr', vim.lsp.buf.rename, {
-    desc = "Rename what's under the cursor'."
-})
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+-- keyset('n', '<leader>lt', vim.lsp.buf.hover, {
+--     desc = "Show the details of what is under the cursor."
+-- })
 
 -- Project
 keyset('n', '<leader>pp', "<CMD>lua require'telescope'.extensions.project.project{}<CR>", {
@@ -134,18 +193,15 @@ keyset('n', '<leader>li', tsbuiltin.lsp_implementations, {
 -- })
 
 -- ##############################
--- ####### bufdelete.nvim #######
+-- ####### Delete buffers #######
 -- ##############################
 
-keyset("n", "<leader>bc", "<cmd>Bdelete<cr>", {
+keyset("n", "<leader>xx", "<cmd>bd<cr>", {
     desc = "Close gracefully the current buffer."
 }) -- "Close window"
-keyset("n", "<leader>xx", "<cmd>Bdelete<cr>", {
-  desc = "Close gracefully the current buffer."
-}) -- "Close window"
 keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-  desc = "Close gracefully the current buffer."
-}) -- "Close all buffers"
+    desc = "Close gracefully the current buffer."
+}) -- "Close all buffers apart the current"
 
 -- ###############################
 -- ####### comments.nvim #########
@@ -160,42 +216,11 @@ keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
 -- At the moment I consider them really slow
 -- I don't have more than 3 buffer opened usually so I can cycle using m
 
--- keyset("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
---     desc = "Go to the next buffer."
--- })
--- keyset("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
---     desc = "Go to the previous buffer."
--- })
-
--- Terminal
-keyset('t', '<esc>', [[<C-\><C-n>]]) -- close terminal
-
--- local grip = Terminal:new({
---     cmd = "grip",
---     hidden = true,
---     direction = "float",
---     close_on_exit = true
--- })
-
--- function _grip_toggle()
---     grip:toggle()
--- end
-
--- keyset("n", "<leader>mp", "<cmd>lua _grip_toggle()<CR>", {
---     noremap = true,
---     silent = true
--- })
-
 -- ######################
 -- ####### Neogit #######
 -- ######################
 
--- local status_ok, neogit = pcall(require, "neogit")
--- if not status_ok then
---     return
--- end
-
-keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
+keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
     desc = "Open the Git panel."
 })
 
@@ -204,7 +229,7 @@ keyset("n", "<leader>gg", "<cmd>Neogit<cr>", {
 -- #####################
 
 keyset('i', 'jj', "<Esc>", {
-    desc = "Rename what's under the cursor'."
+    desc = "Map esc to jj in Insert Mode."
 })
 
 keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
@@ -212,17 +237,4 @@ keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
 })
 keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
     desc = "Go to the next buffer."
-})
-
-keyset("n", "gf", vim.lsp.buf.format, {
-    desc = "Format file."
-})
-keyset('n', 'gr', vim.lsp.buf.references, {
-    desc = "Reference."
-})
-keyset('n', 'gt', vim.lsp.buf.hover, {
-    desc = "Hover informations."
-})
-keyset('n', 'gi', vim.lsp.buf.implementation, {
-    desc = "Hover informations."
 })

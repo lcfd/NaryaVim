@@ -1,6 +1,0 @@
-{
-  "Lua.telemetry.enable": false,
-  "python.formatting.provider": "black",
-  "html.format.enable": false,
-  "htmldjango.djlint.indent": 2
-}

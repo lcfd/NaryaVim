@@ -18,10 +18,6 @@ null_ls.setup({
     debug = true
 })
 
--- null_ls.builtins.diagnostics.mypy,
-
--- mypy
-
 mason_null_ls.setup({
     ensure_installed = {"stylua", "black", "eslint_d", "prettier", "djlint", "flake8", "mypy"},
     automatic_installation = true
