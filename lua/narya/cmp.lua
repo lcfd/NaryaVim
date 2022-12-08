@@ -26,6 +26,10 @@ function M.setup()
         "django"
     })
 
+    luasnip.filetype_extend("html", {
+        "htmldjango"
+    })
+
     require("luasnip.loaders.from_vscode").lazy_load()
 
     -- #########################

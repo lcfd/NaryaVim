@@ -178,6 +178,33 @@ function M.setup()
         stages = "static"
     })
 
+    -- ######################
+    -- ######## Leap ########
+    -- ######################
+
+    local status_ok, leap = pcall(require, "leap")
+    if not status_ok then
+        vim.notify("Require leap", "error")
+        return
+    end
+
+    leap.add_default_mappings()
+
+    -- ##########################
+    -- ######## surround ########
+    -- ##########################
+
+    local status_ok, surround = pcall(require, "surround")
+    if not status_ok then
+        vim.notify("Require surround", "error")
+        return
+    end
+
+    surround.setup {
+        mappings_style = "sandwich",
+        prefix = "<leader>h"
+    }
+
 end
 
 return M

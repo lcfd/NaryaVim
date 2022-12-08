@@ -25,10 +25,6 @@ function M.setup()
         desc = "Go to the start of the line."
     })
 
-    -- keyset("n", "<leader>df", vim.lsp.buf.format, {
-    --     desc = "Format file."
-    -- })
-
     -- ##############################
     -- ####### telescope.nvim #######
     -- ##############################
@@ -37,9 +33,6 @@ function M.setup()
         desc = "Synchronized creation, deletion, renaming, and moving of files and folders."
     })
 
-    keyset('n', '<leader>ff', tsbuiltin.find_files, {
-        desc = "Lists files in your current working directory, respects .gitignore (find_files)."
-    })
     keyset('n', '<leader><space>', tsbuiltin.find_files, {
         desc = "Lists files in your current working directory, respects .gitignore (find_files)."
     })
@@ -62,8 +55,8 @@ function M.setup()
     keyset('n', '<leader>fo', tsbuiltin.oldfiles, {
         desc = "Lists previously open files."
     })
-    keyset('n', '<leader>ft', tsbuiltin.treesitter, {
-        desc = "Lists Function names, variables, from Treesitter!"
+    keyset('v', '<leader>s', "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", {
+        desc = "Search selected text with grep."
     })
 
     -- Git
@@ -132,10 +125,10 @@ function M.setup()
 
     keyset("n", "<leader>xx", "<cmd>bd<cr>", {
         desc = "Close gracefully the current buffer."
-    }) -- "Close window"
+    })
     keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
         desc = "Close gracefully the current buffer."
-    }) -- "Close all buffers apart the current"
+    })
 
     -- ###############################
     -- ####### comments.nvim #########
@@ -171,6 +164,12 @@ function M.setup()
     })
     keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
         desc = "Go to the next buffer."
+    })
+    keyset("", "xx", "<cmd>bd<cr>", {
+        desc = "Close the current buffer."
+    })
+    keyset("", "zz", "<cmd>w<cr>", {
+        desc = "Save current buffer"
     })
 
 end

@@ -62,6 +62,10 @@ Install `pynvim`
 
 `~/.config/nvim/venv/bin/pip install pynvim`
 
+Install `ltex-ls`
+
+`brew install ltex-ls`
+
 ## 🏋️‍♀️ Usage
 
 Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).

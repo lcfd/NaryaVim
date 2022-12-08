@@ -78,7 +78,7 @@ function M.setup()
         vim.api.nvim_buf_create_user_command(bufnr, "Format", formatfunc, {
             desc = "Format current buffer with LSP"
         })
-        nmap("<leader>df", formatfunc, "Format file.")
+        nmap("<leader>ff", formatfunc, "Format file.")
     end
 
     -- nvim-cmp supports additional completion capabilities
@@ -101,7 +101,9 @@ function M.setup()
         "rust_analyzer",
         "lemminx",
         "taplo",
-        "tailwindcss"
+        "tailwindcss",
+        "astro",
+        "ltex"
     }
 
     -- Ensure the servers above are installed

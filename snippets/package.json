@@ -7,10 +7,10 @@
     "snippets": [
       {
         "language": [
-          "html",
-          "htmldjango"
+          "md",
+          "markdown"
         ],
-        "path": "./htmldjango.json"
+        "path": "./markdown.json"
       }
     ]
   }

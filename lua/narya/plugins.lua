@@ -121,14 +121,13 @@ plugins.list = {
         "lukas-reineke/indent-blankline.nvim"
     },
     {
-        "kylechui/nvim-surround",
-        tag = "*"
-    },
-    {
         "numToStr/Comment.nvim"
     },
     {
         "windwp/nvim-autopairs"
+    },
+    {
+        "ur4ltz/surround.nvim"
     }
 }
 
