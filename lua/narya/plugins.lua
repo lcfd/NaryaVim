@@ -110,6 +110,7 @@ plugins.list = {
             "kyazdani42/nvim-web-devicons"
         }
     },
+    { "folke/zen-mode.nvim"},
     {
         "ggandor/leap.nvim"
     },

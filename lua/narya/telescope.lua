@@ -75,7 +75,7 @@ function M.setup()
                 "--glob=!.git/"
             },
             path_display = {
-                "smart"
+                "absolute"
             },
             winblend = 0,
             color_devicons = true,

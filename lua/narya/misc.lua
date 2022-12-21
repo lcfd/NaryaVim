@@ -205,6 +205,19 @@ function M.setup()
         prefix = "<leader>h"
     }
 
+    -- ##########################
+    -- ######## zen mode ########
+    -- ##########################
+    require("zen-mode").setup {
+        window = {
+            width = 90,
+            options = {
+                number = true,
+                relativenumber = true,
+            }
+        },
+    }
+
 end
 
 return M

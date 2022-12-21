@@ -24,6 +24,13 @@ function M.setup()
     keyset("n", "<leader>aa", "^", {
         desc = "Go to the start of the line."
     })
+    keyset("n", "L", "$", {
+        desc = "Go to the end of the line."
+    })
+    keyset("n", "H", "^", {
+        desc = "Go to the start of the line."
+    })
+
 
     -- ##############################
     -- ####### telescope.nvim #######
@@ -150,6 +157,20 @@ function M.setup()
     keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
         desc = "Open the Git panel."
     })
+
+    function ZenModeModifiers(color) 
+      color = color or "tokyonight"
+      vim.cmd.colorscheme(color)
+
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+    end
+
+    keyset("n", "<leader>zz", function()
+        require("zen-mode").toggle()
+        ZenModeModifiers()
+    end)
 
     -- #####################
     -- ####### Quick #######
