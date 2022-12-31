@@ -100,7 +100,7 @@ function M.setup()
         "sqlls",
         "rust_analyzer",
         "lemminx",
-        "taplo",
+        -- "taplo",
         "tailwindcss",
         "astro",
         "ltex"
@@ -113,10 +113,22 @@ function M.setup()
     }
 
     for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup {
-            on_attach = on_attach,
-            capabilities = capabilities
-        }
+        if lsp == "tailwindcss" then
+            lspconfig[lsp].setup {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                init_options = {
+                    userLanguages = {
+                        htmldjango = "html"
+                    }
+                }
+            }
+        else
+            lspconfig[lsp].setup {
+                on_attach = on_attach,
+                capabilities = capabilities
+            }
+        end
     end
 
 end
