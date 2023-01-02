@@ -82,9 +82,6 @@ plugins.list = {
         }
     },
     {
-        "nvim-telescope/telescope-file-browser.nvim"
-    },
-    {
         "nvim-telescope/telescope-symbols.nvim"
     },
     {
@@ -110,7 +107,9 @@ plugins.list = {
             "kyazdani42/nvim-web-devicons"
         }
     },
-    { "folke/zen-mode.nvim"},
+    {
+        "folke/zen-mode.nvim"
+    },
     {
         "ggandor/leap.nvim"
     },
@@ -129,14 +128,17 @@ plugins.list = {
     },
     {
         "ur4ltz/surround.nvim"
+    },
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v2.x",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim"
+        }
     }
 }
-
--- {
---     "kyazdani42/nvim-tree.lua",
---     requires = {"kyazdani42/nvim-web-devicons"},
---     tag = "nightly"
--- }
 
 -- https://github.com/wbthomason/packer.nvim#bootstrapping
 local ensure_packer = function()
