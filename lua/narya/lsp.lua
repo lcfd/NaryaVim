@@ -47,12 +47,13 @@ function M.setup()
         nmap("<leader>lr", vim.lsp.buf.rename, "Rename what's under the cursor.")
         nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-        -- nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
         nmap("gd", tsbuiltin.lsp_definitions, "[G]oto [D]efinition")
         nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
         nmap("gr", tsbuiltin.lsp_references, "[G]oto [R]eferences")
         nmap("<leader>ds", tsbuiltin.lsp_document_symbols, "[D]ocument [S]ymbols")
         nmap("<leader>ws", tsbuiltin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+        nmap('<leader>li', tsbuiltin.lsp_implementations,
+            "Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope.")
 
         -- See `:help K` for why this keymap
         nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -100,7 +101,6 @@ function M.setup()
         "sqlls",
         "rust_analyzer",
         "lemminx",
-        -- "taplo",
         "tailwindcss",
         "astro",
         "ltex"
