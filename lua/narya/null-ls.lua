@@ -20,8 +20,13 @@ function M.setup()
             null_ls.builtins.formatting.djlint,
             null_ls.builtins.formatting.prettier,
             null_ls.builtins.code_actions.eslint_d,
-            null_ls.builtins.diagnostics.flake8,
-            null_ls.builtins.diagnostics.mypy
+            null_ls.builtins.diagnostics.mypy.with {
+                command = {
+                    'python',
+                    '-m',
+                    'mypy'
+                }
+            }
         },
         debug = true
     })
@@ -33,11 +38,11 @@ function M.setup()
             "eslint_d",
             "prettier",
             "djlint",
-            "flake8",
             "mypy"
         },
         automatic_installation = true
     })
+
 end
 
 return M
