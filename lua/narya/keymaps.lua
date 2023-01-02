@@ -17,51 +17,46 @@ function M.setup()
     keyset("n", ";", ":")
 
     -- Go to the start and the end of a sentence
-
-    keyset("n", "<leader>ee", "$", {
-        desc = "Go to the end of the line."
-    })
-    keyset("n", "<leader>aa", "^", {
-        desc = "Go to the start of the line."
-    })
-    keyset("n", "L", "$", {
-        desc = "Go to the end of the line."
-    })
     keyset("n", "H", "^", {
         desc = "Go to the start of the line."
     })
 
+    keyset("n", "L", "$", {
+        desc = "Go to the end of the line."
+    })
 
     -- ##############################
     -- ####### telescope.nvim #######
     -- ##############################
-
-    keyset('n', '<leader>fm', "<CMD>Telescope file_browser<CR>", {
-        desc = "Synchronized creation, deletion, renaming, and moving of files and folders."
-    })
 
     keyset('n', '<leader><space>', tsbuiltin.find_files, {
         desc = "Lists files in your current working directory, respects .gitignore (find_files)."
     })
 
     keyset('n', '<leader>fw', tsbuiltin.live_grep, {
-        desc = "Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)."
+        desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)"
     })
+
     keyset('n', '<leader>fg', tsbuiltin.grep_string, {
         desc = "Searches for the string under your cursor in your current working directory (grep_string)."
     })
+
     keyset('n', '<leader>fb', tsbuiltin.buffers, {
         desc = "Lists open buffers in current Neovim instance (buffers)."
     })
+
     keyset('n', '<leader>fh', tsbuiltin.help_tags, {
-        desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)."
+        desc = "Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)"
     })
+
     keyset('n', '<leader>fi', tsbuiltin.current_buffer_fuzzy_find, {
-        desc = "Lists available help tags and opens a new window with the relevant help info on."
+        desc = "Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)"
     })
+
     keyset('n', '<leader>fo', tsbuiltin.oldfiles, {
         desc = "Lists previously open files."
     })
+
     keyset('v', '<leader>s', "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", {
         desc = "Search selected text with grep."
     })
@@ -89,6 +84,7 @@ function M.setup()
     end, {
         desc = "Lists Diagnostics for all open buffers or a specific buffer. Use option bufnr=0 for current buffer."
     })
+
     keyset('n', '<leader>lj', function()
         vim.diagnostic.open_float(nil, {
             focus = false
@@ -96,45 +92,37 @@ function M.setup()
     end, {
         desc = "Diagnostic of element in hover."
     })
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-    -- keyset('n', '<leader>lt', vim.lsp.buf.hover, {
-    --     desc = "Show the details of what is under the cursor."
-    -- })
+
+    keyset('n', '[d', vim.diagnostic.goto_prev, {
+        desc = "Go to previous error."
+    })
+
+    keyset('n', ']d', vim.diagnostic.goto_next, {
+        desc = "Go to next error."
+    })
 
     -- Project
     keyset('n', '<leader>pp', "<CMD>lua require'telescope'.extensions.project.project{}<CR>", {
         desc = "Switch between projects."
     })
 
-    -- Not working
-    keyset('n', '<leader>li', tsbuiltin.lsp_implementations, {
-        desc = "Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope."
+    -- ###########################
+    -- ######## Neotree ########
+    -- ###########################
+
+    keyset('n', '\\', "<cmd>Neotree reveal toggle<cr>", {
+        desc = "Reveal Neotree"
     })
-
-    -- ###########################
-    -- ######## nvim-tree ########
-    -- ###########################
-
-    -- keyset('n', '<leader>tt', "<cmd>NvimTreeToggle<cr>", {
-    --     desc = "Toggle the tree view."
-    -- })
-    -- keyset('n', '<leader>tf', "<cmd>NvimTreeFocus<cr>", {
-    --     desc = "Focus the tree view."
-    -- })
-    -- keyset('n', '<leader>tc', "<cmd>NvimTreeCollapse<cr>", {
-    --     desc = "Close the tree view."
-    -- })
 
     -- ##############################
     -- ####### Delete buffers #######
     -- ##############################
 
     keyset("n", "<leader>xx", "<cmd>bd<cr>", {
-        desc = "Close gracefully the current buffer."
+        desc = "Close the current buffer."
     })
     keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-        desc = "Close gracefully the current buffer."
+        desc = "Close all buffer apart the current one."
     })
 
     -- ###############################
@@ -147,8 +135,7 @@ function M.setup()
     -- ####### bufferline.nvim #######
     -- ###############################
 
-    -- At the moment I consider them really slow
-    -- I don't have more than 3 buffer opened usually so I can cycle using m
+    -- I don't have more than 3 buffer opened usually so I can cycle using `m`
 
     -- ######################
     -- ####### Neogit #######
@@ -158,19 +145,28 @@ function M.setup()
         desc = "Open the Git panel."
     })
 
-    function ZenModeModifiers(color) 
-      color = color or "tokyonight"
-      vim.cmd.colorscheme(color)
+    -- ######################
+    -- ####### ZenMode #######
+    -- ######################
 
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    function ZenModeModifiers(color)
+        color = color or "tokyonight"
+        vim.cmd.colorscheme(color)
 
+        -- vim.api.nvim_set_hl(0, "Normal", {
+        --     bg = "none"
+        -- })
+        -- vim.api.nvim_set_hl(0, "NormalFloat", {
+        --     bg = "none"
+        -- })
     end
 
     keyset("n", "<leader>zz", function()
         require("zen-mode").toggle()
         ZenModeModifiers()
-    end)
+    end, {
+        desc = "Trigger zen mode."
+    })
 
     -- #####################
     -- ####### Quick #######
@@ -183,16 +179,18 @@ function M.setup()
     keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
         desc = "Go to the next buffer."
     })
+
     keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
         desc = "Go to the next buffer."
     })
+
     keyset("", "xx", "<cmd>bd<cr>", {
         desc = "Close the current buffer."
     })
-    keyset("", "zz", "<cmd>w<cr>", {
+
+    keyset("n", "<C-j>", "<cmd>w<cr>", {
         desc = "Save current buffer"
     })
-
 end
 
 return M
