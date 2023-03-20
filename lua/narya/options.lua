@@ -85,7 +85,10 @@ function M.setup()
     -- Python
     vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python3"
 
-    vim.notify = require("notify")
+    local notify_status_ok, notify = pcall(require, "notify")
+    if not notify_status_ok then
+        return
+    end
 
     -- Invisible chars
     vim.opt.list = true
