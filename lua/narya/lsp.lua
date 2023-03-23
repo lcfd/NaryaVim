@@ -90,7 +90,7 @@ function M.setup()
 
     -- Enable the following language servers
     local servers = {
-        "sumneko_lua",
+        "lua_ls",
         "pyright",
         "html",
         "tsserver",
