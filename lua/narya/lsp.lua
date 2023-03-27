@@ -102,8 +102,7 @@ function M.setup()
         "rust_analyzer",
         "lemminx",
         "tailwindcss",
-        "astro",
-        "ltex"
+        "astro"
     }
 
     -- Ensure the servers above are installed

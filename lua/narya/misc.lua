@@ -175,8 +175,7 @@ function M.setup()
     end
 
     notify.setup({
-        -- background_colour = "#00000090",
-        stages = "fade_in_slide_out"
+        stages = "static"
     })
 
     -- ######################
