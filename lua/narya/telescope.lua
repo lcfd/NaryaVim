@@ -34,9 +34,8 @@ local function get_pickers(actions)
             }
         },
         git_files = {
-            theme = "dropdown",
             hidden = true,
-            previewer = false,
+            -- previewer = false,
             show_untracked = true
         },
         lsp_references = default_picker_setting,
@@ -60,9 +59,10 @@ function M.setup()
     telescope.setup {
         defaults = {
             selection_strategy = "reset",
+            initial_mode = "insert",
             sorting_strategy = "descending",
             layout_strategy = "horizontal",
-            entry_prefix = "  ",
+            entry_prefix = " ️🐛 ",
             vimgrep_arguments = {
                 "rg",
                 "--color=never",
@@ -77,6 +77,7 @@ function M.setup()
             path_display = {
                 "absolute"
             },
+            file_ignore_patterns = {},
             winblend = 0,
             color_devicons = true,
             set_env = {
