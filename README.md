@@ -23,7 +23,7 @@
 
 I wanted a config that was truly mine and that would help me be fast and accurate.
 
-Neovim configurations are *really* personal.
+Neovim configurations are _really_ personal.
 I hope that this repository will be a source of inspiration for you.
 
 This configuration is intended to be used primarily with:
@@ -66,13 +66,19 @@ Install `ltex-ls`
 
 `brew install ltex-ls`
 
-## 🏋️‍♀️ Usage
+## 🏋️ Usage
 
 Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).
 
 ## 🔢 Neovim version
 
 I'm using this configuration in Neovim `0.8`.
+
+## Tips
+
+Use it with a Nerdfont to the te logos of frameworks and languages.
+For example I (Luca) use JetBrainsMono Nerd.
+You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads)
 
 ## 📸 Screenshots
 
