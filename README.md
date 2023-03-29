@@ -76,9 +76,10 @@ I'm using this configuration in Neovim `0.8`.
 
 ## Tips
 
-Use it with a Nerdfont to the te logos of frameworks and languages.
+Use it with a Nerdfont to see the logos of frameworks and languages.
+
 For example I (Luca) use JetBrainsMono Nerd.
-You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads)
+You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads).
 
 ## 📸 Screenshots
 
