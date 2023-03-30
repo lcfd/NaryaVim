@@ -38,6 +38,12 @@ I will add specific support to other technologies.
 
 ## 💾 Install
 
+Required brew packages:
+
+```
+brew install ripgrep cmake fzf
+```
+
 Clone the repository in the `nvim` config folder.
 
 ```shell
@@ -61,10 +67,6 @@ Create a virtual environment for Python development:
 Install `pynvim`
 
 `~/.config/nvim/venv/bin/pip install pynvim`
-
-Install `ltex-ls`
-
-`brew install ltex-ls`
 
 ## 🏋️ Usage
 
