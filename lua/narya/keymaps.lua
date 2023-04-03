@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.setup(config)
 
     local keyset = vim.keymap.set
 
@@ -110,9 +110,11 @@ function M.setup()
     -- ######## Neotree ########
     -- ###########################
 
-    keyset('n', '\\', "<cmd>Neotree reveal toggle<cr>", {
-        desc = "Reveal Neotree"
-    })
+    if config.neo_tree_enabled then
+        keyset('n', '\\', "<cmd>Neotree reveal toggle<cr>", {
+            desc = "Reveal Neotree"
+        })
+    end
 
     -- ##############################
     -- ####### Delete buffers #######

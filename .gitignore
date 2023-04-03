@@ -2,3 +2,4 @@
 .Trashes
 plugin
 venv
+lua/user/config.lua

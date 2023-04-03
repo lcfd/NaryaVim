@@ -1,6 +1,11 @@
 local M = {}
 
-function M.setup()
+function M.setup(config)
+    -- Enable or disable Alpha
+    if not config.alpha_enabled then
+        return
+    end
+
     local status_ok, alpha = pcall(require, "alpha")
     if not status_ok then
         vim.notify("Require alpha", "error")
