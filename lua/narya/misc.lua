@@ -99,17 +99,19 @@ function M.setup(config)
     -- ######## Bufferline ########
     -- ############################
 
-    local status_ok, bufferline = pcall(require, "bufferline")
-    if not status_ok then
-        vim.notify("Require Bufferline", "error")
-        return
-    end
+    if config.bufferline_enabled then
+        local status_ok, bufferline = pcall(require, "bufferline")
+        if not status_ok then
+            vim.notify("Require Bufferline", "error")
+            return
+        end
 
-    bufferline.setup {
-        options = {
-            mode = "buffers"
+        bufferline.setup {
+            options = {
+                mode = "buffers"
+            }
         }
-    }
+    end
 
     -- #########################
     -- ######## Comment ########

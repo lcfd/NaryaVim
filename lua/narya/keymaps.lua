@@ -178,13 +178,23 @@ function M.setup(config)
         desc = "Map esc to jj in Insert Mode."
     })
 
-    keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
-        desc = "Go to the next buffer."
-    })
+    if config.bufferline_enabled then
+        keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
+            desc = "Go to the next buffer."
+        })
 
-    keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
-        desc = "Go to the next buffer."
-    })
+        keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
+            desc = "Go to the next buffer."
+        })
+    else
+        keyset("n", "m", "<cmd>bprevious<cr>", {
+            desc = "Go to the next buffer."
+        })
+
+        keyset("n", "M", "<cmd>bnext<cr>", {
+            desc = "Go to the next buffer."
+        })
+    end
 
     keyset("", "xx", "<cmd>bd<cr>", {
         desc = "Close the current buffer."
