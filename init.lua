@@ -29,4 +29,5 @@ require("narya.keymaps").setup(config)
 require("narya.lsp").setup()
 require("narya.treesitter").setup()
 
-require("narya.quicklinks").setup(config)
+-- Custom Narya plugins
+require("narya.memo").setup(config)

@@ -1,19 +1,26 @@
+-- ###### Plugin #######
+-- MEMO
+-- A simple plugin that allows you to see small chunks 
+-- of informations that you use frequently.
+-- #####################
+-- #####################
+-- #####################
 local Popup = require("nui.popup")
 local event = require("nui.utils.autocmd").event
+local map = require("narya.utils.map")
 
 local M = {}
 
 function M.setup(config)
 
-    -- mount/open the component
-    vim.api.nvim_create_user_command("Links", function()
+    vim.api.nvim_create_user_command("Memos", function()
         local popup = Popup({
             enter = true,
             focusable = true,
             border = {
                 style = "rounded",
                 text = {
-                    top = " Links ",
+                    top = " Memos ",
                     top_align = "center"
                 },
                 padding = {
@@ -36,15 +43,10 @@ function M.setup(config)
             popup:unmount()
         end)
 
-        popup:mount()
-
         -- set content
-        vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, {
-            "🔗 https://twitter.com/lc_fd",
-            "🔗 https://github.com/lcfd?tab=repositories",
-            "🔗 https://strawberry.rocks/docs",
-            "🔗 https://stackoverflow.com/"
-        })
+        vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, config.narya_memo)
+
+        popup:mount()
 
         -- unmount component when cursor leaves buffer
         popup:on(event.BufLeave, function()

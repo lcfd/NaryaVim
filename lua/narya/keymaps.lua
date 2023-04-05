@@ -2,6 +2,10 @@ local M = {}
 
 function M.setup(config)
 
+    if config.disable_narya_keybindings then
+        return
+    end
+
     local keyset = vim.keymap.set
 
     local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
