@@ -8,7 +8,7 @@ end
 
 require("narya.options").setup()
 
-local plugins = require "narya.plugins"
+local plugins = require("narya.plugins")
 plugins.load(plugins.list)
 
 require("narya.misc").setup(config)
@@ -28,6 +28,7 @@ require("narya.keymaps").setup(config)
 
 require("narya.lsp").setup()
 require("narya.treesitter").setup()
+require("narya.dap").setup()
 
 -- Custom Narya plugins
 require("narya.memo").setup(config)
