@@ -29,6 +29,18 @@ function M.setup(config)
         desc = "Go to the end of the line."
     })
 
+    -- Windows 
+    keyset("n", "<leader>ws", "<C-W><C-V>", {
+        desc = "Split vertically."
+    })
+
+    keyset("n", "<leader>e", "<C-W><Right>", {
+        desc = "Move cursor to Nth window right of current one."
+    })
+
+    keyset("n", "<leader>q", "<C-W><Left>", {
+        desc = "Move cursor to Nth left right of current one."
+    })
     -- ##############################
     -- ####### telescope.nvim #######
     -- ##############################
