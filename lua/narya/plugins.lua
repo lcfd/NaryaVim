@@ -76,6 +76,9 @@ plugins.list = {
       ts_update()
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter-context"
+  },
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",

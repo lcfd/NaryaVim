@@ -1,6 +1,7 @@
 local M = {}
 
 function M.setup()
+
     local status_ok, treesitter = pcall(require, "nvim-treesitter.configs")
     if not status_ok then
         return
@@ -83,6 +84,14 @@ function M.setup()
             }
         }
     }
+
+
+    local status_ok, treesitter_context = pcall(require, "treesitter-context")
+    if not status_ok then
+        return
+    end
+
+    treesitter_context.setup()
 end
 
 return M
