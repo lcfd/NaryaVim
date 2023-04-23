@@ -121,6 +121,25 @@ function M.setup(config)
     keyset('n', '<leader>pp', "<CMD>lua require'telescope'.extensions.project.project{}<CR>", {
         desc = "Switch between projects."
     })
+    
+    -- #########################
+    -- ########## DAP ##########
+    -- #########################
+
+    keyset('n', '<F5>', "<cmd>lua require('dap').continue()<CR>")
+    keyset('n', '<F10>', "<cmd>lua require('dap').step_over()<CR>")
+    keyset('n', '<F11>', "<cmd>lua require('dap').step_into()<CR>")
+    keyset('n', '<F12>', "<cmd>lua require('dap').step_out()<CR>")
+    keyset('n', '<leader>b', "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+    keyset('n', '<leader>B', "<cmd>lua require('dap').set_breakpoint()<CR>")
+    keyset('n', '<leader>lp', "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+    keyset('n', '<leader>dr', "<cmd>lua require('dap').repl.open()<CR>")
+    keyset('n', '<leader>dl', "<cmd>lua require('dap').run_last()<CR>")
+    keyset({'n', 'v'}, '<Leader>dh', "<cmd>lua require('dap.ui.widgets').hover()<CR>")
+    keyset({'n', 'v'}, '<Leader>dp', "<cmd>lua require('dap.ui.widgets').preview()<CR>")
+    keyset('n', '<leader>df', "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.frames)<CR>")
+    keyset('n', '<leader>ds', "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.scopes)<CR>")
+
 
     -- ###########################
     -- ######## Neotree ########

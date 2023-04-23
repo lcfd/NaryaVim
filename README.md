@@ -15,8 +15,10 @@
 
 - [⭐️ Why](#️-why)
 - [💾 Install](#-install)
-- [🏋️‍♀️ Usage](#️️-usage)
+- [🐛 Debuggers](#-debuggers)
+- [🏋️ Usage](#️-usage)
 - [🔢 Neovim version](#-neovim-version)
+- [Tips](#tips)
 - [📸 Screenshots](#-screenshots)
 
 ## ⭐️ Why
@@ -67,6 +69,12 @@ Create a virtual environment for Python development:
 Install `pynvim`
 
 `~/.config/nvim/venv/bin/pip install pynvim`
+
+## 🐛 Debuggers
+
+They will work automagically 🧙.
+Just run `PackerSync`.
+Make sure to already have the `virtualenv` in the `nvim` config folder.
 
 ## 🏋️ Usage
 

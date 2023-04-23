@@ -17,6 +17,15 @@ plugins.list = {
   },
   -- DAP
   { "mfussenegger/nvim-dap" },
+  { "mfussenegger/nvim-dap-python",
+    run = "~/.config/nvim/venv/bin/pip install debugpy"
+  },
+  { "mxsdev/nvim-dap-vscode-js" },
+  {
+    "microsoft/vscode-js-debug",
+    opt = true,
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
+  },
   { "rcarriga/nvim-dap-ui" },
   { "theHamsta/nvim-dap-virtual-text" },
   { "nvim-telescope/telescope-dap.nvim" },
@@ -148,6 +157,7 @@ plugins.list = {
     },
     { "johmsalas/text-case.nvim" },
   },
+  {"MunifTanjim/nui.nvim"}
 }
 
 -- https://github.com/wbthomason/packer.nvim#bootstrapping
