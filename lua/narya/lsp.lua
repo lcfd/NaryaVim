@@ -106,6 +106,7 @@ function M.setup()
     "lemminx",
     "tailwindcss",
     "astro",
+    "zk",
   }
 
   -- Ensure the servers above are installed

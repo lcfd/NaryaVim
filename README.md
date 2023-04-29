@@ -95,3 +95,9 @@ You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads)
 
 ![screenshot-1](img/screen-1.png "Screenshot 1")
 ![screenshot-2](img/screen-2.png "Screenshot 2")
+
+## Others
+
+### zk 4️⃣ Zettelkasten
+
+- [Maintaining a daily journal](https://github.com/mickael-menu/zk/blob/main/docs/daily-journal.md)

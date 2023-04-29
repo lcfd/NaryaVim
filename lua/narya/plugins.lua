@@ -17,14 +17,12 @@ plugins.list = {
   },
   -- DAP
   { "mfussenegger/nvim-dap" },
-  { "mfussenegger/nvim-dap-python",
-    run = "~/.config/nvim/venv/bin/pip install debugpy"
-  },
+  { "mfussenegger/nvim-dap-python", run = "~/.config/nvim/venv/bin/pip install debugpy" },
   { "mxsdev/nvim-dap-vscode-js" },
   {
     "microsoft/vscode-js-debug",
     opt = true,
-    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
   },
   { "rcarriga/nvim-dap-ui" },
   { "theHamsta/nvim-dap-virtual-text" },
@@ -32,6 +30,10 @@ plugins.list = {
   -- Snippets
   {
     "rafamadriz/friendly-snippets",
+  },
+  {
+    'kkoomen/vim-doge',
+    run = ':call doge#install()'
   },
   -- CMP
   {
@@ -86,7 +88,7 @@ plugins.list = {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-context"
+    "nvim-treesitter/nvim-treesitter-context",
   },
   -- Telescope
   {
@@ -113,7 +115,7 @@ plugins.list = {
   {
     "TimUntersberger/neogit",
     requires = "nvim-lua/plenary.nvim",
-    ccommit = "71651625b0cccb95bd1ae152d26bcf26d96e5182",
+    commit = "71651625b0cccb95bd1ae152d26bcf26d96e5182",
   },
   -- Misc
   {
@@ -157,7 +159,8 @@ plugins.list = {
     },
     { "johmsalas/text-case.nvim" },
   },
-  {"MunifTanjim/nui.nvim"}
+  { "MunifTanjim/nui.nvim" },
+  { "mickael-menu/zk-nvim" },
 }
 
 -- https://github.com/wbthomason/packer.nvim#bootstrapping

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2023-04-27
+
+- Try `folke/which-key.nvim`.
+- Try to fix leap and textcase overlap (gas not working).
+
 ## 2023-04-24
 
 - Added debugger for Python and JavaScript. Both to attach and launch a file.

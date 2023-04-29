@@ -3,7 +3,7 @@ local config = require("narya.default_config")
 local has_user_config, user_config = pcall(require, "user.config")
 
 if has_user_config then
-    config = merge(config, user_config)
+  config = merge(config, user_config)
 end
 
 require("narya.options").setup()
