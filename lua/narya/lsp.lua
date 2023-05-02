@@ -14,7 +14,7 @@ function M.setup()
   end
 
   local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-  if not mason_lspconfig then
+  if not mason_lspconfig_ok then
     vim.notify("Problems with mason-lspconfig")
     return
   end
@@ -107,6 +107,7 @@ function M.setup()
     "tailwindcss",
     "astro",
     "zk",
+    "ltex",
   }
 
   -- Ensure the servers above are installed
@@ -135,6 +136,21 @@ function M.setup()
             diagnostics = {
               -- Get the language server to recognize the `vim` global
               globals = { "vim" },
+            },
+          },
+        },
+      })
+    elseif lsp == "ltex" then
+      lspconfig[lsp].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = { debounce_text_changes = 300 },
+        settings = {
+          ltex = {
+            language = "en-GB",
+            additionalRules = {
+              enablePickyRules = true,
+              motherTongue = "it",
             },
           },
         },

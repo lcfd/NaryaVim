@@ -32,8 +32,8 @@ plugins.list = {
     "rafamadriz/friendly-snippets",
   },
   {
-    'kkoomen/vim-doge',
-    run = ':call doge#install()'
+    "kkoomen/vim-doge",
+    run = ":call doge#install()",
   },
   -- CMP
   {
@@ -111,6 +111,7 @@ plugins.list = {
     run =
     "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
   },
+  { "nvim-telescope/telescope-ui-select.nvim" },
   -- Git
   {
     "TimUntersberger/neogit",
@@ -161,6 +162,7 @@ plugins.list = {
   },
   { "MunifTanjim/nui.nvim" },
   { "mickael-menu/zk-nvim" },
+  { "nanotee/zoxide.vim" },
 }
 
 -- https://github.com/wbthomason/packer.nvim#bootstrapping
