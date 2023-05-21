@@ -54,20 +54,12 @@ git clone https://github.com/lcfd/NaryaVim ~/.config/nvim
 
 Make sure to update and compile the plugins.
 
-Inside Neovim:
+Inside Neovim run `:PackerSync`, or in your terminal shell `nvim +PackerSync`.
 
-`:PackerSync`
-
-Or in your shell:
-
-`nvim +PackerSync`
-
-Create a virtual environment for Python development:
+To make work Python plugins for Neovim—this distro may have some of them in the
+future—create a virtual environment and install pynvim using the commands below.
 
 `python3 -m venv ~/.config/nvim/venv`
-
-Install `pynvim`
-
 `~/.config/nvim/venv/bin/pip install pynvim`
 
 ## 🐛 Debuggers
