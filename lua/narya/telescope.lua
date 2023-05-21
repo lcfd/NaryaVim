@@ -1,27 +1,31 @@
 local M = {}
 
+local default_picker_setting = {
+  theme = "dropdown",
+  initial_mode = "normal",
+}
+
+local dropdown_no_preview_options = {
+  theme = "dropdown",
+  previewer = false,
+}
+
+local grep_options = {
+  theme = "dropdown",
+  only_sort_text = true,
+}
+
 local function get_pickers(actions)
-  local default_picker_setting = {
-    theme = "dropdown",
-    initial_mode = "normal",
-  }
-
-  local grep = {
-    only_sort_text = true,
-    theme = "dropdown",
-  }
-
   return {
     find_files = {
       theme = "dropdown",
-      hidden = true,
       previewer = false,
+      -- hidden = true,
     },
-    live_grep = grep,
-    grep_string = grep,
+    live_grep = grep_options,
+    grep_string = grep_options,
     buffers = {
-      theme = "dropdown",
-      previewer = false,
+      table.unpack(dropdown_no_preview_options),
       initial_mode = "normal",
       mappings = {
         i = {
@@ -33,9 +37,8 @@ local function get_pickers(actions)
       },
     },
     git_files = {
-      theme = "dropdown",
+      table.unpack(dropdown_no_preview_options),
       hidden = true,
-      previewer = false,
       show_untracked = true,
     },
     lsp_references = default_picker_setting,
@@ -46,13 +49,15 @@ local function get_pickers(actions)
 end
 
 function M.setup()
-  local status_ok, telescope = pcall(require, "telescope")
-  if not status_ok then
+  local telescope_status_ok, telescope = pcall(require, "telescope")
+  if not telescope_status_ok then
+    vim.notify("Require Telescope.", "error")
     return
   end
 
   local status_tsa_ok, actions = pcall(require, "telescope.actions")
   if not status_tsa_ok then
+    vim.notify("Require Telescope actions.", "error")
     return
   end
 
@@ -101,6 +106,7 @@ function M.setup()
   telescope.load_extension("dap")
   telescope.load_extension("textcase")
   telescope.load_extension("zk")
+  -- It sets vim.ui.select to telescope.
   telescope.load_extension("ui-select")
 end
 
