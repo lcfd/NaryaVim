@@ -118,6 +118,9 @@ plugins.list = {
     requires = "nvim-lua/plenary.nvim",
     commit = "71651625b0cccb95bd1ae152d26bcf26d96e5182",
   },
+  -- Tests
+  { "nvim-neotest/neotest" },
+  { "nvim-neotest/neotest-python" },
   -- Misc
   {
     "folke/tokyonight.nvim",
