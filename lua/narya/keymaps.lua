@@ -138,11 +138,6 @@ function M.setup(config)
   keyset("n", "<F12>", "<cmd>lua require('dap').step_out()<CR>")
   keyset("n", "<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
   keyset("n", "<leader>B", "<cmd>lua require('dap').set_breakpoint()<CR>")
-  keyset(
-    "n",
-    "<leader>lp",
-    "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>"
-  )
   keyset("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>")
   keyset("n", "<leader>dl", "<cmd>lua require('dap').run_last()<CR>")
   keyset({ "n", "v" }, "<Leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>")
@@ -221,6 +216,12 @@ function M.setup(config)
   end, {
     desc = "Trigger zen mode.",
   })
+
+  -- ###############################
+  -- ####### Tests (neotest) #######
+  -- ###############################
+
+  keyset("n", "<leader>rt", "<cmd>lua require('neotest').run.run()<CR>")
 
   -- #####################
   -- ####### Quick #######

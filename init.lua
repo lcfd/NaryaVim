@@ -29,6 +29,7 @@ require("narya.keymaps").setup(config)
 require("narya.lsp").setup()
 require("narya.treesitter").setup()
 require("narya.dap").setup()
+require("narya.tests").setup()
 
 -- Custom Narya plugins
 require("narya.memo").setup(config)
