@@ -36,7 +36,7 @@ return {
 
     dashboard.section.buttons.val = {
       button("e", "📄  New file", "<cmd>ene <CR>"),
-      button("SPC f f", "🔎  Find file"),
+      button("SPC SPC", "🔎  Find file"),
       button("SPC f w", "🈁  Find word"),
       button("SPC f o", "🗿  Old files"),
       button("SPC p p", "🗂  Projects"),
@@ -45,11 +45,11 @@ return {
     dashboard.section.buttons.opts.spacing = 1
 
     dashboard.section.footer.val = {
-      "                                                           ",
-      "                           🍜                              ",
-      "                                                           ",
-      "            https://github.com/lcfd/NaryaVim               ",
-      "            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~               ",
+      "                                                             ",
+      "                             🍜 🪷                             ",
+      "                                                             ",
+      "                   github.com/lcfd/NaryaVim                  ",
+      "                                                             ",
     }
 
     alpha.setup(dashboard.opts)
