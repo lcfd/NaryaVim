@@ -11,12 +11,6 @@ function M.setup()
     vim.cmd("au BufNewFile,BufRead *.html set filetype=htmldjango")
   end, {})
 
-  vim.api.nvim_create_user_command("OpenTelegram", function()
-    -- vim.cmd("au BufNewFile,BufRead *.html set filetype=htmldjango")
-    vim.cmd(":silent ! open 'telegram://resolve?domain=@Radghiv'")
-  end, {})
-  -- telegram://
-
   HandleURL = function()
     local url = string.match(vim.fn.getline("."), "[a-z]*://[^ >,;]*")
     if url ~= "" then
@@ -27,10 +21,6 @@ function M.setup()
   end
 
   vim.api.nvim_create_user_command("OpenLink", HandleURL, {})
-
-  -- TODO: check pyproject if Django is installed -> Lua io.popopen
 end
 
 return M
-
--- tg://msg?text={{SOMETEXT}}&to={{GROUP_ID}}

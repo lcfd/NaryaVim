@@ -24,8 +24,8 @@ function M.setup()
     return
   end
 
-  local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if not status_ok then
+  local cmp_nvim_lsp_status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+  if not cmp_nvim_lsp_status_ok then
     return
   end
 
@@ -89,6 +89,7 @@ function M.setup()
   local capabilities = cmp_nvim_lsp.default_capabilities()
 
   -- Setup mason so it can manage external tooling
+  -- Must be before mason-lspconfig setup
   mason.setup()
 
   -- Enable the following language servers
@@ -111,6 +112,7 @@ function M.setup()
   }
 
   -- Ensure the servers above are installed
+  -- Must be before set up servers via lspconfig
   mason_lspconfig.setup({
     ensure_installed = servers,
     automatic_installation = true,
@@ -165,28 +167,3 @@ function M.setup()
 end
 
 return M
-
--- ########################################
--- ############### HACK ###################
--- ########################################
--- Use Poetry virtualenv in the folder without activating it manually
--- *if* there is no activated virtualenv.
-
--- local path = lspconfig.util.path
-
--- local function get_python_path(workspace)
---     -- Use activated virtualenv.
---     if vim.env.VIRTUAL_ENV then
---         return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
---     end
-
---     -- Find and use virtualenv via poetry in workspace directory.
---     local match = vim.fn.glob(path.join(workspace, "poetry.lock"))
---     if match ~= "" then
---         local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
---         return path.join(venv, "bin", "python")
---     end
-
---     -- Fallback to system Python.
---     return exepath("python3") or exepath("python") or "python"
--- end

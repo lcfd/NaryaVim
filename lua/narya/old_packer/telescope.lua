@@ -5,11 +5,6 @@ local default_picker_setting = {
   initial_mode = "normal",
 }
 
-local dropdown_no_preview_options = {
-  theme = "dropdown",
-  previewer = false,
-}
-
 local grep_options = {
   theme = "dropdown",
   only_sort_text = true,
@@ -25,7 +20,8 @@ local function get_pickers(actions)
     live_grep = grep_options,
     grep_string = grep_options,
     buffers = {
-      table.unpack(dropdown_no_preview_options),
+      theme = "dropdown",
+      previewer = false,
       initial_mode = "normal",
       mappings = {
         i = {
@@ -37,7 +33,8 @@ local function get_pickers(actions)
       },
     },
     git_files = {
-      table.unpack(dropdown_no_preview_options),
+      theme = "dropdown",
+      previewer = false,
       hidden = true,
       show_untracked = true,
     },

@@ -8,28 +8,19 @@ end
 
 require("narya.options").setup()
 
-local plugins = require("narya.plugins")
-plugins.load(plugins.list)
+require("narya.lazy").setup(config)
 
-require("narya.misc").setup(config)
+-- require("narya.misc").setup(config)
 
-require("narya.telescope").setup()
-require("narya.lualine").setup()
+-- require("narya.commands").setup(config)
 
-require("narya.alpha").setup(config)
+-- require("narya.null-ls").setup(config)
 
-require("narya.commands").setup()
-
-require("narya.null-ls").setup()
-
-require("narya.cmp").setup()
+-- require("narya.cmp").setup(config)
 
 require("narya.keymaps").setup(config)
 
-require("narya.lsp").setup()
-require("narya.treesitter").setup()
-require("narya.dap").setup()
-require("narya.tests").setup()
-
--- Custom Narya plugins
-require("narya.memo").setup(config)
+-- require("narya.lsp").setup(config)
+-- require("narya.treesitter").setup(config)
+-- require("narya.dap").setup(config)
+-- require("narya.tests").setup(config)

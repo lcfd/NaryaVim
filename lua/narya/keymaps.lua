@@ -49,8 +49,7 @@ function M.setup(config)
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc =
-    "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
   })
 
   keyset("n", "<leader>fg", tsbuiltin.grep_string, {
@@ -83,8 +82,7 @@ function M.setup(config)
     desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
   })
   keyset("n", "<leader>gc", tsbuiltin.git_commits, {
-    desc =
-    "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
+    desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
   })
   keyset("n", "<leader>gs", tsbuiltin.git_status, {
     desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
@@ -157,11 +155,11 @@ function M.setup(config)
   -- ######## Neotree ########
   -- ###########################
 
-  if config.neo_tree_enabled then
-    keyset("n", "\\", "<cmd>Neotree reveal toggle<cr>", {
-      desc = "Reveal Neotree",
-    })
-  end
+  -- if config.neo_tree_enabled then
+  --   keyset("n", "\\", "<cmd>Neotree reveal toggle<cr>", {
+  --     desc = "Reveal Neotree",
+  --   })
+  -- end
 
   -- ##############################
   -- ####### Delete buffers #######
@@ -192,29 +190,6 @@ function M.setup(config)
 
   keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
     desc = "Open the Git panel.",
-  })
-
-  -- #######################
-  -- ####### ZenMode #######
-  -- #######################
-
-  function ZenModeModifiers(color)
-    color = color or "tokyonight"
-    vim.cmd.colorscheme(color)
-
-    -- vim.api.nvim_set_hl(0, "Normal", {
-    --     bg = "none"
-    -- })
-    -- vim.api.nvim_set_hl(0, "NormalFloat", {
-    --     bg = "none"
-    -- })
-  end
-
-  keyset("n", "<leader>zz", function()
-    require("zen-mode").toggle()
-    ZenModeModifiers()
-  end, {
-    desc = "Trigger zen mode.",
   })
 
   -- ###############################

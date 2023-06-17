@@ -151,7 +151,7 @@ plugins.list = {
     "windwp/nvim-autopairs",
   },
   {
-    "ur4ltz/surround.nvim",
+    "kylechui/nvim-surround",
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
