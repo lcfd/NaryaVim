@@ -1,10 +1,6 @@
 local M = {}
 
 function M.setup(config)
-  if config.disable_narya_keybindings then
-    return
-  end
-
   local keyset = vim.keymap.set
 
   local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
@@ -206,23 +202,13 @@ function M.setup(config)
     desc = "Map esc to jj in Insert Mode.",
   })
 
-  if config.bufferline_enabled then
-    keyset("n", "m", "<cmd>BufferLineCycleNext<cr>", {
-      desc = "Go to the next buffer.",
-    })
+  keyset("n", "m", "<cmd>bprevious<cr>", {
+    desc = "Go to the next buffer.",
+  })
 
-    keyset("n", "M", "<cmd>BufferLineCyclePrev<cr>", {
-      desc = "Go to the next buffer.",
-    })
-  else
-    keyset("n", "m", "<cmd>bprevious<cr>", {
-      desc = "Go to the next buffer.",
-    })
-
-    keyset("n", "M", "<cmd>bnext<cr>", {
-      desc = "Go to the next buffer.",
-    })
-  end
+  keyset("n", "M", "<cmd>bnext<cr>", {
+    desc = "Go to the next buffer.",
+  })
 
   keyset("", "xx", "<cmd>bd<cr>", {
     desc = "Close the current buffer.",

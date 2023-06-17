@@ -19,6 +19,11 @@ return {
       vim.notify("No cmp", "error")
       return
     end
+    local status_ok, luasnip = pcall(require, "luasnip")
+    if not status_ok then
+      vim.notify("Setup: No luasnip", "error")
+      return
+    end
 
     cmp.setup({
       snippet = {
