@@ -17,7 +17,7 @@
 - [🐛 Debuggers](#-debuggers)
 - [🏋️ Usage](#️-usage)
 - [🔢 Neovim version](#-neovim-version)
-- [Tips](#tips)
+- [💡 Tips](#-tips)
 - [📸 Screenshots](#-screenshots)
 - [Others](#others)
   - [zk 4️⃣ Zettelkasten](#zk-4️⃣-zettelkasten)
@@ -74,7 +74,7 @@ Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).
 
 I'm using this configuration in Neovim `0.8`.
 
-## Tips
+## 💡 Tips
 
 Use it with a Nerdfont to see the logos of frameworks and languages.
 
