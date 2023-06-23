@@ -75,7 +75,7 @@ return {
     opts = {
       -- options for vim.diagnostic.config()
       diagnostics = {
-        severity_sort = true,
+        virtual_text = false
       },
       -- add any global capabilities here
       -- capabilities = {},
