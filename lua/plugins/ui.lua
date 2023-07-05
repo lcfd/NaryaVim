@@ -18,7 +18,7 @@ return {
       "SmiteshP/nvim-navic",
     },
     opts = {
-      theme = "catppuccin",
+      theme = "tokyonight",
     },
   },
 }

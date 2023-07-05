@@ -28,7 +28,7 @@ return {
     return {
       options = {
         icons_enabled = true,
-        theme = "catppuccin",
+        theme = "tokyonight",
         globalstatus = true,
         disabled_filetypes = { statusline = { "dashboard", "alpha" } },
         component_separators = {

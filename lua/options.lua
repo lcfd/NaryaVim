@@ -95,7 +95,9 @@ function M.setup()
   vim.opt.listchars:append("space:⋅")
 
   -- Clipboard management
-  vim.api.nvim_set_option("clipboard", "unnamed")
+  -- vim.opt.clipboard = "unnamedplus"
+  vim.opt.clipboard = "unnamedplus"
+  -- vim.api.nvim_set_option("clipboard", "unnamed")
 
   -- Diagnostic
   local _border = {
