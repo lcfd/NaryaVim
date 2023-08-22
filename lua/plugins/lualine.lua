@@ -9,7 +9,7 @@ local function showFileSpecificInfo()
     or vim.bo.filetype == "rust"
   then
     local number_of_lines = vim.api.nvim_buf_line_count(0)
-    if number_of_lines > 300 then
+    if number_of_lines > 200 then
       return "🚨 TOO BIG!"
     else
       return string.format("🍪 %s", tostring(number_of_lines))
@@ -53,10 +53,23 @@ return {
               hint = icons.diagnostics.Hint,
             },
           },
-          { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          -- { "filename", path = 0, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          -- {
+          --   "tabs",
+          --   mode = 1,
+          --   fmt = function(name, context)
+          --     -- Show + if buffer is modified in tab
+          --     local buflist = vim.fn.tabpagebuflist(context.tabnr)
+          --     local winnr = vim.fn.tabpagewinnr(context.tabnr)
+          --     local bufnr = buflist[winnr]
+          --     local mod = vim.fn.getbufvar(bufnr, "&mod")
+
+          --     return name .. (mod == 1 and "  " or "")
+          --   end,
+          -- },
         },
         lualine_x = {
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 1 } },
+          { "filetype", icon_only = true, separator = " ", padding = { left = 1, right = 1 } },
           {
             require("lazy.status").updates,
             cond = require("lazy.status").has_updates,

@@ -4,13 +4,6 @@ return {
     lazy = true,
   },
   {
-    "MunifTanjim/nui.nvim",
-    lazy = true,
-  },
-  {
-    "rcarriga/nvim-notify",
-  },
-  {
     "utilyre/barbecue.nvim", -- Top bar code path
     name = "barbecue",
     version = "*",
@@ -19,6 +12,8 @@ return {
     },
     opts = {
       theme = "tokyonight",
+      show_dirname = false,
+      show_modified = true,
     },
   },
 }

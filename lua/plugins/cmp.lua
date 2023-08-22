@@ -26,6 +26,9 @@ return {
     end
 
     cmp.setup({
+      completion = {
+        autocomplete = false,
+      },
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -37,7 +40,6 @@ return {
         end,
       },
       window = {
-        -- completion = cmp.config.window.bordered(),
         completion = {
           border = {
             "╭",
@@ -67,6 +69,7 @@ return {
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-d>"] = cmp.mapping.complete(),
+        ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({
           select = true,
@@ -115,7 +118,7 @@ return {
         },
         {
           name = "buffer",
-          keyword_length = 4,
+          -- keyword_length = 4,
         },
       }),
 

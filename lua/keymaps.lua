@@ -192,7 +192,7 @@ function M.setup(config)
   -- ####### Tests (neotest) #######
   -- ###############################
 
-  keyset("n", "<leader>rt", "<cmd>lua require('neotest').run.run()<CR>")
+  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>")
 
   -- #####################
   -- ####### Quick #######
@@ -202,19 +202,39 @@ function M.setup(config)
     desc = "Map esc to jj in Insert Mode.",
   })
 
-  keyset("n", "m", "<cmd>bprevious<cr>", {
+  keyset("n", "<leader>m", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
+    desc = "Mark files you want to revisit later on.",
+  })
+
+  keyset("n", "M", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
+    desc = "View all project marks.",
+  })
+
+  keyset("n", "1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+    desc = "Navigates to file 1.",
+  })
+
+  keyset("n", "2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+    desc = "Navigates to file 2.",
+  })
+
+  keyset("n", "3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+    desc = "Navigates to file 3.",
+  })
+
+  keyset("n", "<BS>", "<CMD>bprevious<CR>", {
     desc = "Go to the next buffer.",
   })
 
-  keyset("n", "M", "<cmd>bnext<cr>", {
-    desc = "Go to the next buffer.",
-  })
+  -- keyset("n", "M", "<cmd>bnext<cr>", {
+  --   desc = "Go to the next buffer.",
+  -- })
 
-  keyset("", "xx", "<cmd>bd<cr>", {
+  keyset("", "xx", "<CMD>bd<CR>", {
     desc = "Close the current buffer.",
   })
 
-  keyset("n", "<C-j>", "<cmd>w<cr>", {
+  keyset("n", "<C-j>", "<CMD>w<CR>", {
     desc = "Save current buffer",
   })
 
@@ -222,40 +242,40 @@ function M.setup(config)
   -- ####### Text-case.nvim #######
   -- ##############################
 
-  keyset("n", "gal", "<cmd>lua require('textcase').current_word('to_lower_case')<CR>")
-  keyset("n", "gas", "<cmd>lua require('textcase').current_word('to_snake_case')<CR>")
-  keyset("n", "gad", "<cmd>lua require('textcase').current_word('to_dash_case')<CR>")
-  keyset("n", "gan", "<cmd>lua require('textcase').current_word('to_constant_case')<CR>")
-  keyset("n", "gad", "<cmd>lua require('textcase').current_word('to_dot_case')<CR>")
-  keyset("n", "gaa", "<cmd>lua require('textcase').current_word('to_phrase_case')<CR>")
-  keyset("n", "gac", "<cmd>lua require('textcase').current_word('to_camel_case')<CR>")
-  keyset("n", "gap", "<cmd>lua require('textcase').current_word('to_pascal_case')<CR>")
-  keyset("n", "gat", "<cmd>lua require('textcase').current_word('to_title_case')<CR>")
-  keyset("n", "gaf", "<cmd>lua require('textcase').current_word('to_path_case')<CR>")
+  keyset("n", "gal", "<CMD>lua require('textcase').current_word('to_lower_case')<CR>")
+  keyset("n", "gas", "<CMD>lua require('textcase').current_word('to_snake_case')<CR>")
+  keyset("n", "gad", "<CMD>lua require('textcase').current_word('to_dash_case')<CR>")
+  keyset("n", "gan", "<CMD>lua require('textcase').current_word('to_constant_case')<CR>")
+  keyset("n", "gad", "<CMD>lua require('textcase').current_word('to_dot_case')<CR>")
+  keyset("n", "gaa", "<CMD>lua require('textcase').current_word('to_phrase_case')<CR>")
+  keyset("n", "gac", "<CMD>lua require('textcase').current_word('to_camel_case')<CR>")
+  keyset("n", "gap", "<CMD>lua require('textcase').current_word('to_pascal_case')<CR>")
+  keyset("n", "gat", "<CMD>lua require('textcase').current_word('to_title_case')<CR>")
+  keyset("n", "gaf", "<CMD>lua require('textcase').current_word('to_path_case')<CR>")
 
-  keyset("n", "gaU", "<cmd>lua require('textcase').lsp_rename('to_upper_case')<CR>")
-  keyset("n", "gaL", "<cmd>lua require('textcase').lsp_rename('to_lower_case')<CR>")
-  keyset("n", "gaS", "<cmd>lua require('textcase').lsp_rename('to_snake_case')<CR>")
-  keyset("n", "gaD", "<cmd>lua require('textcase').lsp_rename('to_dash_case')<CR>")
-  keyset("n", "gaN", "<cmd>lua require('textcase').lsp_rename('to_constant_case')<CR>")
-  keyset("n", "gaD", "<cmd>lua require('textcase').lsp_rename('to_dot_case')<CR>")
-  keyset("n", "gaA", "<cmd>lua require('textcase').lsp_rename('to_phrase_case')<CR>")
-  keyset("n", "gaC", "<cmd>lua require('textcase').lsp_rename('to_camel_case')<CR>")
-  keyset("n", "gaP", "<cmd>lua require('textcase').lsp_rename('to_pascal_case')<CR>")
-  keyset("n", "gaT", "<cmd>lua require('textcase').lsp_rename('to_title_case')<CR>")
-  keyset("n", "gaF", "<cmd>lua require('textcase').lsp_rename('to_path_case')<CR>")
+  keyset("n", "gaU", "<CMD>lua require('textcase').lsp_rename('to_upper_case')<CR>")
+  keyset("n", "gaL", "<CMD>lua require('textcase').lsp_rename('to_lower_case')<CR>")
+  keyset("n", "gaS", "<CMD>lua require('textcase').lsp_rename('to_snake_case')<CR>")
+  keyset("n", "gaD", "<CMD>lua require('textcase').lsp_rename('to_dash_case')<CR>")
+  keyset("n", "gaN", "<CMD>lua require('textcase').lsp_rename('to_constant_case')<CR>")
+  keyset("n", "gaD", "<CMD>lua require('textcase').lsp_rename('to_dot_case')<CR>")
+  keyset("n", "gaA", "<CMD>lua require('textcase').lsp_rename('to_phrase_case')<CR>")
+  keyset("n", "gaC", "<CMD>lua require('textcase').lsp_rename('to_camel_case')<CR>")
+  keyset("n", "gaP", "<CMD>lua require('textcase').lsp_rename('to_pascal_case')<CR>")
+  keyset("n", "gaT", "<CMD>lua require('textcase').lsp_rename('to_title_case')<CR>")
+  keyset("n", "gaF", "<CMD>lua require('textcase').lsp_rename('to_path_case')<CR>")
 
-  keyset("n", "geu", "<cmd>lua require('textcase').operator('to_upper_case')<CR>")
-  keyset("n", "gel", "<cmd>lua require('textcase').operator('to_lower_case')<CR>")
-  keyset("n", "ges", "<cmd>lua require('textcase').operator('to_snake_case')<CR>")
-  keyset("n", "ged", "<cmd>lua require('textcase').operator('to_dash_case')<CR>")
-  keyset("n", "gen", "<cmd>lua require('textcase').operator('to_constant_case')<CR>")
-  keyset("n", "ged", "<cmd>lua require('textcase').operator('to_dot_case')<CR>")
-  keyset("n", "gea", "<cmd>lua require('textcase').operator('to_phrase_case')<CR>")
-  keyset("n", "gec", "<cmd>lua require('textcase').operator('to_camel_case')<CR>")
-  keyset("n", "gep", "<cmd>lua require('textcase').operator('to_pascal_case')<CR>")
-  keyset("n", "get", "<cmd>lua require('textcase').operator('to_title_case')<CR>")
-  keyset("n", "gef", "<cmd>lua require('textcase').operator('to_path_case')<CR>")
+  keyset("n", "geu", "<CMD>lua require('textcase').operator('to_upper_case')<CR>")
+  keyset("n", "gel", "<CMD>lua require('textcase').operator('to_lower_case')<CR>")
+  keyset("n", "ges", "<CMD>lua require('textcase').operator('to_snake_case')<CR>")
+  keyset("n", "ged", "<CMD>lua require('textcase').operator('to_dash_case')<CR>")
+  keyset("n", "gen", "<CMD>lua require('textcase').operator('to_constant_case')<CR>")
+  keyset("n", "ged", "<CMD>lua require('textcase').operator('to_dot_case')<CR>")
+  keyset("n", "gea", "<CMD>lua require('textcase').operator('to_phrase_case')<CR>")
+  keyset("n", "gec", "<CMD>lua require('textcase').operator('to_camel_case')<CR>")
+  keyset("n", "gep", "<CMD>lua require('textcase').operator('to_pascal_case')<CR>")
+  keyset("n", "get", "<CMD>lua require('textcase').operator('to_title_case')<CR>")
+  keyset("n", "gef", "<CMD>lua require('textcase').operator('to_path_case')<CR>")
 
   -- zk
   local zk_opts = { noremap = true, silent = false }
@@ -274,6 +294,8 @@ function M.setup(config)
   end, zk_opts)
   keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>")
   keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>")
+
+  keyset("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 end
 
 return M

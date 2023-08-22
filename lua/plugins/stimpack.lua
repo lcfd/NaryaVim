@@ -32,6 +32,7 @@ return {
           ---Block-comment keymap
           block = "<leader>2",
         },
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
     end,
   },
@@ -49,4 +50,30 @@ return {
   {
     "nanotee/zoxide.vim",
   },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+  {
+    "nvim-pack/nvim-spectre",
+    config = function()
+      require('spectre').setup()
+    end
+  },
+  {
+    "ThePrimeagen/harpoon"
+  },
+  {
+    'stevearc/oil.nvim',
+    opts = {
+      default_file_explorer = false,
+      view_options = {
+        show_hidden = true,
+      },
+    },
+  }
 }
