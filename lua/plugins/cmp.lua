@@ -1,9 +1,12 @@
+-- A completion plugin for neovim coded in Lua.
+-- https://github.com/hrsh7th/nvim-cmp
+
 return {
   "hrsh7th/nvim-cmp",
-  -- load cmp on InsertEnter
+  -- Load cmp on InsertEnter
   event = "InsertEnter",
-  -- these dependencies will only be loaded when cmp loads
-  -- dependencies are always lazy-loaded unless specified otherwise
+  -- These dependencies will only be loaded when cmp loads.
+  -- Dependencies are always lazy-loaded unless specified otherwise.
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
