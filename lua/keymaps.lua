@@ -295,7 +295,13 @@ function M.setup(config)
   keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>")
   keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>")
 
-  keyset("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+  keyset("n", "|", function()
+    if vim.bo.filetype == 'oil' then
+      require("oil").close()
+    else
+      require("oil").open()
+    end
+ end, { desc = "File navigation" })
 end
 
 return M
