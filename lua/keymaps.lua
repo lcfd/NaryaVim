@@ -36,6 +36,10 @@ function M.setup(config)
   keyset("n", "<leader>q", "<C-W><Left>", {
     desc = "Move cursor to Nth left right of current one.",
   })
+
+  keyset("n", "<leader>ff", "<CMD>FormatWrite<CR>", {
+    desc = "Move cursor to Nth left right of current one.",
+  })
   -- ##############################
   -- ####### telescope.nvim #######
   -- ##############################
@@ -45,7 +49,8 @@ function M.setup(config)
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc =
+    "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
   })
 
   keyset("n", "<leader>fg", tsbuiltin.grep_string, {
@@ -78,7 +83,8 @@ function M.setup(config)
     desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
   })
   keyset("n", "<leader>gc", tsbuiltin.git_commits, {
-    desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
+    desc =
+    "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
   })
   keyset("n", "<leader>gs", tsbuiltin.git_status, {
     desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
@@ -202,32 +208,32 @@ function M.setup(config)
     desc = "Map esc to jj in Insert Mode.",
   })
 
-  keyset("n", "<leader>m", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
-    desc = "Mark files you want to revisit later on.",
-  })
-
-  keyset("n", "M", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
-    desc = "View all project marks.",
-  })
-
-  keyset("n", "1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
-    desc = "Navigates to file 1.",
-  })
-
-  keyset("n", "2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
-    desc = "Navigates to file 2.",
-  })
-
-  keyset("n", "3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
-    desc = "Navigates to file 3.",
-  })
-
   keyset("n", "<BS>", "<CMD>bprevious<CR>", {
     desc = "Go to the next buffer.",
   })
 
   -- keyset("n", "M", "<cmd>bnext<cr>", {
   --   desc = "Go to the next buffer.",
+  -- })
+
+  keyset("n", "<leader>a", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
+    desc = "Mark files you want to revisit later on.",
+  })
+
+  keyset("n", "<leader>h", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
+    desc = "View all project marks.",
+  })
+
+  keyset("n", "<C-h>", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+    desc = "Navigates to file 1.",
+  })
+
+  -- keyset("n", "2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+  --   desc = "Navigates to file 2.",
+  -- })
+
+  -- keyset("n", "3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+  --   desc = "Navigates to file 3.",
   -- })
 
   keyset("", "xx", "<CMD>bd<CR>", {
@@ -301,7 +307,7 @@ function M.setup(config)
     else
       require("oil").open()
     end
- end, { desc = "File navigation" })
+  end, { desc = "File navigation" })
 end
 
 return M

@@ -94,9 +94,7 @@ function M.setup()
   vim.opt.list = true
   vim.opt.listchars:append("space:⋅")
 
-  -- board management
   vim.opt.clipboard = "unnamed"
-  -- vim.api.nvim_set_option("clipboard", "unnamed")
 
   -- Diagnostic
   local _border = {
@@ -125,7 +123,6 @@ function M.setup()
     opts.source = "always"
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
   end
-
 end
 
 return M

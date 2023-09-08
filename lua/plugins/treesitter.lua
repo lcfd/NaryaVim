@@ -90,7 +90,7 @@ return {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-context",
+    -- "nvim-treesitter/nvim-treesitter-context",
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
 }

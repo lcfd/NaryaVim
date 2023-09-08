@@ -46,17 +46,17 @@ local on_attach = function(_, bufnr)
   end, "[W]orkspace [L]ist Folders")
 
   -- Create a command `:Format` local to the LSP buffer
-  local formatfunc = function(_)
-    if vim.lsp.buf.format then
-      vim.lsp.buf.format()
-    elseif vim.lsp.buf.formatting then
-      vim.lsp.buf.formatting()
-    end
-  end
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", formatfunc, {
-    desc = "Format current buffer with LSP",
-  })
-  nmap("<leader>ff", formatfunc, "Format file.")
+  -- local formatfunc = function(_)
+  --   if vim.lsp.buf.format then
+  --     vim.lsp.buf.format()
+  --   elseif vim.lsp.buf.formatting then
+  --     vim.lsp.buf.formatting()
+  --   end
+  -- end
+  -- vim.api.nvim_buf_create_user_command(bufnr, "Format", formatfunc, {
+  --   desc = "Format current buffer with LSP",
+  -- })
+  -- nmap("<leader>ff", formatfunc, "Format file.")
 end
 
 return {
@@ -65,9 +65,9 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim", opts = {} },
-      { "williamboman/mason.nvim", build = ":MasonUpdate" },
+      { "folke/neoconf.nvim",               cmd = "Neoconf",       config = true },
+      { "folke/neodev.nvim",                opts = {} },
+      { "williamboman/mason.nvim",          build = ":MasonUpdate" },
       { "williamboman/mason-lspconfig.nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
     },
@@ -117,14 +117,14 @@ return {
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
         opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-          or function(diagnostic)
-            local icons = require("config").icons.diagnostics
-            for d, icon in pairs(icons) do
-              if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                return icon
+            or function(diagnostic)
+              local icons = require("config").icons.diagnostics
+              for d, icon in pairs(icons) do
+                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                  return icon
+                end
               end
             end
-          end
       end
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
@@ -184,7 +184,6 @@ return {
 
   -- cmdline tools and lsp servers
   {
-
     "williamboman/mason.nvim",
     cmd = "Mason",
     opts = {
