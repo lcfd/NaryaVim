@@ -4,26 +4,26 @@ return {
     config = function()
       require("lint").linters_by_ft = {
         markdown = { "vale", "markdownlint", "proselint" },
-        python = { "mypy", "ruff", "codespell" },
+        python = { "mypy", "ruff" },
         yaml = { "yamllint" },
         javascript = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         typescript = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         javascriptreact = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         typescriptreact = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         json = {
-          "jsonlint", "codespell"
+          "jsonlint",
         },
-        html = { "djlint", "codespell" },
-        css = { "stylelint", "codespell" },
-        sh = { "shellcheck" }
+        html = { "djlint" },
+        css = { "stylelint" },
+        sh = { "shellcheck" },
       }
 
       vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
@@ -39,21 +39,26 @@ return {
   {
     "mhartington/formatter.nvim",
     config = function()
-      local util = require "formatter.util"
+      local util = require("formatter.util")
 
-      require("formatter").setup {
+      require("formatter").setup({
         log_level = vim.log.levels.WARN,
         filetype = {
           htmldjango = {
             function()
               return {
                 exe = "djlint",
-                args = { util.escape_path(util.get_current_buffer_file_path()), "--reformat", "--format-css",
-                  "--format-js", "-" },
+                args = {
+                  util.escape_path(util.get_current_buffer_file_path()),
+                  "--reformat",
+                  "--format-css",
+                  "--format-js",
+                  "-",
+                },
                 stdin = true,
-                no_append = true
+                no_append = true,
               }
-            end
+            end,
           },
           html = {
             require("formatter.filetypes.html").prettier,
@@ -77,10 +82,13 @@ return {
             require("formatter.filetypes.typescriptreact").prettier,
           },
           css = {
-            require("formatter.filetypes.typescriptreact").prettier,
+            require("formatter.filetypes.css").prettier,
           },
-        }
-      }
+          markdown = {
+            require("formatter.filetypes.markdown").prettier,
+          },
+        },
+      })
     end,
-  }
+  },
 }
