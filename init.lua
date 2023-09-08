@@ -1,34 +1,28 @@
-local merge = require("narya.utils.merge")
-local config = require("narya.default_config")
-local has_user_config, user_config = pcall(require, "user.config")
+require("options").setup()
 
-if has_user_config then
-    config = merge(config, user_config)
+-- ###########################
+-- ######## Lazy.nvim ########
+-- ###########################
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
 
-require("narya.options").setup()
+vim.opt.rtp:prepend(lazypath)
 
-local plugins = require("narya.plugins")
-plugins.load(plugins.list)
+local opts = {}
 
-require("narya.misc").setup(config)
+require("lazy").setup("plugins", opts)
 
-require("narya.telescope").setup()
-require("narya.lualine").setup()
-
-require("narya.alpha").setup(config)
-
-require("narya.commands").setup()
-
-require("narya.null-ls").setup()
-
-require("narya.cmp").setup()
-
-require("narya.keymaps").setup(config)
-
-require("narya.lsp").setup()
-require("narya.treesitter").setup()
-require("narya.dap").setup()
-
--- Custom Narya plugins
-require("narya.memo").setup(config)
+require("lazy").setup()
+require("keymaps").setup()
+require("commands").setup()
