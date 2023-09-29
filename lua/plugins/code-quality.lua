@@ -3,9 +3,18 @@ return {
     "mfussenegger/nvim-lint",
     config = function()
       require("lint").linters_by_ft = {
-        markdown = { "vale", "markdownlint", "proselint" },
-        python = { "mypy", "ruff" },
-        yaml = { "yamllint" },
+        markdown = {
+          "vale",
+          "markdownlint",
+          "proselint",
+        },
+        python = {
+          "mypy",
+          "ruff",
+        },
+        yaml = {
+          "yamllint",
+        },
         javascript = {
           "eslint_d",
         },
@@ -21,12 +30,21 @@ return {
         json = {
           "jsonlint",
         },
-        html = { "djlint" },
-        css = { "stylelint" },
-        sh = { "shellcheck" },
+        html = {
+          "djlint",
+        },
+        css = {
+          "stylelint",
+        },
+        sh = {
+          "shellcheck",
+        },
       }
 
-      vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
+      vim.api.nvim_create_autocmd({
+        "InsertLeave",
+        "BufWritePost",
+      }, {
         callback = function()
           local lint_status, lint = pcall(require, "lint")
           if lint_status then
@@ -37,55 +55,70 @@ return {
     end,
   },
   {
-    "mhartington/formatter.nvim",
+    "stevearc/conform.nvim",
     config = function()
-      local util = require("formatter.util")
-
-      require("formatter").setup({
-        log_level = vim.log.levels.WARN,
-        filetype = {
+      require("conform").setup({
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = true,
+        },
+        formatters_by_ft = {
           htmldjango = {
-            function()
-              return {
-                exe = "djlint",
-                args = {
-                  util.escape_path(util.get_current_buffer_file_path()),
-                  "--reformat",
-                  "--format-css",
-                  "--format-js",
-                  "-",
-                },
-                stdin = true,
-                no_append = true,
-              }
-            end,
-          },
-          html = {
-            require("formatter.filetypes.html").prettier,
+            "djlint",
           },
           lua = {
-            require("formatter.filetypes.lua").stylua,
+            "stylua",
           },
           python = {
-            require("formatter.filetypes.python").black,
+            "ruff_fix",
+            "ruff_format",
+            "black",
+          },
+          json = {
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           javascript = {
-            require("formatter.filetypes.javascript").prettier,
+            {
+              "prettierd",
+              "prettier",
+            },
+          },
+          html = {
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           typescript = {
-            require("formatter.filetypes.typescript").prettier,
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           javascriptreact = {
-            require("formatter.filetypes.javascriptreact").prettier,
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           typescriptreact = {
-            require("formatter.filetypes.typescriptreact").prettier,
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           css = {
-            require("formatter.filetypes.css").prettier,
+            {
+              "prettierd",
+              "prettier",
+            },
           },
           markdown = {
-            require("formatter.filetypes.markdown").prettier,
+            "markdown-toc",
+            "markdownlint",
           },
         },
       })

@@ -96,33 +96,35 @@ function M.setup()
 
   vim.opt.clipboard = "unnamed"
 
-  -- Diagnostic
-  local _border = {
-    "╭",
-    "─",
-    "╮",
-    "│",
-    "╯",
-    "─",
-    "╰",
-    "│",
-  }
-  vim.diagnostic.config({
-    virtual_text = false,
-    severity_sort = true,
-    float = {
-      border = _border,
-      source = "always",
-    },
-  })
+  vim.opt.loaded_node_provider = 0
 
-  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-    opts = opts or {}
-    opts.border = _border
-    opts.source = "always"
-    return orig_util_open_floating_preview(contents, syntax, opts, ...)
-  end
+  -- Diagnostic
+  -- local _border = {
+  --   "╭",
+  --   "─",
+  --   "╮",
+  --   "│",
+  --   "╯",
+  --   "─",
+  --   "╰",
+  --   "│",
+  -- }
+  -- vim.diagnostic.config({
+  --   virtual_text = false,
+  --   severity_sort = true,
+  --   float = {
+  --     border = _border,
+  --     source = "always",
+  --   },
+  -- })
+
+  -- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  -- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  --   opts = opts or {}
+  --   opts.border = _border
+  --   opts.source = "always"
+  --   return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  -- end
 end
 
 return M

@@ -25,7 +25,11 @@ function M.setup(config)
   })
 
   -- Windows
-  keyset("n", "<leader>ws", "<C-W><C-V>", {
+  -- keyset("n", "<leader>ws", "<C-W><C-V>", {
+  --   desc = "Split vertically.",
+  -- })
+
+  keyset("n", "<Tab><Tab>", "<C-W><C-V>", {
     desc = "Split vertically.",
   })
 
@@ -37,8 +41,16 @@ function M.setup(config)
     desc = "Move cursor to Nth left right of current one.",
   })
 
-  keyset("n", "<leader>ff", "<CMD>FormatWrite<CR>", {
+  keyset("n", "<C-]>", "<C-W><Right>", {
+    desc = "Move cursor to Nth window right of current one.",
+  })
+
+  keyset("n", "<C-[>", "<C-W><Left>", {
     desc = "Move cursor to Nth left right of current one.",
+  })
+
+  keyset("n", "<leader>ff", require("conform").format, {
+    desc = "Format file",
   })
   -- ##############################
   -- ####### telescope.nvim #######
@@ -49,8 +61,7 @@ function M.setup(config)
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc =
-    "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
   })
 
   keyset("n", "<leader>fg", tsbuiltin.grep_string, {
@@ -83,8 +94,7 @@ function M.setup(config)
     desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
   })
   keyset("n", "<leader>gc", tsbuiltin.git_commits, {
-    desc =
-    "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
+    desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
   })
   keyset("n", "<leader>gs", tsbuiltin.git_status, {
     desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
@@ -124,9 +134,9 @@ function M.setup(config)
   })
 
   -- Project
-  keyset("n", "<leader>pp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", {
-    desc = "Switch between projects.",
-  })
+  -- keyset("n", "<leader>pp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", {
+  --   desc = "Switch between projects.",
+  -- })
 
   -- #########################
   -- ########## DAP ##########
@@ -285,7 +295,7 @@ function M.setup(config)
 
   -- zk
   local zk_opts = { noremap = true, silent = false }
-  zk_commands = require("zk.commands")
+  local zk_commands = require("zk.commands")
   keyset("n", "zkd", function()
     zk_commands.get("ZkNew")({ dir = "daily" })
   end, zk_opts)
@@ -294,20 +304,20 @@ function M.setup(config)
     zk_commands.get("ZkNew")({ title = vim.fn.input("Title: ") })
   end, zk_opts)
 
+  -- lucky = "zk list --quiet --format full --sort random --limit 1"
   keyset("n", "zkr", function()
     zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
-    -- lucky = "zk list --quiet --format full --sort random --limit 1"
   end, zk_opts)
   keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>")
   keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>")
 
-  keyset("n", "|", function()
-    if vim.bo.filetype == 'oil' then
-      require("oil").close()
-    else
-      require("oil").open()
-    end
-  end, { desc = "File navigation" })
+  -- keyset("n", "|", function()
+  --   if vim.bo.filetype == "oil" then
+  --     require("oil").close()
+  --   else
+  --     require("oil").open()
+  --   end
+  -- end, { desc = "File navigation" })
 end
 
 return M
