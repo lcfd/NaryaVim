@@ -249,13 +249,13 @@ function M.setup(config)
     desc = "View all project marks.",
   })
 
-  keyset("n", "<C-h> 1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+  keyset("n", "<C-h>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
     desc = "Navigates to file 1.",
   })
-  keyset("n", "<C-h> 2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+  keyset("n", "<C-h>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
     desc = "Navigates to file 2.",
   })
-  keyset("n", "<C-h> 3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+  keyset("n", "<C-h>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
     desc = "Navigates to file 3.",
   })
 
