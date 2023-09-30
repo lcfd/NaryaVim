@@ -52,6 +52,11 @@ function M.setup(config)
   keyset("n", "<leader>ff", require("conform").format, {
     desc = "Format file",
   })
+
+  keyset("n", "<BS>", tsbuiltin.buffers, {
+    desc = "Show all current buffers",
+  })
+
   -- ##############################
   -- ####### telescope.nvim #######
   -- ##############################
@@ -87,6 +92,13 @@ function M.setup(config)
   keyset("v", "<leader>s", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", {
     desc = "Search selected text with grep.",
   })
+
+  keyset(
+    "n",
+    "<leader>fx",
+    tsbuiltin.resume,
+    { noremap = true, silent = true, desc = "Resume telescope's last search." }
+  )
 
   -- Git
 
@@ -218,33 +230,34 @@ function M.setup(config)
     desc = "Map esc to jj in Insert Mode.",
   })
 
-  keyset("n", "<BS>", "<CMD>bprevious<CR>", {
-    desc = "Go to the next buffer.",
-  })
+  -- keyset("n", "<BS>", "<CMD>bprevious<CR>", {
+  --   desc = "Go to the next buffer.",
+  -- })
 
   -- keyset("n", "M", "<cmd>bnext<cr>", {
   --   desc = "Go to the next buffer.",
   -- })
 
-  keyset("n", "<leader>a", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
+  --
+  -- HARPOON
+  --
+  keyset("n", "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
     desc = "Mark files you want to revisit later on.",
   })
 
-  keyset("n", "<leader>h", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
+  keyset("n", "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
     desc = "View all project marks.",
   })
 
-  keyset("n", "<C-h>", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+  keyset("n", "<C-h> 1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
     desc = "Navigates to file 1.",
   })
-
-  -- keyset("n", "2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
-  --   desc = "Navigates to file 2.",
-  -- })
-
-  -- keyset("n", "3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
-  --   desc = "Navigates to file 3.",
-  -- })
+  keyset("n", "<C-h> 2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+    desc = "Navigates to file 2.",
+  })
+  keyset("n", "<C-h> 3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+    desc = "Navigates to file 3.",
+  })
 
   keyset("", "xx", "<CMD>bd<CR>", {
     desc = "Close the current buffer.",
@@ -252,6 +265,23 @@ function M.setup(config)
 
   keyset("n", "<C-j>", "<CMD>w<CR>", {
     desc = "Save current buffer",
+  })
+
+  --
+  -- Spectre
+  --
+
+  keyset("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
+    desc = "Toggle Spectre",
+  })
+  keyset("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+    desc = "Search current word",
+  })
+  keyset("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+    desc = "Search current word",
+  })
+  keyset("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
+    desc = "Search on current file",
   })
 
   -- ##############################

@@ -23,6 +23,6 @@ return {
     vim.cmd([[highlight IndentBlanklineIndent5 guifg=#e0af68 gui=nocombine]])
     vim.cmd([[highlight IndentBlanklineIndent6 guifg=#f7768e gui=nocombine]])
 
-    require("indent_blankline").setup(opts)
+    require("ibl").setup(opts)
   end,
 }

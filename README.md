@@ -45,7 +45,7 @@ I will add specific support to other technologies.
 Required brew packages:
 
 ```
-brew install ripgrep cmake fzf
+brew install ripgrep cmake fzf gnu-sed
 ```
 
 Clone the repository in the `nvim` config folder.

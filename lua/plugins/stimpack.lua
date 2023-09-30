@@ -2,8 +2,8 @@ return {
   {
     "ggandor/leap.nvim",
     keys = {
-      { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
-      { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
+      { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
+      { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
       { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
     },
     config = function(_, opts)
@@ -56,25 +56,21 @@ return {
     opts = {},
     dependencies = {
       "MunifTanjim/nui.nvim",
-      -- "rcarriga/nvim-notify",
     },
   },
   {
     "nvim-pack/nvim-spectre",
     config = function()
-      require('spectre').setup()
-    end
+      require("spectre").setup()
+    end,
   },
   {
-    "ThePrimeagen/harpoon"
+    "ThePrimeagen/harpoon",
   },
-  -- {
-  --   'stevearc/oil.nvim',
-  --   opts = {
-  --     default_file_explorer = false,
-  --     view_options = {
-  --       show_hidden = true,
-  --     },
-  --   },
-  -- }
+  {
+    "nvim-pack/nvim-spectre",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
 }
