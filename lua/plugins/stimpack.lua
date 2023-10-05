@@ -18,20 +18,69 @@ return {
   },
   {
     "numToStr/Comment.nvim",
-    config = function(_, opts)
+    config = function()
+      --
+      -- Usage
+      --
+
+      -- NORMAL mode
+      -- `gcc` - Toggles the current line using linewise comment
+      -- `gbc` - Toggles the current line using blockwise comment
+      -- `[count]gcc` - Toggles the number of line given as a prefix-count using linewise
+      -- `[count]gbc` - Toggles the number of line given as a prefix-count using blockwise
+      -- `gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
+      -- `gb[count]{motion}` - (Op-pending) Toggles the region using blockwise comment
+      --
+      -- VISUAL mode
+      -- `gc` - Toggles the region using linewise comment
+      -- `gb` - Toggles the region using blockwise comment
+      --
+      -- Extra
+      -- NORMAL mode
+      -- `gb` - Toggles the region using blockwise comment
+      -- `gco` - Insert comment to the next line and enters INSERT mode
+      -- `gcO` - Insert comment to the previous line and enters INSERT mode
+      -- `gcA` - Insert comment to end of the current line and enters INSERT mode
+
+      -- Examples https://github.com/numToStr/Comment.nvim#examples
+
       require("Comment").setup({
         toggler = {
           ---Line-comment toggle keymap
-          line = "<leader>1",
+          line = "gcc",
           ---Block-comment toggle keymap
-          block = "<leader>2",
+          block = "gbc",
         },
+        ---LHS of operator-pending mappings in NORMAL and VISUAL mode
         opleader = {
           ---Line-comment keymap
-          line = "<leader>1",
+          line = "gc",
           ---Block-comment keymap
-          block = "<leader>2",
+          block = "gb",
         },
+        ---Add a space b/w comment and the line
+        padding = true,
+        ---Whether the cursor should stay at its position
+        sticky = true,
+        ---Lines to be ignored while (un)comment
+        ignore = "",
+
+        extra = {
+          ---Add comment on the line above
+          above = "gcO",
+          ---Add comment on the line below
+          below = "gco",
+          ---Add comment at the end of line
+          eol = "gcA",
+        },
+        mappings = {
+          ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
+          basic = true,
+          ---Extra mapping; `gco`, `gcO`, `gcA`
+          extra = true,
+        },
+        ---Function to call before (un)comment
+        post_hook = function() end,
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
     end,
@@ -41,7 +90,7 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup({})
+      require("nvim-surround").setup()
     end,
   },
   {
