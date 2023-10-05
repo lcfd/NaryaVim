@@ -86,15 +86,15 @@ function M.setup(config)
 
   -- Git
 
-  keyset("n", "<leader>gb", tsbuiltin.git_branches, {
-    desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
-  })
-  keyset("n", "<leader>gc", tsbuiltin.git_commits, {
-    desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
-  })
-  keyset("n", "<leader>gs", tsbuiltin.git_status, {
-    desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
-  })
+  -- keyset("n", "<leader>gb", tsbuiltin.git_branches, {
+  --   desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
+  -- })
+  -- keyset("n", "<leader>gc", tsbuiltin.git_commits, {
+  --   desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
+  -- })
+  -- keyset("n", "<leader>gs", tsbuiltin.git_status, {
+  --   desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
+  -- })
 
   -- Text case
   --
