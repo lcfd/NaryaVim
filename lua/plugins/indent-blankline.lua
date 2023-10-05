@@ -28,7 +28,7 @@ return {
     require("ibl").setup({
       indent = { highlight = highlight },
       scope = { enabled = false },
-      space_char_blankline = " ",
+      -- space_char_blankline = " ",
     })
   end,
 }

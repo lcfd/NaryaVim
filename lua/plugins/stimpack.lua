@@ -18,6 +18,7 @@ return {
   },
   {
     "numToStr/Comment.nvim",
+    lazy = false,
     config = function()
       --
       -- Usage
@@ -62,8 +63,6 @@ return {
         padding = true,
         ---Whether the cursor should stay at its position
         sticky = true,
-        ---Lines to be ignored while (un)comment
-        ignore = "",
 
         extra = {
           ---Add comment on the line above
@@ -80,7 +79,6 @@ return {
           extra = true,
         },
         ---Function to call before (un)comment
-        post_hook = function() end,
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
     end,
