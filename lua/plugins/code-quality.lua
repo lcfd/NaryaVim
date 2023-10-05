@@ -56,69 +56,37 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
     config = function()
-      require("conform").setup({
-        -- format_on_save = {
-        --   timeout_ms = 500,
-        --   lsp_fallback = true,
-        -- },
+      local conform = require("conform")
+
+      conform.setup({
         formatters_by_ft = {
-          htmldjango = {
-            "djlint",
-          },
-          lua = {
-            "stylua",
-          },
+          htmldjango = { "djlint" },
+          lua = { "stylua" },
           python = {
             "ruff_fix",
             "ruff_format",
             "black",
           },
-          json = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          javascript = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          html = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          typescript = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          javascriptreact = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          typescriptreact = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
-          css = {
-            {
-              "prettierd",
-              "prettier",
-            },
-          },
+          json = { "prettier" },
+          javascript = { "prettier" },
+          html = { "prettier" },
+          typescript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          css = { "prettier" },
           markdown = {
+            "prettier",
             "markdown-toc",
             "markdownlint",
+          },
+          go = {
+            "gofmt",
+            "gofumpt",
+            "goimports",
+            "golines",
           },
         },
       })

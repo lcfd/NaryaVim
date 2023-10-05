@@ -15,30 +15,10 @@ function M.setup(config)
   -- Avoid press shift to type :
   keyset("n", ";", ":")
 
-  -- Go to the start and the end of a sentence
-  keyset("n", "H", "^", {
-    desc = "Go to the start of the line.",
-  })
-
-  keyset("n", "L", "$", {
-    desc = "Go to the end of the line.",
-  })
-
   -- Windows
-  -- keyset("n", "<leader>ws", "<C-W><C-V>", {
-  --   desc = "Split vertically.",
-  -- })
 
   keyset("n", "<Tab><Tab>", "<C-W><C-V>", {
     desc = "Split vertically.",
-  })
-
-  keyset("n", "<leader>e", "<C-W><Right>", {
-    desc = "Move cursor to Nth window right of current one.",
-  })
-
-  keyset("n", "<leader>q", "<C-W><Left>", {
-    desc = "Move cursor to Nth left right of current one.",
   })
 
   keyset("n", "<C-]>", "<C-W><Right>", {
@@ -49,9 +29,13 @@ function M.setup(config)
     desc = "Move cursor to Nth left right of current one.",
   })
 
-  keyset("n", "<leader>ff", require("conform").format, {
-    desc = "Format file",
-  })
+  keyset({ "n", "v" }, "<leader>ff", function()
+    require("conform").format({
+      lsp_fallback = true,
+      async = false,
+      timeout_ms = 1000,
+    })
+  end, { desc = "Format file or range (in visual mode)" })
 
   keyset("n", "<BS>", tsbuiltin.buffers, {
     desc = "Show all current buffers",
@@ -226,17 +210,18 @@ function M.setup(config)
   -- ####### Quick #######
   -- #####################
 
+  -- Go to the start and the end of a sentence
+  keyset("n", "H", "^", {
+    desc = "Go to the start of the line.",
+  })
+
+  keyset("n", "L", "$", {
+    desc = "Go to the end of the line.",
+  })
+
   keyset("i", "jj", "<Esc>", {
     desc = "Map esc to jj in Insert Mode.",
   })
-
-  -- keyset("n", "<BS>", "<CMD>bprevious<CR>", {
-  --   desc = "Go to the next buffer.",
-  -- })
-
-  -- keyset("n", "M", "<cmd>bnext<cr>", {
-  --   desc = "Go to the next buffer.",
-  -- })
 
   --
   -- HARPOON
