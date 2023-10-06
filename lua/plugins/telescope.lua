@@ -121,12 +121,8 @@ return {
     "nvim-telescope/telescope-symbols.nvim",
   },
   {
-    "nvim-telescope/telescope-project.nvim",
-    config = function()
-      require("telescope").load_extension("project")
-    end,
+    "nvim-telescope/telescope-dap.nvim",
   },
-
   {
     "nvim-telescope/telescope-ui-select.nvim",
     config = function()

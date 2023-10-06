@@ -12,7 +12,7 @@ return {
     },
     opts = {
       theme = "tokyonight",
-      show_dirname = false,
+      show_dirname = true,
       show_modified = true,
     },
   },

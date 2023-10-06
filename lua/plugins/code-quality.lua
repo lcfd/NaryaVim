@@ -3,30 +3,48 @@ return {
     "mfussenegger/nvim-lint",
     config = function()
       require("lint").linters_by_ft = {
-        markdown = { "vale", "markdownlint", "proselint" },
-        python = { "mypy", "ruff", "codespell" },
-        yaml = { "yamllint" },
+        markdown = {
+          "vale",
+          "markdownlint",
+          "proselint",
+        },
+        python = {
+          "mypy",
+          "ruff",
+        },
+        yaml = {
+          "yamllint",
+        },
         javascript = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         typescript = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         javascriptreact = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         typescriptreact = {
-          "eslint_d", "codespell"
+          "eslint_d",
         },
         json = {
-          "jsonlint", "codespell"
+          "jsonlint",
         },
-        html = { "djlint", "codespell" },
-        css = { "stylelint", "codespell" },
-        sh = { "shellcheck" }
+        html = {
+          "djlint",
+        },
+        css = {
+          "stylelint",
+        },
+        sh = {
+          "shellcheck",
+        },
       }
 
-      vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
+      vim.api.nvim_create_autocmd({
+        "InsertLeave",
+        "BufWritePost",
+      }, {
         callback = function()
           local lint_status, lint = pcall(require, "lint")
           if lint_status then
@@ -37,50 +55,41 @@ return {
     end,
   },
   {
-    "mhartington/formatter.nvim",
+    "stevearc/conform.nvim",
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
     config = function()
-      local util = require "formatter.util"
+      local conform = require("conform")
 
-      require("formatter").setup {
-        log_level = vim.log.levels.WARN,
-        filetype = {
-          htmldjango = {
-            function()
-              return {
-                exe = "djlint",
-                args = { util.escape_path(util.get_current_buffer_file_path()), "--reformat", "--format-css",
-                  "--format-js", "-" },
-                stdin = true,
-                no_append = true
-              }
-            end
-          },
-          html = {
-            require("formatter.filetypes.html").prettier,
-          },
-          lua = {
-            require("formatter.filetypes.lua").stylua,
-          },
+      conform.setup({
+        formatters_by_ft = {
+          htmldjango = { "djlint" },
+          lua = { "stylua" },
           python = {
-            require("formatter.filetypes.python").black,
+            "ruff_fix",
+            "ruff_format",
+            "black",
           },
-          javascript = {
-            require("formatter.filetypes.javascript").prettier,
+          json = { "prettier" },
+          javascript = { "prettier" },
+          html = { "prettier" },
+          typescript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          css = { "prettier" },
+          markdown = {
+            "prettier",
+            "markdown-toc",
+            "markdownlint",
           },
-          typescript = {
-            require("formatter.filetypes.typescript").prettier,
+          go = {
+            "gofmt",
+            "gofumpt",
+            "goimports",
+            "golines",
           },
-          javascriptreact = {
-            require("formatter.filetypes.javascriptreact").prettier,
-          },
-          typescriptreact = {
-            require("formatter.filetypes.typescriptreact").prettier,
-          },
-          css = {
-            require("formatter.filetypes.typescriptreact").prettier,
-          },
-        }
-      }
+        },
+      })
     end,
-  }
+  },
 }
