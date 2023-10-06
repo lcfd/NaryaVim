@@ -61,7 +61,7 @@ return {
             init_selection = "<C-space>",
             node_incremental = "<C-space>",
             scope_incremental = false,
-            node_decremental = "<bs>",
+            node_decremental = "<BS>",
           },
         },
 
@@ -89,27 +89,6 @@ return {
         autotag = {
           enable = true,
         },
-
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
-          },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
-          },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
-          },
-        },
       })
     end,
   },
@@ -130,17 +109,18 @@ return {
             lookahead = true,
 
             keymaps = {
+              -- BROKEN: C-i won't work anymore with those commented options
               -- You can use the capture groups defined in textobjects.scm
-              ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-              ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-              ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
-              ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+              -- ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
+              -- ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
+              -- ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
+              -- ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
 
               -- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
-              ["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
-              ["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
-              ["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
-              ["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
+              -- ["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
+              -- ["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
+              -- ["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
+              -- ["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
 
               ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
               ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
@@ -166,17 +146,7 @@ return {
           -- Swap
           --
           swap = {
-            enable = true,
-            swap_next = {
-              ["<leader>na"] = "@parameter.inner", -- swap parameters/argument with next
-              ["<leader>n:"] = "@property.outer", -- swap object property with next
-              ["<leader>nm"] = "@function.outer", -- swap function with next
-            },
-            swap_previous = {
-              ["<leader>pa"] = "@parameter.inner", -- swap parameters/argument with prev
-              ["<leader>p:"] = "@property.outer", -- swap object property with prev
-              ["<leader>pm"] = "@function.outer", -- swap function with previous
-            },
+            enable = false,
           },
 
           --
