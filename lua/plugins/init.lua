@@ -7,4 +7,6 @@ return {
       })
     end,
   },
+  -- { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
+  -- { "folke/neodev.nvim", opts = {} },
 }

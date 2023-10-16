@@ -4,7 +4,7 @@ return {
     config = function()
       require("lint").linters_by_ft = {
         markdown = {
-          "vale",
+          -- "vale",
           "markdownlint",
           "proselint",
         },
@@ -65,14 +65,10 @@ return {
         formatters_by_ft = {
           htmldjango = { "djlint" },
           lua = { "stylua" },
-          python = {
-            "ruff_fix",
-            "ruff_format",
-            "black",
-          },
+          python = { "black" },
           json = { "prettier" },
           javascript = { "prettier" },
-          html = { "prettier" },
+          html = { "prettier", "djlint" },
           typescript = { "prettier" },
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },

@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
   -- Set <space> as the leader key
   vim.g.mapleader = " "
-  -- vim.g.maplocalleader = " "
+
   -- Keymaps for better default experience
   vim.keymap.set({
     "n",
@@ -94,7 +94,7 @@ function M.setup()
   vim.opt.list = true
   vim.opt.listchars:append("space:⋅")
 
-  vim.opt.clipboard = "unnamed"
+  vim.opt.clipboard = "unnamedplus"
 
   vim.opt.loaded_node_provider = 0
 

@@ -1,7 +1,31 @@
 local M = {}
 
+-- From LazyVim
+function M.safe_keymap_set(mode, lhs, rhs, opts)
+  local keys = require("lazy.core.handler").handlers.keys
+  ---@cast keys LazyKeysHandler
+  local modes = type(mode) == "string" and { mode } or mode
+
+  ---@param m string
+  modes = vim.tbl_filter(function(m)
+    return not (keys.have and keys:have(lhs, m))
+  end, modes)
+
+  -- do not create the keymap if a lazy keys handler exists
+  if #modes > 0 then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    if opts.remap and not vim.g.vscode then
+      ---@diagnostic disable-next-line: no-unknown
+      opts.remap = nil
+    end
+    vim.keymap.set(modes, lhs, rhs, opts)
+  end
+end
+
 function M.setup(config)
-  local keyset = vim.keymap.set
+  -- local keyset = vim.keymap.set
+  local keyset = M.safe_keymap_set
 
   local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
   if not status_ok then
@@ -13,7 +37,11 @@ function M.setup(config)
   --
 
   -- Avoid press shift to type :
-  keyset("n", ";", ":")
+  -- Not working with keyset function.
+  vim.keymap.set("n", ";", ":")
+
+  -- new file
+  keyset("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
   -- Neovim Windows
 
@@ -21,13 +49,8 @@ function M.setup(config)
     desc = "Generic — Split vertically.",
   })
 
-  keyset("n", "gl", "<C-W><Right>", {
-    desc = "Generic — Move cursor to Nth window right of current one.",
-  })
-
-  keyset("n", "gh", "<C-W><Left>", {
-    desc = "Generic — Move cursor to Nth left right of current one.",
-  })
+  keyset("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
+  keyset("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
   keyset({ "n", "v" }, "<leader>ff", function()
     require("conform").format({
@@ -47,41 +70,41 @@ function M.setup(config)
 
   keyset("n", "<leader><space>", tsbuiltin.find_files, {
     desc = "Telescope — Lists files in your current working directory, respects .gitignore (find_files).",
-    noremap = true
+    noremap = true,
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
     desc = "Telescope — Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
-    noremap = true
+    noremap = true,
   })
 
-  keyset({"n", "v"}, "<leader>fg", tsbuiltin.grep_string, {
+  keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
     desc = "Telescope — Searches for the string under your cursor in your current working directory (grep_string).",
   })
 
   keyset("n", "<leader>fb", tsbuiltin.buffers, {
     desc = "Telescope — Lists open buffers in current Neovim instance (buffers).",
-    noremap = true
+    noremap = true,
   })
 
   keyset("n", "<leader>fh", tsbuiltin.help_tags, {
     desc = "Telescope — Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
-    noremap = true
+    noremap = true,
   })
 
   keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
     desc = "Telescope — Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
-    noremap = true
+    noremap = true,
   })
 
   keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
     desc = "Telescope — Lists previously open files.",
-    noremap = true
+    noremap = true,
   })
 
   keyset("n", "<leader>fe", tsbuiltin.symbols, {
     desc = "Telescope — Lists of emojis.",
-    noremap = true
+    noremap = true,
   })
 
   keyset(
@@ -169,7 +192,6 @@ function M.setup(config)
 
   -- Look at lua/plugins/neo-tree.lua
 
-
   --
   -- Delete buffers
   --
@@ -207,9 +229,9 @@ function M.setup(config)
 
   keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>")
 
-  -- 
+  --
   -- Quick
-  -- 
+  --
 
   -- Go to the start and the end of a sentence
   keyset("n", "H", "^", {
@@ -236,13 +258,13 @@ function M.setup(config)
     desc = "View all project marks.",
   })
 
-  keyset("n", "<C-h>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+  keyset("n", "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
     desc = "Navigates to file 1.",
   })
-  keyset("n", "<C-h>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+  keyset("n", "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
     desc = "Navigates to file 2.",
   })
-  keyset("n", "<C-h>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+  keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
     desc = "Navigates to file 3.",
   })
 
@@ -271,9 +293,9 @@ function M.setup(config)
     desc = "Search on current file",
   })
 
-  -- 
+  --
   -- zk
-  -- 
+  --
 
   local zk_opts = { noremap = true, silent = false }
   local zk_commands = require("zk.commands")
@@ -289,6 +311,12 @@ function M.setup(config)
   keyset("n", "zkr", function()
     zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
   end, zk_opts)
+
+  --
+  -- SymbolsOutline
+  --
+
+  keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
 end
 
 return M
