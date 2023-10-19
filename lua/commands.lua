@@ -21,6 +21,13 @@ function M.setup()
   end
 
   vim.api.nvim_create_user_command("OpenLink", HandleURL, {})
+
+  local getStatus = function()
+    local output = vim.fn.system("trak status -s")
+    print(output)
+  end
+
+  vim.api.nvim_create_user_command("TrakStatus", getStatus, {})
 end
 
 return M

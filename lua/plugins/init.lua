@@ -7,6 +7,10 @@ return {
       })
     end,
   },
+  {
+    "folke/zen-mode.nvim",
+    opts = {},
+  },
   -- { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
   -- { "folke/neodev.nvim", opts = {} },
 }

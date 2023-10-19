@@ -88,14 +88,28 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup()
+      require("nvim-surround").setup({
+        keymaps = {
+          insert = "<C-g>m",
+          insert_line = "<C-g>M",
+          normal = "ms",
+          normal_cur = "mss",
+          normal_line = "mS",
+          normal_cur_line = "mSS",
+          visual = "M",
+          visual_line = "gS",
+          delete = "ds",
+          change = "cs",
+          change_line = "cS",
+        },
+      })
     end,
   },
   {
     "johmsalas/text-case.nvim",
     config = function()
-      require('textcase').setup {}
-    end
+      require("textcase").setup({})
+    end,
   },
   {
     "nanotee/zoxide.vim",

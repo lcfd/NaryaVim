@@ -317,6 +317,12 @@ function M.setup(config)
   --
 
   keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
+
+  --
+  -- Markdown checkbox toggle
+  --
+
+  keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
 end
 
 return M
