@@ -125,6 +125,7 @@ return {
         },
         {
           name = "buffer",
+          keyword_length = 1,
         },
         {
           name = "treesitter",

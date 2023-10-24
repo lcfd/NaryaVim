@@ -128,6 +128,8 @@ return {
         automatic_installation = true,
       })
 
+      local lspconfig = require("lspconfig")
+
       require("mason-lspconfig").setup_handlers({
         -- The first entry (without a key) will be the default handler
         -- and will be called for each installed server that doesn't have
@@ -137,6 +139,15 @@ return {
             on_attach = on_attach,
           })
         end,
+        -- ["tsserver"] = function()
+        --   lspconfig.tsserver.setup({
+        --     settings = {
+        --       completions = {
+        --         completeFunctionCalls = true,
+        --       },
+        --     },
+        --   })
+        -- end,
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         -- ["rust_analyzer"] = function()

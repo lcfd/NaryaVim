@@ -3,12 +3,19 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = {
-      style = "night",
-      comments = { italic = true },
-    },
-    config = function(_, opts)
-      require("tokyonight").setup(opts)
+    config = function()
+      require("tokyonight").setup({
+        style = "night",
+        comments = { italic = true },
+        on_colors = function(colors)
+          colors.git = {
+            add = "#22c55e",
+            change = "#ec4899",
+            delete = "#f43f5e",
+            ingore = "#545c7e",
+          }
+        end,
+      })
       vim.cmd([[colorscheme tokyonight]])
     end,
   },
