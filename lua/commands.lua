@@ -37,6 +37,10 @@ function M.setup()
     require("zk.commands").get("ZkNew")({ dir = "daily" })
   end
 
+  local zkcall = function()
+    require("zk.commands").get("ZkNew")({ dir = "calls", title = vim.fn.input("Customer/Topic: ") })
+  end
+
   local zkevergreen = function()
     require("zk.commands").get("ZkNew")({ dir = "evergreen", title = vim.fn.input("Readable title: ") })
   end
@@ -50,6 +54,7 @@ function M.setup()
   end
 
   vim.api.nvim_create_user_command("ZkNewDaily", zkdaily, {})
+  vim.api.nvim_create_user_command("ZkNewCall", zkcall, {})
   vim.api.nvim_create_user_command("ZkNewEvergreen", zkevergreen, {})
   vim.api.nvim_create_user_command("ZkNewFleeting", zkfleeting, {})
   vim.api.nvim_create_user_command("ZkNewLiterature", zkliterature, {})

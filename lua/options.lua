@@ -94,7 +94,7 @@ function M.setup()
   vim.opt.list = true
   vim.opt.listchars:append("space:⋅")
 
-  vim.opt.clipboard = "unnamedplus"
+  vim.api.nvim_set_option("clipboard", "unnamedplus")
 
   vim.opt.loaded_node_provider = 0
 

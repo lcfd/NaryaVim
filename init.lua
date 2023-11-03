@@ -1,8 +1,8 @@
 require("options").setup()
 
--- ###########################
--- ######## Lazy.nvim ########
--- ###########################
+--
+-- lazy.nvim
+--
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
@@ -20,7 +20,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local opts = {}
-
 require("lazy").setup("plugins", opts)
 
 require("lazy").setup()
