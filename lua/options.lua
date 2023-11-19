@@ -13,6 +13,7 @@ function M.setup()
   vim.opt.hlsearch = false
   vim.opt.backup = false
   vim.opt.writebackup = false
+  vim.opt.swapfile = false
 
   vim.opt.fileencoding = "utf-8"
 

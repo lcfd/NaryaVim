@@ -5,8 +5,8 @@ return {
       require("lint").linters_by_ft = {
         markdown = {
           "vale",
-          "markdownlint",
-          "proselint",
+          -- "markdownlint",
+          -- "proselint",
         },
         python = {
           "mypy",
