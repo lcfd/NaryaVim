@@ -35,9 +35,4 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
-  {
-    "kkoomen/vim-doge",
-    build = ":call doge#install()",
-    lazy = true,
-  },
 }

@@ -2,6 +2,7 @@
 
 return {
   "lukas-reineke/indent-blankline.nvim",
+  event = { "BufReadPost", "BufNewFile", "BufWritePre" },
   main = "ibl",
   config = function(_)
     local highlight = {
@@ -28,6 +29,21 @@ return {
     require("ibl").setup({
       indent = { highlight = highlight },
       scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
       -- space_char_blankline = " ",
     })
   end,

@@ -10,10 +10,10 @@ return {
       -- {
       --   "mxsdev/nvim-dap-vscode-js",
       -- },
-      {
-        "microsoft/vscode-js-debug",
-        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-      },
+      -- {
+      --   "microsoft/vscode-js-debug",
+      --   build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+      -- },
       {
         -- This plugin adds virtual text support to nvim-dap. nvim-treesitter is used to find variable definitions.
         "theHamsta/nvim-dap-virtual-text",

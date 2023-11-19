@@ -2,18 +2,13 @@ local function showFileSpecificInfo()
   if vim.bo.filetype == "markdown" then
     return string.format(" %s", tostring(vim.fn.wordcount().words))
   elseif
-      vim.bo.filetype == "python"
-      or vim.bo.filetype == "typescript"
-      or vim.bo.filetype == "javascript"
-      or vim.bo.filetype == "go"
-      or vim.bo.filetype == "rust"
+    vim.bo.filetype == "python"
+    or vim.bo.filetype == "typescript"
+    or vim.bo.filetype == "javascript"
+    or vim.bo.filetype == "go"
+    or vim.bo.filetype == "rust"
   then
-    local number_of_lines = vim.api.nvim_buf_line_count(0)
-    if number_of_lines > 200 then
-      return "🚨 TOO BIG!"
-    else
-      return string.format("🍪 %s", tostring(number_of_lines))
-    end
+    return string.format("🍪 %s", tostring(number_of_lines))
   end
 
   return "🍜"

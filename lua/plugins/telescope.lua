@@ -14,6 +14,9 @@ local function get_pickers(actions)
       theme = "dropdown",
       previewer = false,
     },
+    commands = {
+      theme = "dropdown",
+    },
     live_grep = grep_options,
     grep_string = grep_options,
     buffers = {
@@ -41,6 +44,11 @@ local function get_pickers(actions)
     lsp_implementations = default_picker_setting,
   }
 end
+
+-- local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
+-- if not status_ok then
+--   return
+-- end
 
 return {
   {

@@ -1,5 +1,12 @@
 return {
   {
+    -- Autopairs for neovim written by lua
+    -- https://github.com/windwp/nvim-autopairs
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
     "ggandor/leap.nvim",
     keys = {
       { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
@@ -20,29 +27,6 @@ return {
     "numToStr/Comment.nvim",
     lazy = false,
     config = function()
-      --
-      -- Usage
-      --
-
-      -- NORMAL mode
-      -- `gcc` - Toggles the current line using linewise comment
-      -- `gbc` - Toggles the current line using blockwise comment
-      -- `[count]gcc` - Toggles the number of line given as a prefix-count using linewise
-      -- `[count]gbc` - Toggles the number of line given as a prefix-count using blockwise
-      -- `gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
-      -- `gb[count]{motion}` - (Op-pending) Toggles the region using blockwise comment
-      --
-      -- VISUAL mode
-      -- `gc` - Toggles the region using linewise comment
-      -- `gb` - Toggles the region using blockwise comment
-      --
-      -- Extra
-      -- NORMAL mode
-      -- `gb` - Toggles the region using blockwise comment
-      -- `gco` - Insert comment to the next line and enters INSERT mode
-      -- `gcO` - Insert comment to the previous line and enters INSERT mode
-      -- `gcA` - Insert comment to end of the current line and enters INSERT mode
-
       -- Examples https://github.com/numToStr/Comment.nvim#examples
 
       require("Comment").setup({
@@ -112,17 +96,6 @@ return {
     end,
   },
   {
-    "nanotee/zoxide.vim",
-  },
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {},
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-  },
-  {
     "nvim-pack/nvim-spectre",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -133,5 +106,51 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+    keys = {
+      { "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", mode = "n" },
+      { "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n" },
+      { "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", mode = "n" },
+      { "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", mode = "n" },
+      { "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", mode = "n" },
+      { "<leader>4", "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", mode = "n" },
+      { "<leader>5", "<CMD>lua require('harpoon.ui').nav_file(5)<CR>", mode = "n" },
+    },
+  },
+  {
+    -- Automatically highlighting other uses of the word under the cursor
+    "RRethy/vim-illuminate",
+    event = {
+      "BufReadPost",
+      "BufNewFile",
+    },
+    opts = {
+      delay = 400,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = {
+          "lsp",
+        },
+      },
+    },
+    config = function(_)
+      require("illuminate").configure({
+        delay = 200,
+        large_file_cutoff = 2000,
+        large_file_overrides = {
+          providers = {
+            "lsp",
+          },
+        },
+      })
+    end,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 2000
+    end,
+    opts = {},
   },
 }

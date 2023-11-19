@@ -51,6 +51,8 @@ return {
           "lua",
           -- Others
           "regex",
+          "gitignore",
+          "http",
         },
 
         ignore_install = {},
