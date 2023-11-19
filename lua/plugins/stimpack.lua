@@ -106,15 +106,6 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
-    keys = {
-      { "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", mode = "n" },
-      { "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n" },
-      { "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", mode = "n" },
-      { "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", mode = "n" },
-      { "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", mode = "n" },
-      { "<leader>4", "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", mode = "n" },
-      { "<leader>5", "<CMD>lua require('harpoon.ui').nav_file(5)<CR>", mode = "n" },
-    },
   },
   {
     -- Automatically highlighting other uses of the word under the cursor

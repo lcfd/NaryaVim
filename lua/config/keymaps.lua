@@ -275,6 +275,28 @@ function M.setup(config)
   --
 
   keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
+
+  --
+  -- Harpooon
+  --
+
+  keyset("n", "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
+    desc = "Mark files you want to revisit later on.",
+  })
+
+  keyset("n", "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
+    desc = "View all project marks.",
+  })
+
+  keyset("n", "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+    desc = "Navigates to file 1.",
+  })
+  keyset("n", "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+    desc = "Navigates to file 2.",
+  })
+  keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+    desc = "Navigates to file 3.",
+  })
 end
 
 return M
