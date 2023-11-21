@@ -55,7 +55,8 @@ function M.setup(config)
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc =
+    "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
     noremap = true,
   })
 
@@ -63,7 +64,7 @@ function M.setup(config)
     desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
   })
 
-  keyset("n", "<leader>fb", tsbuiltin.buffers, {
+  keyset("n", "<bs>", tsbuiltin.buffers, {
     desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
     noremap = true,
   })
@@ -88,7 +89,7 @@ function M.setup(config)
     noremap = true,
   })
 
-  keyset("n", "<leader>p", tsbuiltin.commands, {
+  keyset("n", "<leader>fc", tsbuiltin.commands, {
     desc = "[Telescope] Lists commands.",
     noremap = true,
   })
@@ -165,7 +166,7 @@ function M.setup(config)
   -- NvimTree
   --
 
-  -- keyset("n", "\\", "<CMD>NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" })
+  keyset("n", "<leader>p", "<CMD>NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" })
 
   --
   -- Delete buffers
