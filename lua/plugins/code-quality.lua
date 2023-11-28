@@ -1,59 +1,71 @@
 return {
-  {
-    "mfussenegger/nvim-lint",
-    config = function()
-      require("lint").linters_by_ft = {
-        markdown = {
-          "vale",
-          -- "markdownlint",
-          -- "proselint",
-        },
-        python = {
-          "mypy",
-          "ruff",
-        },
-        yaml = {
-          "yamllint",
-        },
-        javascript = {
-          "eslint",
-        },
-        typescript = {
-          "eslint",
-        },
-        javascriptreact = {
-          "eslint",
-        },
-        typescriptreact = {
-          "eslint",
-        },
-        json = {
-          "jsonlint",
-        },
-        html = {
-          "djlint",
-        },
-        css = {
-          "stylelint",
-        },
-        sh = {
-          "shellcheck",
-        },
-      }
-
-      vim.api.nvim_create_autocmd({
-        "InsertLeave",
-        "BufWritePost",
-      }, {
-        callback = function()
-          local lint_status, lint = pcall(require, "lint")
-          if lint_status then
-            lint.try_lint()
-          end
-        end,
-      })
-    end,
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   config = function()
+  --     -- local lint = require('lint')
+  --     local lint_status, lint = pcall(require, "lint")
+  --
+  --     -- local mypy = lint.linters.mypy
+  --     -- mypy.args = {
+  --     --   "."
+  --     -- '--show-column-numbers',
+  --     -- '--hide-error-codes',
+  --     -- '--hide-error-context',
+  --     -- '--no-color-output',
+  --     -- '--no-error-summary',
+  --     -- '--no-pretty',
+  --     --   -- '--disallow-untyped-defs'
+  --     -- }
+  --
+  --     lint.linters_by_ft = {
+  --       markdown = {
+  --         "vale",
+  --       },
+  --       python = {
+  --         -- "mypy",
+  --         -- "ruff",
+  --       },
+  --       yaml = {
+  --         "yamllint",
+  --       },
+  --       javascript = {
+  --         "eslint",
+  --       },
+  --       typescript = {
+  --         "eslint",
+  --       },
+  --       javascriptreact = {
+  --         "eslint",
+  --       },
+  --       typescriptreact = {
+  --         "eslint",
+  --       },
+  --       json = {
+  --         "jsonlint",
+  --       },
+  --       html = {
+  --         "djlint",
+  --       },
+  --       css = {
+  --         "stylelint",
+  --       },
+  --       sh = {
+  --         "shellcheck",
+  --       },
+  --     }
+  --
+  --     vim.api.nvim_create_autocmd({
+  --       "InsertLeave",
+  --       "BufWritePost",
+  --     }, {
+  --       callback = function()
+  --         if lint_status then
+  --           lint.try_lint()
+  --         end
+  --       end,
+  --     })
+  --   end,
+  -- },
   {
     "stevearc/conform.nvim",
     lazy = true,
@@ -65,7 +77,13 @@ return {
         formatters_by_ft = {
           htmldjango = { "djlint" },
           lua = { "stylua" },
-          python = { "black" },
+          python = function(bufnr)
+            if require("conform").get_formatter_info("ruff_format", bufnr).available then
+              return { "ruff_format" }
+            else
+              return { "isort", "black" }
+            end
+          end,
           json = { "prettier" },
           javascript = { "prettier" },
           html = { "prettier", "djlint" },

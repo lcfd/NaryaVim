@@ -42,15 +42,15 @@ local on_attach = function(_, bufnr)
   end, "[W]orkspace [L]ist Folders")
 end
 
+
 return {
   -- LSP
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "williamboman/mason.nvim", build = ":MasonUpdate" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "hrsh7th/cmp-nvim-lsp" },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim"
     },
 
     opts = {
@@ -61,7 +61,7 @@ return {
       -- LSP Server Settings
       servers = {
         lua_ls = {},
-        pyright = {},
+        -- pyright = {},
         html = {},
         tsserver = {},
         dockerls = {},
@@ -96,7 +96,6 @@ return {
   {
     "williamboman/mason.nvim",
     dependencies = {
-      -- { "williamboman/mason.nvim", build = ":MasonUpdate" },
       { "williamboman/mason-lspconfig.nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
     },
@@ -104,50 +103,57 @@ return {
     opts = {},
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "ruff_lsp",
-          "pyright",
-          "eslint",
-          "marksman",
-          "vale_ls",
-          "zk",
-          "tsserver",
-          "astro",
-          "jsonls",
-          "mdx_analyzer",
-          "sqlls",
-          "taplo",
-          "tailwindcss",
-          "yamlls",
-          "gopls",
-          "graphql",
-          "html",
+
+      local servers = {
+        ruff_lsp = {},
+        pyright = {},
+        eslint = {},
+        marksman = {},
+        vale_ls = {},
+        zk = {},
+        tsserver = {},
+        astro = {},
+        jsonls = {},
+        mdx_analyzer = {},
+        sqlls = {},
+        taplo = {},
+        tailwindcss = {},
+        yamlls = {},
+        gopls = {},
+        graphql = {},
+        html = {},
+        dockerls = {},
+        docker_compose_language_service = {},
+
+        lua_ls = {
+          Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            diagnostics = { disable = { 'missing-fields' } },
+          },
         },
+      }
+
+      require("mason-lspconfig").setup({
+        ensure_installed = vim.tbl_keys(servers),
         automatic_installation = true,
       })
 
       local lspconfig = require("lspconfig")
 
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+
       require("mason-lspconfig").setup_handlers({
-        -- The first entry (without a key) will be the default handler
-        -- and will be called for each installed server that doesn't have
-        -- a dedicated handler.
         function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup({
+          lspconfig[server_name].setup({
             on_attach = on_attach,
+            capabilities = capabilities,
+            -- settings = servers[server_name],
+            -- filetypes = (servers[server_name] or {}).filetypes,
           })
         end,
-        -- ["tsserver"] = function()
-        --   lspconfig.tsserver.setup({
-        --     settings = {
-        --       completions = {
-        --         completeFunctionCalls = true,
-        --       },
-        --     },
-        --   })
-        -- end,
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         -- ["rust_analyzer"] = function()

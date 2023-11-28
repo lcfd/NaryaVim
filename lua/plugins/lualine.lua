@@ -2,11 +2,11 @@ local function showFileSpecificInfo()
   if vim.bo.filetype == "markdown" then
     return string.format(" %s", tostring(vim.fn.wordcount().words))
   elseif
-    vim.bo.filetype == "python"
-    or vim.bo.filetype == "typescript"
-    or vim.bo.filetype == "javascript"
-    or vim.bo.filetype == "go"
-    or vim.bo.filetype == "rust"
+      vim.bo.filetype == "python"
+      or vim.bo.filetype == "typescript"
+      or vim.bo.filetype == "javascript"
+      or vim.bo.filetype == "go"
+      or vim.bo.filetype == "rust"
   then
     return string.format("🍪 %s", tostring(number_of_lines))
   end
@@ -64,11 +64,11 @@ return {
           -- },
         },
         lualine_x = {
-          { "filetype", separator = " ", padding = { left = 1, right = 1 } },
-          {
-            require("lazy.status").updates,
-            cond = require("lazy.status").has_updates,
-          },
+          { "filetype", separator = "•", padding = { left = 1, right = 1 } },
+          -- {
+          --   require("lazy.status").updates,
+          --   cond = require("lazy.status").has_updates,
+          -- },
           {
             "diff",
             symbols = {
