@@ -84,15 +84,15 @@ return {
               return { "isort", "black" }
             end
           end,
-          json = { "prettier" },
-          javascript = { "prettier" },
-          html = { "prettier", "djlint" },
+          json = { { "prettierd", "prettier" } },
+          javascript = { { "prettierd", "prettier" } },
+          html = { { "prettierd", "prettier" }, "djlint" },
           typescript = { "prettier" },
-          javascriptreact = { "prettier" },
-          typescriptreact = { "prettier" },
-          css = { "prettier" },
+          javascriptreact = { { "prettierd", "prettier" } },
+          typescriptreact = { { "prettierd", "prettier" } },
+          css = { { "prettierd", "prettier" } },
           markdown = {
-            "prettier",
+            { "prettierd", "prettier" },
             "markdown-toc",
             "markdownlint",
           },
