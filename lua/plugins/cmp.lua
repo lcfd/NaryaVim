@@ -15,7 +15,7 @@ return {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "saadparwaiz1/cmp_luasnip",
-    'rafamadriz/friendly-snippets',
+    "rafamadriz/friendly-snippets",
   },
   config = function(_, opts)
     local icons = require("config").icons.kinds
@@ -153,7 +153,7 @@ return {
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline(),
+      -- mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
         {
           name = "path",
@@ -161,6 +161,9 @@ return {
       }, {
         {
           name = "cmdline",
+          option = {
+            ignore_cmds = { "Man", "!" },
+          },
         },
       }),
     })

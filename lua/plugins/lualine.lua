@@ -1,17 +1,41 @@
-local function showFileSpecificInfo()
-  if vim.bo.filetype == "markdown" then
-    return string.format(" %s", tostring(vim.fn.wordcount().words))
-  elseif
-      vim.bo.filetype == "python"
-      or vim.bo.filetype == "typescript"
-      or vim.bo.filetype == "javascript"
-      or vim.bo.filetype == "go"
-      or vim.bo.filetype == "rust"
-  then
-    return string.format("🍪 %s", tostring(number_of_lines))
-  end
+local maxSizeFile = 5
 
-  return "🍜"
+function filename()
+  local currentFile = vim.fn.split(vim.api.nvim_buf_get_name(0), "/")
+  currentFile = currentFile[#currentFile]
+  if vim.api.nvim_buf_get_option(0, "buftype") ~= "" then
+    return currentFile
+  end
+  local lenSize = string.len(currentFile)
+  if lenSize > maxSizeFile then
+    maxSizeFile = lenSize
+  end
+  if maxSizeFile % 2 == 0 then
+    maxSizeFile = maxSizeFile + 1
+  end
+  local padding = math.floor((maxSizeFile - lenSize) / 2)
+  if lenSize % 2 == 0 then
+    currentFile = currentFile .. " "
+  end
+  padding = string.rep(" ", padding)
+  return padding .. currentFile .. padding
+end
+
+function harpoonFiles()
+  if vim.api.nvim_buf_get_option(0, "buftype") ~= "" then
+    return ""
+  end
+  local tabela = require("harpoon").get_mark_config()["marks"]
+  local currentFile = vim.fn.split(vim.api.nvim_buf_get_name(0), "/")
+  currentFile = currentFile[#currentFile]
+  local ret = {}
+  for key, value in pairs(tabela) do
+    local file = vim.fn.split(value["filename"], "/")
+    file = file[#file]
+    file = file == currentFile and file .. " 👀" or file .. " "
+    table.insert(ret, "  " .. key .. " " .. file)
+  end
+  return table.concat(ret)
 end
 
 return {
@@ -48,27 +72,9 @@ return {
               hint = icons.diagnostics.Hint,
             },
           },
-          -- { "filename", path = 0, symbols = { modified = "  ", readonly = "", unnamed = "" } },
-          -- {
-          --   "tabs",
-          --   mode = 1,
-          --   fmt = function(name, context)
-          --     -- Show + if buffer is modified in tab
-          --     local buflist = vim.fn.tabpagebuflist(context.tabnr)
-          --     local winnr = vim.fn.tabpagewinnr(context.tabnr)
-          --     local bufnr = buflist[winnr]
-          --     local mod = vim.fn.getbufvar(bufnr, "&mod")
-
-          --     return name .. (mod == 1 and "  " or "")
-          --   end,
-          -- },
         },
         lualine_x = {
           { "filetype", separator = "•", padding = { left = 1, right = 1 } },
-          -- {
-          --   require("lazy.status").updates,
-          --   cond = require("lazy.status").has_updates,
-          -- },
           {
             "diff",
             symbols = {
@@ -79,15 +85,13 @@ return {
           },
         },
         lualine_y = {
-          {
-            showFileSpecificInfo,
-          },
+          harpoonFiles,
         },
         lualine_z = {
           { "location", padding = { left = 0, right = 1 } },
         },
       },
-      extensions = { "neo-tree", "lazy" },
+      extensions = { "nvim-tree", "lazy", "mason" },
     }
   end,
 }

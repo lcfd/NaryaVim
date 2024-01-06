@@ -187,12 +187,6 @@ function M.setup(config)
   )
 
   --
-  -- Neotree
-  --
-
-  -- Look at lua/plugins/neo-tree.lua
-
-  --
   -- Delete buffers
   --
 
@@ -208,12 +202,6 @@ function M.setup(config)
   --
 
   -- Look at lua/plugins/stimpack.lua
-
-  --
-  -- bufferline.nvim
-  --
-
-  -- Absent at the moment
 
   --
   -- Neogit

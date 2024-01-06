@@ -14,7 +14,7 @@ return {
           require("neotest-python"),
         },
         runner = "pytest",
-        python = ".venv/bin/python",
+        python = vim.fn.getcwd() .. ".venv/bin/python",
       })
     end,
   },

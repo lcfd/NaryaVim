@@ -45,11 +45,6 @@ local function get_pickers(actions)
   }
 end
 
--- local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
--- if not status_ok then
---   return
--- end
-
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -86,20 +81,21 @@ return {
           sorting_strategy = "descending",
           layout_strategy = "horizontal",
           entry_prefix = "  ",
+          path_display = { "smart" },
           vimgrep_arguments = {
             "rg",
-            "--color=never",
+            -- "--color=never",
             "--no-heading",
-            "--with-filename",
+            -- "--with-filename",
             "--line-number",
             "--column",
             "--smart-case",
             "--hidden",
             "--glob=!.git/",
           },
-          path_display = {
-            "absolute",
-          },
+          -- path_display = {
+          --   "absolute",
+          -- },
           winblend = 0,
           color_devicons = true,
           set_env = {

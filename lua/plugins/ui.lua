@@ -92,7 +92,7 @@ return {
     },
   },
   {
-    "b0o/incline.nvim",
+    "b0o/incline.nvim", -- Floating statuslines for Neovim
     event = "BufReadPre",
     priority = 1200,
     config = function()

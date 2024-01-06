@@ -12,8 +12,7 @@ function M.setup(config)
   -- Generic
   --
 
-  -- Avoid press shift to type :
-  -- Not working with keyset function.
+  -- Avoid press shift to type ":" char
   keyset("n", ";", ":")
 
   -- new file
@@ -36,10 +35,6 @@ function M.setup(config)
     })
   end, { desc = "Generic — Format file or range (in visual mode)" })
 
-  -- keyset("n", "<BS>", tsbuiltin.buffers, {
-  --   desc = "Generic — Show all current buffers",
-  -- })
-
   --
   -- telescope.nvim
   --
@@ -55,8 +50,7 @@ function M.setup(config)
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc =
-    "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
     noremap = true,
   })
 
@@ -64,7 +58,7 @@ function M.setup(config)
     desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
   })
 
-  keyset("n", "<bs>", tsbuiltin.buffers, {
+  keyset("n", "<leader>fb", tsbuiltin.buffers, {
     desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
     noremap = true,
   })
@@ -166,18 +160,17 @@ function M.setup(config)
   -- NvimTree
   --
 
-  keyset("n", "<leader>p", "<CMD>NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" })
+  keyset(
+    "n",
+    "<leader>p",
+    "<CMD>NvimTreeToggle<CR>",
+    { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
+  )
 
   --
   -- Delete buffers
   --
 
-  keyset("", "xx", "<CMD>bd<CR>", {
-    desc = "Close the current buffer.",
-  })
-  -- keyset("n", "<leader>xx", "<cmd>bd<cr>", {
-  --   desc = "Close the current buffer.",
-  -- })
   keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
     desc = "Close all buffer apart the current one.",
   })
@@ -187,12 +180,6 @@ function M.setup(config)
   --
 
   -- Look at lua/plugins/stimpack.lua
-
-  --
-  -- bufferline.nvim
-  --
-
-  -- Absent at the moment
 
   --
   -- Neogit
@@ -297,6 +284,9 @@ function M.setup(config)
   })
   keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
     desc = "Navigates to file 3.",
+  })
+  keyset("n", "<leader>4", "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", {
+    desc = "Navigates to file 4.",
   })
 end
 
