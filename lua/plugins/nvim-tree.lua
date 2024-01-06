@@ -6,14 +6,6 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    -- keys = {
-    --   {
-    --     "\\",
-    --     "<CMD>NvimTreeToggle<CR>",
-    --     desc = "[NvimTree] Toggle (cwd)",
-    --     mode = "n",
-    --   },
-    -- },
     config = function()
       local gwidth = vim.api.nvim_list_uis()[1].width
       local gheight = vim.api.nvim_list_uis()[1].height
@@ -37,8 +29,8 @@ return {
               border = "rounded",
               width = width,
               height = height,
-              row = (gheight - height) * 0.4,
-              col = (gwidth - width) * 0.4,
+              row = (gheight - height) * 0.5,
+              col = (gwidth - width) * 0.5,
             },
           },
         },

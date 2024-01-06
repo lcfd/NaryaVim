@@ -48,7 +48,7 @@ return {
 
     dashboard.section.footer.val = {
       "                                                             ",
-      "                             🍜 🪷                             ",
+      "                              🍜                             ",
       "                                                             ",
       "                   github.com/lcfd/NaryaVim                  ",
       "                                                             ",
