@@ -84,9 +84,9 @@ return {
           path_display = { "smart" },
           vimgrep_arguments = {
             "rg",
-            -- "--color=never",
+            "--color=never",
             "--no-heading",
-            -- "--with-filename",
+            "--with-filename",
             "--line-number",
             "--column",
             "--smart-case",
