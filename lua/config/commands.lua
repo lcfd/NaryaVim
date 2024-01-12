@@ -1,17 +1,14 @@
 local M = {}
 
 function M.setup()
-  vim.api.nvim_create_user_command("Cppath", function()
+  vim.api.nvim_create_user_command("CopyPath", function()
     local path = vim.fn.expand("%:p")
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
   end, {})
 
-  vim.api.nvim_create_user_command("SetDjangoProject", function()
-    vim.cmd("au BufNewFile,BufRead *.html set filetype=htmldjango")
-  end, {})
 
-  HandleURL = function()
+  local openLink = function()
     local url = string.match(vim.fn.getline("."), "[a-z]*://[^ >,;]*")
     if url ~= "" then
       vim.cmd("exec \"!open '" .. url .. "'\"")
@@ -20,14 +17,24 @@ function M.setup()
     end
   end
 
-  vim.api.nvim_create_user_command("OpenLink", HandleURL, {})
+  vim.api.nvim_create_user_command("OpenLink", openLink, {})
 
   local getStatus = function()
-    local output = vim.fn.system("trak status -s")
-    print(output)
+    local output = vim.fn.system({ "trak", "status", "-s" })
+    vim.notify(output, "info", { title = "Trak" })
   end
 
   vim.api.nvim_create_user_command("TrakStatus", getStatus, {})
+
+  --
+  -- Ops
+  --
+
+  local runDeploy = function()
+    vim.fn.system({ "sh", "deploy.sh" })
+  end
+
+  vim.api.nvim_create_user_command("RunDeploy", runDeploy, {})
 
   --
   -- ZK
@@ -38,7 +45,11 @@ function M.setup()
   end
 
   local zkcall = function()
-    require("zk.commands").get("ZkNew")({ dir = "calls", title = vim.fn.input("Customer/Topic: ") })
+    require("zk.commands").get("ZkNew")({ dir = "calls", title = vim.fn.input("Customer: ") })
+  end
+
+  local zkmeeting = function()
+    require("zk.commands").get("ZkNew")({ dir = "meetings", title = vim.fn.input("Customer: ") })
   end
 
   local zkevergreen = function()
@@ -59,6 +70,7 @@ function M.setup()
 
   vim.api.nvim_create_user_command("ZkNewDaily", zkdaily, {})
   vim.api.nvim_create_user_command("ZkNewCall", zkcall, {})
+  vim.api.nvim_create_user_command("ZkNewMeeting", zkmeeting, {})
   vim.api.nvim_create_user_command("ZkNewEvergreen", zkevergreen, {})
   vim.api.nvim_create_user_command("ZkNewAtomic", zkatomic, {})
   vim.api.nvim_create_user_command("ZkNewFleeting", zkfleeting, {})

@@ -18,6 +18,13 @@
           "markdown"
         ],
         "path": "./markdown.json"
+      },
+      {
+        "language": [
+          "md",
+          "markdown"
+        ],
+        "path": "./blog.json"
       }
     ]
   }
