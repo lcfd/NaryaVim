@@ -30,6 +30,10 @@ return {
         "htmldjango",
       })
 
+      luasnip.filetype_extend("htmldjango", {
+        "html",
+      })
+
       luasnip.filetype_extend("typescriptreact", {
         "html",
       })

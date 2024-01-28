@@ -42,7 +42,6 @@ local on_attach = function(_, bufnr)
   end, "[W]orkspace [L]ist Folders")
 end
 
-
 return {
   -- LSP
   {
@@ -50,7 +49,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim"
+      "williamboman/mason-lspconfig.nvim",
     },
 
     opts = {
@@ -58,39 +57,44 @@ return {
       diagnostics = {
         virtual_text = false,
       },
-      -- LSP Server Settings
-      servers = {
-        lua_ls = {},
-        -- pyright = {},
-        html = {},
-        tsserver = {},
-        dockerls = {},
-        yamlls = {},
-        marksman = {},
-        jsonls = {},
-        sqlls = {},
-        rust_analyzer = {},
-        lemminx = {},
-        tailwindcss = {},
-        astro = {},
-        zk = {},
-        ltex = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
-        -- end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
     },
+    
     config = function(_, opts)
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
     end,
+    -- LSP Server Settings
+    -- servers = {
+    --   lua_ls = {},
+    --   -- pyright = {},
+    --   html = {},
+    --   tsserver = {},
+    --   dockerls = {},
+    --   yamlls = {},
+    --   marksman = {},
+    --   jsonls = {},
+    --   sqlls = {},
+    --   rust_analyzer = {},
+    --   lemminx = {},
+    --   tailwindcss = {},
+    --   astro = {},
+    --   zk = {},
+    --   ltex = {},
+    -- },
+    -- you can do any additional lsp server setup here
+    -- return true if you don't want this server to be setup with lspconfig
+    -- setup = {
+    -- example to setup with typescript.nvim
+    -- tsserver = function(_, opts)
+    --   require("typescript").setup({ server = opts })
+    --   return true
+    -- end,
+    -- Specify * to use this function as a fallback for any server
+    -- ["*"] = function(server, opts) end,
+    -- },
+    -- },
+    -- config = function(_, opts)
+    --   vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+    -- end,
   },
   -- Mason
   {
@@ -109,7 +113,7 @@ return {
         pyright = {},
         eslint = {},
         marksman = {},
-        vale_ls = {},
+        -- vale_ls = {},
         zk = {},
         tsserver = {},
         astro = {},
@@ -124,12 +128,19 @@ return {
         html = {},
         dockerls = {},
         docker_compose_language_service = {},
+        ltex = {
+          ltex = {
+            languageToolHttpServerUri = "http://localhost:8010/",
+            checkFrequency = "save",
+            completionEnabled = true,
+          },
+        },
 
         lua_ls = {
           Lua = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
-            diagnostics = { disable = { 'missing-fields' } },
+            diagnostics = { disable = { "missing-fields" } },
           },
         },
       }
@@ -142,17 +153,17 @@ return {
       local lspconfig = require("lspconfig")
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
       require("mason-lspconfig").setup_handlers({
         function(server_name) -- default handler (optional)
           lspconfig[server_name].setup({
             on_attach = on_attach,
             capabilities = capabilities,
-            -- settings = servers[server_name],
+            settings = servers[server_name],
             -- filetypes = (servers[server_name] or {}).filetypes,
           })
+          -- end
         end,
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
