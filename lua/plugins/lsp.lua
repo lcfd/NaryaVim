@@ -54,47 +54,36 @@ return {
 
     opts = {
       -- options for vim.diagnostic.config()
+      -- diagnostics = {
+      --   virtual_text = false,
+      -- },
       diagnostics = {
-        virtual_text = false,
+        virtual_text = {
+          prefix = "●",
+          severity = {
+            vim.diagnostic.severity.HINT,
+          },
+        },
+        -- update_in_insert = true,
+        -- underline = true,
+        -- severity_sort = true,
+        -- float = {
+        --   focusable = false,
+        --   style = "minimal",
+        --   border = "rounded",
+        --   source = "if_many",
+        --   header = "",
+        --   prefix = "",
+        -- },
+        -- virtual_text = {
+        --   prefix = "Yolo "
+        -- },
       },
     },
-    
+
     config = function(_, opts)
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
     end,
-    -- LSP Server Settings
-    -- servers = {
-    --   lua_ls = {},
-    --   -- pyright = {},
-    --   html = {},
-    --   tsserver = {},
-    --   dockerls = {},
-    --   yamlls = {},
-    --   marksman = {},
-    --   jsonls = {},
-    --   sqlls = {},
-    --   rust_analyzer = {},
-    --   lemminx = {},
-    --   tailwindcss = {},
-    --   astro = {},
-    --   zk = {},
-    --   ltex = {},
-    -- },
-    -- you can do any additional lsp server setup here
-    -- return true if you don't want this server to be setup with lspconfig
-    -- setup = {
-    -- example to setup with typescript.nvim
-    -- tsserver = function(_, opts)
-    --   require("typescript").setup({ server = opts })
-    --   return true
-    -- end,
-    -- Specify * to use this function as a fallback for any server
-    -- ["*"] = function(server, opts) end,
-    -- },
-    -- },
-    -- config = function(_, opts)
-    --   vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
-    -- end,
   },
   -- Mason
   {
@@ -113,7 +102,6 @@ return {
         pyright = {},
         eslint = {},
         marksman = {},
-        -- vale_ls = {},
         zk = {},
         tsserver = {},
         astro = {},
@@ -135,7 +123,6 @@ return {
             completionEnabled = true,
           },
         },
-
         lua_ls = {
           Lua = {
             workspace = { checkThirdParty = false },
@@ -143,6 +130,7 @@ return {
             diagnostics = { disable = { "missing-fields" } },
           },
         },
+        -- vale_ls = {},
       }
 
       require("mason-lspconfig").setup({

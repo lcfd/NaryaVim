@@ -243,12 +243,12 @@ function M.setup(config)
     zk_commands.get("ZkNew")({ dir = "daily" })
   end, zk_opts)
 
-  keyset("n", "zkn", function()
-    zk_commands.get("ZkNew")({ title = vim.fn.input("Title: ") })
-  end, zk_opts)
+  keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", zk_opts)
+  keyset("n", "<leader>zn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", zk_opts)
+  keyset("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", zk_opts)
 
   -- lucky = "zk list --quiet --format full --sort random --limit 1"
-  keyset("n", "zkr", function()
+  keyset("n", "<leader>zkr", function()
     zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
   end, zk_opts)
 

@@ -1,1 +1,7 @@
-{}
+{
+  "todo": {
+    "prefix": "todo",
+    "description": "Todo",
+    "body": ["- [ ] "]
+  }
+}
