@@ -120,4 +120,17 @@ return {
       })
     end,
   },
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require 'colorizer'.setup {
+        '*',
+        "RRGGBBAA",
+        "rgb_fn",
+        "hsl_fn",
+        "css",
+        "css_fn",
+      }
+    end
+  }
 }
