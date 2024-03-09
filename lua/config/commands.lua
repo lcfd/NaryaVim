@@ -40,41 +40,41 @@ function M.setup()
   -- ZK
   --
 
-  local zkdaily = function()
-    require("zk.commands").get("ZkNew")({ dir = "daily" })
-  end
+  -- local zkdaily = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "daily" })
+  -- end
 
-  local zkcall = function()
-    require("zk.commands").get("ZkNew")({ dir = "calls", title = vim.fn.input("Customer: ") })
-  end
+  -- local zkcall = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "calls", title = vim.fn.input("Customer: ") })
+  -- end
 
-  local zkmeeting = function()
-    require("zk.commands").get("ZkNew")({ dir = "meetings", title = vim.fn.input("Customer: ") })
-  end
+  -- local zkmeeting = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "meetings", title = vim.fn.input("Customer: ") })
+  -- end
 
-  local zkevergreen = function()
-    require("zk.commands").get("ZkNew")({ dir = "evergreen", title = vim.fn.input("Readable title: ") })
-  end
+  -- local zkevergreen = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "evergreen", title = vim.fn.input("Readable title: ") })
+  -- end
 
-  local zkatomic = function()
-    require("zk.commands").get("ZkNew")({ dir = "atomic", title = vim.fn.input("Readable title: ") })
-  end
+  -- local zkatomic = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "atomic", title = vim.fn.input("Readable title: ") })
+  -- end
 
-  local zkfleeting = function()
-    require("zk.commands").get("ZkNew")({ dir = "fleeting" })
-  end
+  -- local zkfleeting = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "fleeting" })
+  -- end
 
-  local zkliterature = function()
-    require("zk.commands").get("ZkNew")({ dir = "literature", title = vim.fn.input("Readable title: ") })
-  end
+  -- local zkliterature = function()
+  --   require("zk.commands").get("ZkNew")({ dir = "literature", title = vim.fn.input("Readable title: ") })
+  -- end
 
-  vim.api.nvim_create_user_command("ZkNewDaily", zkdaily, {})
-  vim.api.nvim_create_user_command("ZkNewCall", zkcall, {})
-  vim.api.nvim_create_user_command("ZkNewMeeting", zkmeeting, {})
-  vim.api.nvim_create_user_command("ZkNewEvergreen", zkevergreen, {})
-  vim.api.nvim_create_user_command("ZkNewAtomic", zkatomic, {})
-  vim.api.nvim_create_user_command("ZkNewFleeting", zkfleeting, {})
-  vim.api.nvim_create_user_command("ZkNewLiterature", zkliterature, {})
+  -- vim.api.nvim_create_user_command("ZkNewDaily", zkdaily, {})
+  -- vim.api.nvim_create_user_command("ZkNewCall", zkcall, {})
+  -- vim.api.nvim_create_user_command("ZkNewMeeting", zkmeeting, {})
+  -- vim.api.nvim_create_user_command("ZkNewEvergreen", zkevergreen, {})
+  -- vim.api.nvim_create_user_command("ZkNewAtomic", zkatomic, {})
+  -- vim.api.nvim_create_user_command("ZkNewFleeting", zkfleeting, {})
+  -- vim.api.nvim_create_user_command("ZkNewLiterature", zkliterature, {})
 end
 
 return M

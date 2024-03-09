@@ -101,7 +101,7 @@ return {
         ruff_lsp = {},
         pyright = {},
         eslint = {},
-        marksman = {},
+        -- marksman = {},
         zk = {},
         tsserver = {},
         astro = {},
@@ -109,7 +109,16 @@ return {
         mdx_analyzer = {},
         sqlls = {},
         taplo = {},
-        tailwindcss = {},
+        tailwindcss = {
+          tailwindCSS = {
+            experimental = {
+              classRegex = {
+                { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+                { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+              },
+            },
+          },
+        },
         yamlls = {},
         gopls = {},
         graphql = {},

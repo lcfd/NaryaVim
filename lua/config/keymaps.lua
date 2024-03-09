@@ -100,8 +100,8 @@ function M.setup(config)
   keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
 
   -- ZK
-  keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>", { desc = "[Telescope] ZK notes" })
-  keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>", { desc = "[Telescope] ZK tags" })
+  -- keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>", { desc = "[Telescope] ZK notes" })
+  -- keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>", { desc = "[Telescope] ZK tags" })
 
   --
   -- Diagnostic keymaps
@@ -237,20 +237,20 @@ function M.setup(config)
   -- zk
   --
 
-  local zk_opts = { noremap = true, silent = false }
-  local zk_commands = require("zk.commands")
-  keyset("n", "zkd", function()
-    zk_commands.get("ZkNew")({ dir = "daily" })
-  end, zk_opts)
+  -- local zk_opts = { noremap = true, silent = false }
+  -- local zk_commands = require("zk.commands")
+  -- keyset("n", "zkd", function()
+  --   zk_commands.get("ZkNew")({ dir = "daily" })
+  -- end, zk_opts)
 
-  keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", zk_opts)
-  keyset("n", "<leader>zn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", zk_opts)
-  keyset("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", zk_opts)
+  -- keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", zk_opts)
+  -- keyset("n", "<leader>zn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", zk_opts)
+  -- keyset("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", zk_opts)
 
-  -- lucky = "zk list --quiet --format full --sort random --limit 1"
-  keyset("n", "<leader>zkr", function()
-    zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
-  end, zk_opts)
+  -- -- lucky = "zk list --quiet --format full --sort random --limit 1"
+  -- keyset("n", "<leader>zkr", function()
+  --   zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
+  -- end, zk_opts)
 
   --
   -- SymbolsOutline
@@ -262,7 +262,7 @@ function M.setup(config)
   -- Markdown checkbox toggle
   --
 
-  keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
+  -- keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
 
   --
   -- Harpooon

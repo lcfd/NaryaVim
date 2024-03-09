@@ -75,7 +75,8 @@ return {
 
       conform.setup({
         formatters_by_ft = {
-          htmldjango = { { "prettierd", "prettier" }, "djlint" },
+          htmldjango = { "djlint" },
+          -- htmldjango = { { "prettierd", "prettier" }, "djlint" },
           lua = { "stylua" },
           python = function(bufnr)
             if require("conform").get_formatter_info("ruff_format", bufnr).available then

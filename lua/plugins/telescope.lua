@@ -118,7 +118,7 @@ return {
 
       telescope.load_extension("dap")
       telescope.load_extension("textcase")
-      telescope.load_extension("zk")
+      -- telescope.load_extension("zk")
     end,
   },
   {
