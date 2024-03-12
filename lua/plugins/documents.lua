@@ -54,6 +54,10 @@ return {
           name = "dnd",
           path = "~/zettelkasten/zk-dnd",
         },
+        {
+          name = "viandante",
+          path = "~/Yama/websites/viandante.blog",
+        },
       },
 
       templates = {
