@@ -1,16 +1,7 @@
 {
-  "frontmatterblogposts": {
-    "prefix": "front",
-    "description": "Frontmatter for blog posts",
-    "body": [
-      "---",
-      "Title: ",
-      "Date: 2022-00-00 00:00",
-      "Subtitle: ",
-      "Summary: ",
-      "Category: ",
-      "Tags: ",
-      "---"
-    ]
+  "todo": {
+    "prefix": "todo",
+    "description": "Todo",
+    "body": ["- [ ] "]
   }
 }

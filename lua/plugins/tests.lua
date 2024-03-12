@@ -6,6 +6,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-python",
     },
     config = function()
       require("neotest").setup({
@@ -13,11 +14,8 @@ return {
           require("neotest-python"),
         },
         runner = "pytest",
-        python = ".venv/bin/python",
+        python = vim.fn.getcwd() .. ".venv/bin/python",
       })
     end,
-  },
-  {
-    "nvim-neotest/neotest-python",
   },
 }

@@ -48,46 +48,39 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "williamboman/mason.nvim", build = ":MasonUpdate" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "hrsh7th/cmp-nvim-lsp" },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
     },
 
     opts = {
       -- options for vim.diagnostic.config()
+      -- diagnostics = {
+      --   virtual_text = false,
+      -- },
       diagnostics = {
-        virtual_text = false,
-      },
-      -- LSP Server Settings
-      servers = {
-        lua_ls = {},
-        pyright = {},
-        html = {},
-        tsserver = {},
-        dockerls = {},
-        yamlls = {},
-        marksman = {},
-        jsonls = {},
-        sqlls = {},
-        rust_analyzer = {},
-        lemminx = {},
-        tailwindcss = {},
-        astro = {},
-        zk = {},
-        ltex = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
-        -- end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
+        virtual_text = {
+          prefix = "●",
+          severity = {
+            vim.diagnostic.severity.HINT,
+          },
+        },
+        -- update_in_insert = true,
+        -- underline = true,
+        -- severity_sort = true,
+        -- float = {
+        --   focusable = false,
+        --   style = "minimal",
+        --   border = "rounded",
+        --   source = "if_many",
+        --   header = "",
+        --   prefix = "",
+        -- },
+        -- virtual_text = {
+        --   prefix = "Yolo "
+        -- },
       },
     },
+
     config = function(_, opts)
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
     end,
@@ -96,7 +89,6 @@ return {
   {
     "williamboman/mason.nvim",
     dependencies = {
-      -- { "williamboman/mason.nvim", build = ":MasonUpdate" },
       { "williamboman/mason-lspconfig.nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
     },
@@ -104,38 +96,71 @@ return {
     opts = {},
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "ruff_lsp",
-          "pyright",
-          "eslint",
-          "marksman",
-          "vale_ls",
-          "zk",
-          "tsserver",
-          "astro",
-          "jsonls",
-          "mdx_analyzer",
-          "sqlls",
-          "taplo",
-          "tailwindcss",
-          "yamlls",
-          "gopls",
-          "graphql",
-          "html",
+
+      local servers = {
+        ruff_lsp = {},
+        pyright = {},
+        eslint = {},
+        -- marksman = {},
+        zk = {},
+        tsserver = {},
+        astro = {},
+        jsonls = {},
+        mdx_analyzer = {},
+        sqlls = {},
+        taplo = {},
+        tailwindcss = {
+          tailwindCSS = {
+            experimental = {
+              classRegex = {
+                { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+                { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+              },
+            },
+          },
         },
+        yamlls = {},
+        gopls = {},
+        graphql = {},
+        html = {},
+        dockerls = {},
+        docker_compose_language_service = {},
+        ltex = {
+          ltex = {
+            languageToolHttpServerUri = "http://localhost:8010/",
+            checkFrequency = "save",
+            completionEnabled = true,
+          },
+        },
+        lua_ls = {
+          Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            diagnostics = { disable = { "missing-fields" } },
+          },
+        },
+        -- vale_ls = {},
+      }
+
+      require("mason-lspconfig").setup({
+        ensure_installed = vim.tbl_keys(servers),
         automatic_installation = true,
       })
 
+      local lspconfig = require("lspconfig")
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
       require("mason-lspconfig").setup_handlers({
-        -- The first entry (without a key) will be the default handler
-        -- and will be called for each installed server that doesn't have
-        -- a dedicated handler.
         function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup({
+          lspconfig[server_name].setup({
             on_attach = on_attach,
+            capabilities = capabilities,
+            settings = servers[server_name],
+            -- filetypes = (servers[server_name] or {}).filetypes,
           })
+          -- end
         end,
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:

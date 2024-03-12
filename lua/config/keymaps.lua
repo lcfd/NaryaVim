@@ -1,44 +1,19 @@
 local M = {}
 
--- From LazyVim
 function M.safe_keymap_set(mode, lhs, rhs, opts)
-  local keys = require("lazy.core.handler").handlers.keys
-  ---@cast keys LazyKeysHandler
   local modes = type(mode) == "string" and { mode } or mode
-
-  ---@param m string
-  modes = vim.tbl_filter(function(m)
-    return not (keys.have and keys:have(lhs, m))
-  end, modes)
-
-  -- do not create the keymap if a lazy keys handler exists
-  if #modes > 0 then
-    opts = opts or {}
-    opts.silent = opts.silent ~= false
-    if opts.remap and not vim.g.vscode then
-      ---@diagnostic disable-next-line: no-unknown
-      opts.remap = nil
-    end
-    vim.keymap.set(modes, lhs, rhs, opts)
-  end
+  vim.keymap.set(modes, lhs, rhs, opts)
 end
 
 function M.setup(config)
-  -- local keyset = vim.keymap.set
   local keyset = M.safe_keymap_set
-
-  local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
-  if not status_ok then
-    return
-  end
 
   --
   -- Generic
   --
 
-  -- Avoid press shift to type :
-  -- Not working with keyset function.
-  vim.keymap.set("n", ";", ":")
+  -- Avoid press shift to type ":" char
+  keyset("n", ";", ":")
 
   -- new file
   keyset("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
@@ -60,50 +35,56 @@ function M.setup(config)
     })
   end, { desc = "Generic — Format file or range (in visual mode)" })
 
-  keyset("n", "<BS>", tsbuiltin.buffers, {
-    desc = "Generic — Show all current buffers",
-  })
-
   --
   -- telescope.nvim
   --
 
+  local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
+  if not status_ok then
+    return
+  end
+
   keyset("n", "<leader><space>", tsbuiltin.find_files, {
-    desc = "Telescope — Lists files in your current working directory, respects .gitignore (find_files).",
+    desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
     noremap = true,
   })
 
   keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc = "Telescope — Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+    desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
     noremap = true,
   })
 
   keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
-    desc = "Telescope — Searches for the string under your cursor in your current working directory (grep_string).",
+    desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
   })
 
   keyset("n", "<leader>fb", tsbuiltin.buffers, {
-    desc = "Telescope — Lists open buffers in current Neovim instance (buffers).",
+    desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
     noremap = true,
   })
 
   keyset("n", "<leader>fh", tsbuiltin.help_tags, {
-    desc = "Telescope — Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
+    desc = "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
     noremap = true,
   })
 
   keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
-    desc = "Telescope — Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
+    desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
     noremap = true,
   })
 
   keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
-    desc = "Telescope — Lists previously open files.",
+    desc = "[Telescope] Lists previously open files.",
     noremap = true,
   })
 
   keyset("n", "<leader>fe", tsbuiltin.symbols, {
-    desc = "Telescope — Lists of emojis.",
+    desc = "[Telescope] Lists of emojis.",
+    noremap = true,
+  })
+
+  keyset("n", "<leader>fc", tsbuiltin.commands, {
+    desc = "[Telescope] Lists commands.",
     noremap = true,
   })
 
@@ -115,23 +96,12 @@ function M.setup(config)
   )
 
   -- Text case
-  keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope — Text case" })
-  keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope — Text case" })
+  keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
+  keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
 
   -- ZK
-  keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>", { desc = "Telescope — ZK notes " })
-  keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>", { desc = "Telescope — ZK tags " })
-
-  -- Git
-  keyset("n", "<leader>gb", tsbuiltin.git_branches, {
-    desc = "Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>.",
-  })
-  keyset("n", "<leader>gc", tsbuiltin.git_commits, {
-    desc = "Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h.",
-  })
-  keyset("n", "<leader>gs", tsbuiltin.git_status, {
-    desc = "Lists current changes per file with diff preview and add action. (Multi-selection still WIP)",
-  })
+  -- keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>", { desc = "[Telescope] ZK notes" })
+  -- keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>", { desc = "[Telescope] ZK tags" })
 
   --
   -- Diagnostic keymaps
@@ -142,7 +112,7 @@ function M.setup(config)
       bufnr = 0,
     })
   end, {
-    desc = "Lists Diagnostics for all open buffers or a specific buffer. Use option bufnr=0 for current buffer.",
+    desc = "[Diagnostics] Current buffer.",
   })
 
   keyset("n", "<leader>lj", function()
@@ -150,15 +120,15 @@ function M.setup(config)
       focus = false,
     })
   end, {
-    desc = "Diagnostic of element in hover.",
+    desc = "[Diagnostic] of element in hover.",
   })
 
   keyset("n", "[d", vim.diagnostic.goto_prev, {
-    desc = "Go to previous error.",
+    desc = "[Diagnostic] Go to previous error.",
   })
 
   keyset("n", "]d", vim.diagnostic.goto_next, {
-    desc = "Go to next error.",
+    desc = "[Diagnostic] Go to next error.",
   })
 
   --
@@ -187,18 +157,20 @@ function M.setup(config)
   )
 
   --
-  -- Neotree
+  -- NvimTree
   --
 
-  -- Look at lua/plugins/neo-tree.lua
+  keyset(
+    "n",
+    "<leader>p",
+    "<CMD>NvimTreeToggle<CR>",
+    { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
+  )
 
   --
   -- Delete buffers
   --
 
-  keyset("n", "<leader>xx", "<cmd>bd<cr>", {
-    desc = "Close the current buffer.",
-  })
   keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
     desc = "Close all buffer apart the current one.",
   })
@@ -208,12 +180,6 @@ function M.setup(config)
   --
 
   -- Look at lua/plugins/stimpack.lua
-
-  --
-  -- bufferline.nvim
-  --
-
-  -- Absent at the moment
 
   --
   -- Neogit
@@ -233,6 +199,10 @@ function M.setup(config)
   -- Quick
   --
 
+  keyset("n", "<C-j>", "<CMD>w<CR>", {
+    desc = "Save current buffer",
+  })
+
   -- Go to the start and the end of a sentence
   keyset("n", "H", "^", {
     desc = "Go to the start of the line.",
@@ -244,36 +214,6 @@ function M.setup(config)
 
   keyset("i", "jj", "<Esc>", {
     desc = "Map esc to jj in Insert Mode.",
-  })
-
-  --
-  -- HARPOON
-  --
-
-  keyset("n", "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
-    desc = "Mark files you want to revisit later on.",
-  })
-
-  keyset("n", "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
-    desc = "View all project marks.",
-  })
-
-  keyset("n", "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
-    desc = "Navigates to file 1.",
-  })
-  keyset("n", "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
-    desc = "Navigates to file 2.",
-  })
-  keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
-    desc = "Navigates to file 3.",
-  })
-
-  keyset("", "xx", "<CMD>bd<CR>", {
-    desc = "Close the current buffer.",
-  })
-
-  keyset("n", "<C-j>", "<CMD>w<CR>", {
-    desc = "Save current buffer",
   })
 
   --
@@ -297,26 +237,57 @@ function M.setup(config)
   -- zk
   --
 
-  local zk_opts = { noremap = true, silent = false }
-  local zk_commands = require("zk.commands")
-  keyset("n", "zkd", function()
-    zk_commands.get("ZkNew")({ dir = "daily" })
-  end, zk_opts)
+  -- local zk_opts = { noremap = true, silent = false }
+  -- local zk_commands = require("zk.commands")
+  -- keyset("n", "zkd", function()
+  --   zk_commands.get("ZkNew")({ dir = "daily" })
+  -- end, zk_opts)
 
-  keyset("n", "zkn", function()
-    zk_commands.get("ZkNew")({ title = vim.fn.input("Title: ") })
-  end, zk_opts)
+  -- keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", zk_opts)
+  -- keyset("n", "<leader>zn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", zk_opts)
+  -- keyset("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", zk_opts)
 
-  -- lucky = "zk list --quiet --format full --sort random --limit 1"
-  keyset("n", "zkr", function()
-    zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
-  end, zk_opts)
+  -- -- lucky = "zk list --quiet --format full --sort random --limit 1"
+  -- keyset("n", "<leader>zkr", function()
+  --   zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
+  -- end, zk_opts)
 
   --
   -- SymbolsOutline
   --
 
   keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
+
+  --
+  -- Markdown checkbox toggle
+  --
+
+  -- keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
+
+  --
+  -- Harpooon
+  --
+
+  keyset("n", "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
+    desc = "Mark files you want to revisit later on.",
+  })
+
+  keyset("n", "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
+    desc = "View all project marks.",
+  })
+
+  keyset("n", "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
+    desc = "Navigates to file 1.",
+  })
+  keyset("n", "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
+    desc = "Navigates to file 2.",
+  })
+  keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
+    desc = "Navigates to file 3.",
+  })
+  keyset("n", "<leader>4", "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", {
+    desc = "Navigates to file 4.",
+  })
 end
 
 return M

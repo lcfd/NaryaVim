@@ -1,0 +1,49 @@
+{
+  "Django Ninja Get List": {
+    "prefix": "djninjagetlist",
+    "description": "Django Ninja Get Paginated List",
+    "body": [
+      "@api.get(\"/${1:/downcase}s\", response=List[${1}Out])",
+      "@paginate",
+      "def list_${1:/downcase}s(request):",
+      "  \"\"\"Paginated list of ${1:MODEL_NAME}s.\"\"\"",
+      "  ",
+      "    ${1:/downcase}s = ${1}.objects.all()",
+      "    return ${1:/downcase}s",
+      "$0"
+    ]
+  },
+  "Django Ninja Post": {
+    "prefix": "djninjapost",
+    "description": "Django Ninja Post",
+    "body": [
+      "@api.post(\"/${1/(.*)/${1:/downcase}/}\")",
+      "def create_${1/(.*)/${1:/downcase}/}(request, payload: ${1}In):",
+      "  \"\"\"Create a ${1:MODEL_NAME}.\"\"\"",
+      "  ",
+      "  ${1/(.*)/${1:/downcase}/} = ${1}.objects.create(**payload.dict())",
+      "  return {\"id\": ${1/(.*)/${1:/downcase}/}.id}",
+      "$0"
+    ]
+  },
+  "Django Ninja Delete": {
+    "prefix": "djninjadelete",
+    "description": "Django Ninja Delete",
+    "body": [
+      "@api.delete(\"/${1/(.*)/${1:/downcase}/}s/{${1/(.*)/${1:/downcase}/}_id}\")",
+      "def delete_employee(request, ${1/(.*)/${1:/downcase}/}_id: int):",
+      "  \"\"\"Delete a ${1:MODEL_NAME}.\"\"\"",
+      "  ",
+      "  ${1/(.*)/${1:/downcase}/} = get_object_or_404(${1}, id=${1/(.*)/${1:/downcase}/}_id)",
+      "  ${1/(.*)/${1:/downcase}/}.delete()",
+      "  return {\"success\": True}",
+
+      "$0"
+    ]
+  },
+  "Django Ninja ModelSchema": {
+    "prefix": "djninjamodelschema",
+    "body": ["class ${1:MODEL_NAME}Schema(ModelSchema):", "  class Meta:", "    model = $1", "    fields = [\"__all__\"]", "$0"],
+    "description": "Django Ninja ModelSchema"
+  }
+}

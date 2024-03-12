@@ -1,0 +1,35 @@
+{
+  "Luca Fedrizzi frontmatter": {
+    "prefix": "frontmatter-lucafedrizzi",
+    "description": "The frontmatter for lucafedrizzi.com",
+    "body": [
+      "---",
+      "title: $1",
+      "pubDate: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}",
+      "subtitle: $3",
+      "summary: $3",
+      "category: draft",
+      "tags:",
+      "  - draft",
+      "draft: true",
+      "---",
+      "",
+      "$1",
+      "$4"
+    ]
+  },
+  "Three Layers of Evidence": {
+    "prefix": "method-three-layers-of-evidence",
+    "description": "Three Layers of Evidence",
+    "body": [
+      "## Phenomenon",
+      "What does the content say, quoted?",
+      "",
+      "## Interpretation",
+      "What do I think does this mean? Why is it interesting? How does secondary literature interpret it?",
+      "",
+      "## Practical Application",
+      "Entertaining/speculations, tool, the broader picture"
+    ]
+  }
+}

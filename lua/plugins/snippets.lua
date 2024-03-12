@@ -1,7 +1,9 @@
 return {
   {
     "L3MON4D3/LuaSnip",
+    version = "v2.*",
     dependencies = { "rafamadriz/friendly-snippets" },
+    build = "make install_jsregexp",
     lazy = true,
     config = function(_, opts)
       local status_ok, luasnip = pcall(require, "luasnip")
@@ -28,16 +30,16 @@ return {
         "htmldjango",
       })
 
+      luasnip.filetype_extend("htmldjango", {
+        "html",
+      })
+
       luasnip.filetype_extend("typescriptreact", {
         "html",
       })
 
       require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
     end,
-  },
-  {
-    "kkoomen/vim-doge",
-    build = ":call doge#install()",
-    lazy = true,
   },
 }

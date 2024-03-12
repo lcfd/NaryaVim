@@ -14,6 +14,9 @@ local function get_pickers(actions)
       theme = "dropdown",
       previewer = false,
     },
+    commands = {
+      theme = "dropdown",
+    },
     live_grep = grep_options,
     grep_string = grep_options,
     buffers = {
@@ -78,6 +81,7 @@ return {
           sorting_strategy = "descending",
           layout_strategy = "horizontal",
           entry_prefix = "  ",
+          path_display = { "smart" },
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -89,9 +93,9 @@ return {
             "--hidden",
             "--glob=!.git/",
           },
-          path_display = {
-            "absolute",
-          },
+          -- path_display = {
+          --   "absolute",
+          -- },
           winblend = 0,
           color_devicons = true,
           set_env = {
@@ -114,7 +118,7 @@ return {
 
       telescope.load_extension("dap")
       telescope.load_extension("textcase")
-      telescope.load_extension("zk")
+      -- telescope.load_extension("zk")
     end,
   },
   {

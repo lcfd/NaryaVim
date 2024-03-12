@@ -7,10 +7,24 @@
     "snippets": [
       {
         "language": [
+          "py",
+          "python"
+        ],
+        "path": "./django-ninja.json"
+      },
+      {
+        "language": [
           "md",
           "markdown"
         ],
         "path": "./markdown.json"
+      },
+      {
+        "language": [
+          "md",
+          "markdown"
+        ],
+        "path": "./blog.json"
       }
     ]
   }

@@ -32,7 +32,6 @@ return {
       "  SP                 SP   SP            SP            SP   ",
       "  Y                  Y    Y             Y             Y    ",
       "                                                           ",
-      "                         ~NEOVIM~                          ",
     }
 
     local button = dashboard.button
@@ -49,7 +48,7 @@ return {
 
     dashboard.section.footer.val = {
       "                                                             ",
-      "                             🍜 🪷                             ",
+      "                              🍜                             ",
       "                                                             ",
       "                   github.com/lcfd/NaryaVim                  ",
       "                                                             ",

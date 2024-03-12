@@ -1,5 +1,12 @@
 return {
   {
+    -- Autopairs for neovim written by lua
+    -- https://github.com/windwp/nvim-autopairs
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
     "ggandor/leap.nvim",
     keys = {
       { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
@@ -20,29 +27,6 @@ return {
     "numToStr/Comment.nvim",
     lazy = false,
     config = function()
-      --
-      -- Usage
-      --
-
-      -- NORMAL mode
-      -- `gcc` - Toggles the current line using linewise comment
-      -- `gbc` - Toggles the current line using blockwise comment
-      -- `[count]gcc` - Toggles the number of line given as a prefix-count using linewise
-      -- `[count]gbc` - Toggles the number of line given as a prefix-count using blockwise
-      -- `gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
-      -- `gb[count]{motion}` - (Op-pending) Toggles the region using blockwise comment
-      --
-      -- VISUAL mode
-      -- `gc` - Toggles the region using linewise comment
-      -- `gb` - Toggles the region using blockwise comment
-      --
-      -- Extra
-      -- NORMAL mode
-      -- `gb` - Toggles the region using blockwise comment
-      -- `gco` - Insert comment to the next line and enters INSERT mode
-      -- `gcO` - Insert comment to the previous line and enters INSERT mode
-      -- `gcA` - Insert comment to end of the current line and enters INSERT mode
-
       -- Examples https://github.com/numToStr/Comment.nvim#examples
 
       require("Comment").setup({
@@ -88,25 +72,28 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup()
+      require("nvim-surround").setup({
+        keymaps = {
+          insert = "<C-g>m",
+          insert_line = "<C-g>M",
+          normal = "ms",
+          normal_cur = "mss",
+          normal_line = "mS",
+          normal_cur_line = "mSS",
+          visual = "M",
+          visual_line = "gS",
+          delete = "ds",
+          change = "cs",
+          change_line = "cS",
+        },
+      })
     end,
   },
   {
     "johmsalas/text-case.nvim",
     config = function()
-      require('textcase').setup {}
-    end
-  },
-  {
-    "nanotee/zoxide.vim",
-  },
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {},
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
+      require("textcase").setup({})
+    end,
   },
   {
     "nvim-pack/nvim-spectre",
@@ -119,5 +106,66 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+  },
+  {
+    -- Automatically highlighting other uses of the word under the cursor
+    "RRethy/vim-illuminate",
+    event = {
+      "BufReadPost",
+      "BufNewFile",
+    },
+    opts = {
+      delay = 400,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = {
+          "lsp",
+        },
+      },
+    },
+    config = function(_)
+      require("illuminate").configure({
+        delay = 200,
+        large_file_cutoff = 2000,
+        large_file_overrides = {
+          providers = {
+            "lsp",
+          },
+        },
+      })
+    end,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 2000
+    end,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.bufremove",
+
+    keys = {
+      {
+        "xx",
+        function()
+          local bd = require("mini.bufremove").delete
+          if vim.bo.modified then
+            local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
+            if choice == 1 then -- Yes
+              vim.cmd.write()
+              bd(0)
+            elseif choice == 2 then -- No
+              bd(0, true)
+            end
+          else
+            bd(0)
+          end
+        end,
+        desc = "Delete Buffer",
+      },
+    },
   },
 }
