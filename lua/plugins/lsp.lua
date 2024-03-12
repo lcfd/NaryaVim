@@ -54,31 +54,31 @@ return {
 
     opts = {
       -- options for vim.diagnostic.config()
-      -- diagnostics = {
-      --   virtual_text = false,
-      -- },
       diagnostics = {
-        virtual_text = {
-          prefix = "●",
-          severity = {
-            vim.diagnostic.severity.HINT,
-          },
-        },
-        -- update_in_insert = true,
-        -- underline = true,
-        -- severity_sort = true,
-        -- float = {
-        --   focusable = false,
-        --   style = "minimal",
-        --   border = "rounded",
-        --   source = "if_many",
-        --   header = "",
-        --   prefix = "",
-        -- },
-        -- virtual_text = {
-        --   prefix = "Yolo "
-        -- },
+        virtual_text = false,
       },
+      -- diagnostics = {
+      -- virtual_text = {
+      --   prefix = "●",
+      --   severity = {
+      --     vim.diagnostic.severity.HINT,
+      --   },
+      -- },
+      -- update_in_insert = true,
+      -- underline = true,
+      -- severity_sort = true,
+      -- float = {
+      --   focusable = false,
+      --   style = "minimal",
+      --   border = "rounded",
+      --   source = "if_many",
+      --   header = "",
+      --   prefix = "",
+      -- },
+      -- virtual_text = {
+      --   prefix = " "
+      -- },
+      -- },
     },
 
     config = function(_, opts)
@@ -101,8 +101,6 @@ return {
         ruff_lsp = {},
         pyright = {},
         eslint = {},
-        -- marksman = {},
-        zk = {},
         tsserver = {},
         astro = {},
         jsonls = {},
@@ -121,7 +119,6 @@ return {
         },
         yamlls = {},
         gopls = {},
-        graphql = {},
         html = {},
         dockerls = {},
         docker_compose_language_service = {},
@@ -139,6 +136,9 @@ return {
             diagnostics = { disable = { "missing-fields" } },
           },
         },
+        marksman = {},
+        -- zk = {},
+        -- graphql = {},
         -- vale_ls = {},
       }
 
@@ -158,7 +158,6 @@ return {
             on_attach = on_attach,
             capabilities = capabilities,
             settings = servers[server_name],
-            -- filetypes = (servers[server_name] or {}).filetypes,
           })
           -- end
         end,
