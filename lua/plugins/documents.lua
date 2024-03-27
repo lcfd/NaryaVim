@@ -22,19 +22,8 @@ return {
       "ObsidianTomorrow",
       "ObsidianYesterday",
     },
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-    -- event = {
-    -- "BufReadPre " .. vim.fn.expand("~") .. "zettelkasten/zk-work/**.md",
-    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-    --   "BufReadPre path/to/my-vault/**.md",
-    --   "BufNewFile path/to/my-vault/**.md",
-    -- },
     dependencies = {
-      -- Required.
       "nvim-lua/plenary.nvim",
-
-      -- see below for full list of optional dependencies 👇
     },
     opts = {
       workspaces = {
@@ -62,7 +51,7 @@ return {
 
       templates = {
         subdir = "templates",
-        date_format = "%Y-%m-%d-%a",
+        date_format = "%Y-%m-%d",
         time_format = "%H:%M",
       },
 

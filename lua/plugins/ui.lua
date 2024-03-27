@@ -20,15 +20,12 @@ return {
     end,
   },
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = true,
-  },
-  {
     "utilyre/barbecue.nvim", -- Top bar code path
     name = "barbecue",
     version = "*",
     dependencies = {
       "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons",
     },
     opts = {
       theme = "tokyonight",
@@ -42,7 +39,15 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      {
+        "rcarriga/nvim-notify",
+        config = function()
+          require("notify").setup({
+            render = "wrapped-compact",
+            max_width = 100,
+          })
+        end,
+      },
     },
     opts = {
       lsp = {
@@ -82,44 +87,68 @@ return {
         lsp_doc_border = true,
       },
     },
-
     -- opts.presets.lsp_doc_border = true
   },
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   opts = {
+  --     timeout = 3000,
+  --     render = "wrapped-compact",
+  --   },
+  -- },
   {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 3000,
+    -- Floating statuslines for Neovim
+    "b0o/incline.nvim",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", lazy = true },
     },
-  },
-  {
-    "b0o/incline.nvim", -- Floating statuslines for Neovim
     event = "BufReadPre",
     priority = 1200,
     config = function()
       local colors = require("tokyonight.colors").setup()
       require("incline").setup({
-        highlight = {
-          groups = {
-            InclineNormal = { guibg = "#7752FE", guifg = "#F3F3F3" },
-            InclineNormalNC = { guifg = "#F4F4F4", guibg = "#A9A9A9" },
-          },
-        },
+        -- Force colors of the box
+        -- highlight = {
+        --   groups = {
+        --     InclineNormal = { guibg = "#7752FE", guifg = "#F3F3F3" },
+        --     InclineNormalNC = { guifg = "#F4F4F4", guibg = "#A9A9A9" },
+        --   },
+        -- },
         window = { margin = { vertical = 0, horizontal = 1 } },
         hide = {
-          cursorline = true,
+          -- The file name must always be visible
+          cursorline = false,
         },
         render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if vim.bo[props.buf].modified then
-            filename = "[+] " .. filename
-          end
+          local devicons = require("nvim-web-devicons")
+          local helpers = require("incline.helpers")
 
-          local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-          return { { icon, guifg = color }, { " " }, { filename } }
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          if not ft_color then
+            ft_color = "#401F71"
+          end
+          if not ft_icon then
+            ft_icon = "󱥰"
+          end
+          local modified = vim.bo[props.buf].modified
+          return {
+            ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
+            "",
+            { filename, gui = modified and "bold,italic" or "" },
+            " ",
+            guibg = ft_color,
+            guifg = helpers.contrast_color(ft_color),
+          }
         end,
       })
     end,
   },
+  -- Disabled because conflict with tags in markdown
+  -- -- (shown colors where I don't need them)
   -- {
   --   "norcalli/nvim-colorizer.lua",
   --   config = function()

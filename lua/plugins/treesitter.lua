@@ -25,6 +25,9 @@ return {
         ensure_installed = {
           -- Python
           "python",
+          "requirements",
+          -- Python
+          "htmldjango",
           -- JS
           "javascript",
           "typescript",
@@ -43,8 +46,15 @@ return {
           -- Web
           "html",
           "scss",
+          -- Go
+          "go",
+          "gomod",
+          "gosum",
+          "gotmpl",
+          "gowork",
+          -- Rust
           "rust",
-          -- Meta
+          -- Meta for Neovim
           "vim",
           "query",
           "lua",

@@ -256,7 +256,7 @@ function M.setup(config)
   -- SymbolsOutline
   --
 
-  keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
+  -- keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
 
   --
   -- Markdown checkbox toggle

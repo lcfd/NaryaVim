@@ -1,4 +1,7 @@
 return {
+  --
+  -- TODO: Commented because ...
+  ---
   -- {
   --   "mfussenegger/nvim-lint",
   --   config = function()

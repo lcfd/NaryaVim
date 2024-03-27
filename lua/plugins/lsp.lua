@@ -25,6 +25,7 @@ local on_attach = function(_, bufnr)
   nmap("gd", tsbuiltin.lsp_definitions, "[G]oto [D]efinition")
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gr", tsbuiltin.lsp_references, "[G]oto [R]eferences")
+  nmap("gt", '<cmd>lua vim.lsp.buf.type_definition()<cr>', "[G]oto [T]ype")
   nmap("<leader>ds", tsbuiltin.lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", tsbuiltin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap(
@@ -172,29 +173,29 @@ return {
 
   -- Symbols outline
 
-  {
-    "simrat39/symbols-outline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local Config = require("config")
-      local defaults = require("symbols-outline.config").defaults
+  -- {
+  --   "simrat39/symbols-outline.nvim",
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   config = function()
+  --     local Config = require("config")
+  --     local defaults = require("symbols-outline.config").defaults
 
-      local opts = {
-        symbols = {},
-        symbol_blacklist = {},
-      }
+  --     local opts = {
+  --       symbols = {},
+  --       symbol_blacklist = {},
+  --     }
 
-      for kind, symbol in pairs(defaults.symbols) do
-        opts.symbols[kind] = {
-          icon = Config.icons.kinds[kind] or symbol.icon,
-          hl = symbol.hl,
-        }
-        if not vim.tbl_contains(Config.kind_filter.default, kind) then
-          table.insert(opts.symbol_blacklist, kind)
-        end
-      end
+  --     for kind, symbol in pairs(defaults.symbols) do
+  --       opts.symbols[kind] = {
+  --         icon = Config.icons.kinds[kind] or symbol.icon,
+  --         hl = symbol.hl,
+  --       }
+  --       if not vim.tbl_contains(Config.kind_filter.default, kind) then
+  --         table.insert(opts.symbol_blacklist, kind)
+  --       end
+  --     end
 
-      require("symbols-outline").setup(opts)
-    end,
-  },
+  --     require("symbols-outline").setup(opts)
+  --   end,
+  -- },
 }

@@ -12,7 +12,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
+    -- "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
@@ -32,7 +32,7 @@ return {
 
     cmp.setup({
       completion = {
-        autocomplete = false,
+        -- autocomplete = false,
       },
       snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -73,7 +73,7 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-d>"] = cmp.mapping.complete(),
+        -- ["<C-d>"] = cmp.mapping.complete(),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({
@@ -104,10 +104,10 @@ return {
           vim_item.kind = string.format("%s", icons[vim_item.kind])
           vim_item.menu = ({
             nvim_lsp = "[LSP]",
-            nvim_lsp_signature_help = "[LSPH]",
             luasnip = "[SN]",
-            buffer = "[BU]",
+            nvim_lsp_signature_help = "[LSPH]",
             treesitter = "[TST]",
+            buffer = "[BU]",
             path = "[PA]",
           })[entry.source.name]
           return vim_item
@@ -119,6 +119,7 @@ return {
         },
         {
           name = "nvim_lsp",
+          keyword_length = 1,
         },
         { name = "path" },
         {
@@ -139,33 +140,37 @@ return {
     })
 
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline({
-      "/",
-      "?",
-    }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        {
-          name = "buffer",
-        },
-      },
-    })
+    -- cmp.setup.cmdline({
+    --   "/",
+    --   "?",
+    -- }, {
+    --   mapping = cmp.mapping.preset.cmdline(),
+    --   sources = {
+    --     {
+    --       name = "buffer",
+    --     },
+    --   },
+    -- })
 
+    --
+    -- Disable for conflict with autoopening the cmp menu setting
+    -- -- Leaved here for future reference and semplifications
+    --
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(":", {
-      -- mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        {
-          name = "path",
-        },
-      }, {
-        {
-          name = "cmdline",
-          option = {
-            ignore_cmds = { "Man", "!" },
-          },
-        },
-      }),
-    })
+    -- cmp.setup.cmdline(":", {
+    --   -- mapping = cmp.mapping.preset.cmdline(),
+    --   sources = cmp.config.sources({
+    --     {
+    --       name = "path",
+    --     },
+    --   }, {
+    --     {
+    --       name = "cmdline",
+    --       option = {
+    --         ignore_cmds = { "Man", "!" },
+    --       },
+    --     },
+    --   }),
+    -- })
   end,
 }

@@ -12,7 +12,9 @@ local function get_pickers(actions)
   return {
     find_files = {
       theme = "dropdown",
-      previewer = false,
+      previewer = true,
+      wrap_results = true,
+      path_display = { "absolute" },
     },
     commands = {
       theme = "dropdown",
@@ -57,6 +59,16 @@ return {
         build = "make",
         config = function()
           require("telescope").load_extension("fzf")
+        end,
+      },
+      { "nvim-telescope/telescope-symbols.nvim" },
+      {
+        "nvim-telescope/telescope-dap.nvim",
+      },
+      {
+        "nvim-telescope/telescope-ui-select.nvim",
+        config = function()
+          require("telescope").load_extension("ui-select")
         end,
       },
     },
@@ -117,20 +129,13 @@ return {
       })
 
       telescope.load_extension("dap")
+      -- https://github.com/johmsalas/text-case.nvim
       telescope.load_extension("textcase")
+      -- Notify
+      telescope.load_extension("notify")
+
+      -- Using obsidian.nvim now, but still here until ending time trial
       -- telescope.load_extension("zk")
-    end,
-  },
-  {
-    "nvim-telescope/telescope-symbols.nvim",
-  },
-  {
-    "nvim-telescope/telescope-dap.nvim",
-  },
-  {
-    "nvim-telescope/telescope-ui-select.nvim",
-    config = function()
-      require("telescope").load_extension("ui-select")
     end,
   },
 }
