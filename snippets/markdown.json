@@ -3,5 +3,10 @@
     "prefix": "todo",
     "description": "Todo",
     "body": ["- [ ] "]
+  },
+  "deadline": {
+    "prefix": "deadline",
+    "description": "Add a deadline flag",
+    "body": ["🚩 $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE"]
   }
 }
