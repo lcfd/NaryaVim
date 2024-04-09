@@ -20,12 +20,12 @@ function M.setup()
 
   -- vim.api.nvim_create_user_command("OpenLink", openLink, {})
 
-  local getStatus = function()
-    local output = vim.fn.system({ "trak", "status", "-s" })
-    vim.notify(output, "info", { title = "Trak" })
-  end
+  -- local getStatus = function()
+  --   local output = vim.fn.system({ "trak", "status", "-s" })
+  --   vim.notify(output, "info", { title = "Trak" })
+  -- end
 
-  vim.api.nvim_create_user_command("TrakStatus", getStatus, {})
+  -- vim.api.nvim_create_user_command("TrakStatus", getStatus, {})
 
   --
   -- Ops
