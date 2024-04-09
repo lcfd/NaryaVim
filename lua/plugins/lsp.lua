@@ -25,7 +25,7 @@ local on_attach = function(_, bufnr)
   nmap("gd", tsbuiltin.lsp_definitions, "[G]oto [D]efinition")
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gr", tsbuiltin.lsp_references, "[G]oto [R]eferences")
-  nmap("gt", '<cmd>lua vim.lsp.buf.type_definition()<cr>', "[G]oto [T]ype")
+  nmap("gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", "[G]oto [T]ype")
   nmap("<leader>ds", tsbuiltin.lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", tsbuiltin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap(
@@ -102,7 +102,7 @@ return {
         ruff_lsp = {},
         pyright = {},
         eslint = {},
-        tsserver = {},
+        -- tsserver = {},
         astro = {},
         jsonls = {},
         mdx_analyzer = {},
@@ -169,6 +169,11 @@ return {
         -- end,
       })
     end,
+  },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
   },
 
   -- Symbols outline
