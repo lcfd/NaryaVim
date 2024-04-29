@@ -113,7 +113,7 @@ return {
             experimental = {
               classRegex = {
                 { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-                { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                { "cx\\(([^)]*)\\)",  "(?:'|\"|`)([^']*)(?:'|\"|`)" },
               },
             },
           },
@@ -138,6 +138,10 @@ return {
           },
         },
         marksman = {},
+        -- A better lsp for TypeScript
+        -- https://github.com/yioneko/vtsls
+        vtsls = {}
+        -- OLD
         -- zk = {},
         -- graphql = {},
         -- vale_ls = {},
@@ -170,37 +174,9 @@ return {
       })
     end,
   },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-  },
-
-  -- Symbols outline
-
   -- {
-  --   "simrat39/symbols-outline.nvim",
-  --   event = { "BufReadPre", "BufNewFile" },
-  --   config = function()
-  --     local Config = require("config")
-  --     local defaults = require("symbols-outline.config").defaults
-
-  --     local opts = {
-  --       symbols = {},
-  --       symbol_blacklist = {},
-  --     }
-
-  --     for kind, symbol in pairs(defaults.symbols) do
-  --       opts.symbols[kind] = {
-  --         icon = Config.icons.kinds[kind] or symbol.icon,
-  --         hl = symbol.hl,
-  --       }
-  --       if not vim.tbl_contains(Config.kind_filter.default, kind) then
-  --         table.insert(opts.symbol_blacklist, kind)
-  --       end
-  --     end
-
-  --     require("symbols-outline").setup(opts)
-  --   end,
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
   -- },
 }

@@ -147,19 +147,4 @@ return {
       })
     end,
   },
-  -- Disabled because conflict with tags in markdown
-  -- -- (shown colors where I don't need them)
-  -- {
-  --   "norcalli/nvim-colorizer.lua",
-  --   config = function()
-  --     require 'colorizer'.setup {
-  --       '*',
-  --       "RRGGBBAA",
-  --       "rgb_fn",
-  --       "hsl_fn",
-  --       "css",
-  --       "css_fn",
-  --     }
-  --   end
-  -- }
 }
