@@ -13,12 +13,13 @@ return {
 
       require("telescope.pickers")
         .new({}, {
-          prompt_title = "Harpoon",
+          prompt_title = "⚓ Harpoon",
           finder = require("telescope.finders").new_table({
             results = file_paths,
           }),
           previewer = require("telescope.config").values.file_previewer({}),
           sorter = require("telescope.config").values.generic_sorter({}),
+          initial_mode = "normal",
         })
         :find()
     end
