@@ -9,8 +9,8 @@ return {
   {
     "ggandor/leap.nvim",
     keys = {
-      { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-      { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
+      { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
+      { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
       { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
     },
     config = function(_, opts)
@@ -105,9 +105,6 @@ return {
     end,
   },
   {
-    "ThePrimeagen/harpoon",
-  },
-  {
     -- Automatically highlighting other uses of the word under the cursor
     "RRethy/vim-illuminate",
     event = {
@@ -181,7 +178,7 @@ return {
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = true, -- default settings
+    config = true,      -- default settings
     submodules = false, -- not needed, submodules are required only for tests
   },
 }
