@@ -13,19 +13,21 @@ function M.setup(config)
   --
 
   -- Avoid press shift to type ":" char
-  keyset("n", ";", ":")
+  keyset("n", ";", ":", { desc = "[Stimpack] Open cmd." })
 
-  -- new file
-  keyset("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+  keyset("n", "<C-j>", "<CMD>w<CR>", { desc = "[Stimpack] Save current buffer." })
+  keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
+
+  -- Go to the start and the end of a sentence
+  keyset("n", "H", "^", { desc = "[Stimpack] Go to the start of the line." })
+  keyset("n", "L", "$", { desc = "[Stimpack] Go to the end of the line." })
 
   -- Neovim Windows
 
-  keyset("n", "|", "<C-W><C-V>", {
-    desc = "Generic — Split vertically.",
-  })
-
-  keyset("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-  keyset("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+  keyset("n", "\\", "<C-W><C-V>", { desc = "[Window] Split vertically." })
+  keyset("n", "|", "<CMD>q<CR>", { desc = "[Window] Close." })
+  keyset("n", "<C-h>", "<C-w>h", { desc = "[Window] Go to left.", remap = true })
+  keyset("n", "<C-l>", "<C-w>l", { desc = "[Window] Go to right.", remap = true })
 
   keyset({ "n", "v" }, "<leader>ff", function()
     require("conform").format({
@@ -33,7 +35,7 @@ function M.setup(config)
       async = false,
       timeout_ms = 1000,
     })
-  end, { desc = "Generic — Format file or range (in visual mode)" })
+  end, { desc = "[Conform] Format file (or range in visual mode)" })
 
   --
   -- telescope.nvim
@@ -92,16 +94,12 @@ function M.setup(config)
     "n",
     "<leader>fx",
     tsbuiltin.resume,
-    { noremap = true, silent = true, desc = "Resume Telescope's last search." }
+    { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
   )
 
   -- Text case
   keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
   keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
-
-  -- ZK
-  -- keyset("n", "<leader>zl", "<Cmd>Telescope zk notes<CR>", { desc = "[Telescope] ZK notes" })
-  -- keyset("n", "<leader>zt", "<Cmd>Telescope zk tags<CR>", { desc = "[Telescope] ZK tags" })
 
   --
   -- Diagnostic keymaps
@@ -132,31 +130,6 @@ function M.setup(config)
   })
 
   --
-  -- DAP
-  --
-
-  keyset("n", "<F5>", "<cmd>lua require('dap').continue()<CR>")
-  keyset("n", "<F10>", "<cmd>lua require('dap').step_over()<CR>")
-  keyset("n", "<F11>", "<cmd>lua require('dap').step_into()<CR>")
-  keyset("n", "<F12>", "<cmd>lua require('dap').step_out()<CR>")
-  keyset("n", "<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
-  keyset("n", "<leader>B", "<cmd>lua require('dap').set_breakpoint()<CR>")
-  keyset("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>")
-  keyset("n", "<leader>dl", "<cmd>lua require('dap').run_last()<CR>")
-  keyset({ "n", "v" }, "<Leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>")
-  keyset({ "n", "v" }, "<Leader>dp", "<cmd>lua require('dap.ui.widgets').preview()<CR>")
-  keyset(
-    "n",
-    "<leader>df",
-    "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.frames)<CR>"
-  )
-  keyset(
-    "n",
-    "<leader>ds",
-    "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.scopes)<CR>"
-  )
-
-  --
   -- NvimTree
   --
 
@@ -172,122 +145,64 @@ function M.setup(config)
   --
 
   keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-    desc = "Close all buffer apart the current one.",
+    desc = "[Buffer] Close all but the current one.",
   })
-
-  --
-  -- comments.nvim
-  --
-
-  -- Look at lua/plugins/stimpack.lua
 
   --
   -- Neogit
   --
 
   keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
-    desc = "Open the Git panel.",
+    desc = "[Neogit] Open the Git panel.",
   })
 
   --
-  -- Tests (neotest)
+  -- Neotest
   --
 
-  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>")
-
-  --
-  -- Quick
-  --
-
-  keyset("n", "<C-j>", "<CMD>w<CR>", {
-    desc = "Save current buffer",
-  })
-
-  -- Go to the start and the end of a sentence
-  keyset("n", "H", "^", {
-    desc = "Go to the start of the line.",
-  })
-
-  keyset("n", "L", "$", {
-    desc = "Go to the end of the line.",
-  })
-
-  keyset("i", "jj", "<Esc>", {
-    desc = "Map esc to jj in Insert Mode.",
-  })
+  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>", { desc = "[Neotest] Run" })
 
   --
   -- Spectre
   --
 
   keyset("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
-    desc = "Toggle Spectre",
+    desc = "[Spectre] Toggle.",
   })
   keyset("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-    desc = "Search current word",
+    desc = "[Spectre] Search current word.",
   })
   keyset("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-    desc = "Search current word",
+    desc = "[Spectre] Search current word.",
   })
   keyset("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-    desc = "Search on current file",
+    desc = "[Spectre] Search on current file.",
   })
 
   --
-  -- zk
+  -- DAP
   --
 
-  -- local zk_opts = { noremap = true, silent = false }
-  -- local zk_commands = require("zk.commands")
-  -- keyset("n", "zkd", function()
-  --   zk_commands.get("ZkNew")({ dir = "daily" })
-  -- end, zk_opts)
-
-  -- keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", zk_opts)
-  -- keyset("n", "<leader>zn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", zk_opts)
-  -- keyset("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", zk_opts)
-
-  -- -- lucky = "zk list --quiet --format full --sort random --limit 1"
-  -- keyset("n", "<leader>zkr", function()
-  --   zk_commands.get("ZkNotes")({ sort = { "random" }, limit = 1 })
-  -- end, zk_opts)
-
-  --
-  -- SymbolsOutline
-  --
-
-  keyset("n", "<leader>cs", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Outline" })
-
-  --
-  -- Markdown checkbox toggle
-  --
-
-  -- keyset("n", "<leader>tt", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle the value of a Markdown checkbox" })
-
-  --
-  -- Harpooon
-  --
-
-  keyset("n", "-", "<CMD>lua require('harpoon.mark').add_file()<CR>", {
-    desc = "Mark files you want to revisit later on.",
-  })
-
-  keyset("n", "=", "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", {
-    desc = "View all project marks.",
-  })
-
-  keyset("n", "<leader>1", "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", {
-    desc = "Navigates to file 1.",
-  })
-  keyset("n", "<leader>2", "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", {
-    desc = "Navigates to file 2.",
-  })
-  keyset("n", "<leader>3", "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", {
-    desc = "Navigates to file 3.",
-  })
-  keyset("n", "<leader>4", "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", {
-    desc = "Navigates to file 4.",
-  })
+  -- keyset("n", "<F5>", "<cmd>lua require('dap').continue()<CR>")
+  -- keyset("n", "<F10>", "<cmd>lua require('dap').step_over()<CR>")
+  -- keyset("n", "<F11>", "<cmd>lua require('dap').step_into()<CR>")
+  -- keyset("n", "<F12>", "<cmd>lua require('dap').step_out()<CR>")
+  -- keyset("n", "<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+  -- keyset("n", "<leader>B", "<cmd>lua require('dap').set_breakpoint()<CR>")
+  -- keyset("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>")
+  -- keyset("n", "<leader>dl", "<cmd>lua require('dap').run_last()<CR>")
+  -- keyset({ "n", "v" }, "<Leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>")
+  -- keyset({ "n", "v" }, "<Leader>dp", "<cmd>lua require('dap.ui.widgets').preview()<CR>")
+  -- keyset(
+  --   "n",
+  --   "<leader>df",
+  --   "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.frames)<CR>"
+  -- )
+  -- keyset(
+  --   "n",
+  --   "<leader>ds",
+  --   "<cmd>lua local widgets = require('dap.ui.widgets') widgets.centered_float(widgets.scopes)<CR>"
+  -- )
 end
 
 return M

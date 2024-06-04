@@ -20,7 +20,7 @@
 - [💡 Tips](#-tips)
 - [📸 Screenshots](#-screenshots)
 - [Others](#others)
-  - [zk 4️⃣ Zettelkasten](#zk-4️⃣-zettelkasten)
+  - [obsidian.nvim for Zettelkasten](#obsidiannvim-for-zettelkasten)
 
 ## ⭐️ Why
 
@@ -72,7 +72,7 @@ Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).
 
 ## 🔢 Neovim version
 
-I'm using this configuration in Neovim `0.8`.
+I'm using this configuration in Neovim `v0.9.5`.
 
 ## 💡 Tips
 
@@ -88,6 +88,6 @@ You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads)
 
 ## Others
 
-### zk 4️⃣ Zettelkasten
+### obsidian.nvim for Zettelkasten
 
 - [Maintaining a daily journal](https://github.com/mickael-menu/zk/blob/main/docs/daily-journal.md)

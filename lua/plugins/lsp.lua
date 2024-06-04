@@ -25,6 +25,7 @@ local on_attach = function(_, bufnr)
   nmap("gd", tsbuiltin.lsp_definitions, "[G]oto [D]efinition")
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gr", tsbuiltin.lsp_references, "[G]oto [R]eferences")
+  nmap("gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", "[G]oto [T]ype")
   nmap("<leader>ds", tsbuiltin.lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", tsbuiltin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap(
@@ -36,10 +37,9 @@ local on_attach = function(_, bufnr)
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
-  -- nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-  nmap("<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, "[W]orkspace [L]ist Folders")
+  -- nmap("<leader>wl", function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, "[W]orkspace [L]ist Folders")
 end
 
 return {
@@ -54,30 +54,8 @@ return {
 
     opts = {
       -- options for vim.diagnostic.config()
-      -- diagnostics = {
-      --   virtual_text = false,
-      -- },
       diagnostics = {
-        virtual_text = {
-          prefix = "●",
-          severity = {
-            vim.diagnostic.severity.HINT,
-          },
-        },
-        -- update_in_insert = true,
-        -- underline = true,
-        -- severity_sort = true,
-        -- float = {
-        --   focusable = false,
-        --   style = "minimal",
-        --   border = "rounded",
-        --   source = "if_many",
-        --   header = "",
-        --   prefix = "",
-        -- },
-        -- virtual_text = {
-        --   prefix = "Yolo "
-        -- },
+        virtual_text = false,
       },
     },
 
@@ -98,18 +76,14 @@ return {
       require("mason").setup()
 
       local servers = {
-        ruff_lsp = {},
-        pyright = {},
-        eslint = {},
-        -- marksman = {},
-        zk = {},
-        tsserver = {},
-        astro = {},
-        jsonls = {},
-        mdx_analyzer = {},
-        sqlls = {},
-        taplo = {},
-        tailwindcss = {
+        ruff_lsp = {}, -- Python
+        pyright = {}, -- Python
+        eslint = {}, -- JS
+        astro = {}, -- Astro
+        jsonls = {}, -- JSON
+        sqlls = {}, -- SQL
+        taplo = {}, -- TOML
+        tailwindcss = { -- TailwindCSS
           tailwindCSS = {
             experimental = {
               classRegex = {
@@ -119,17 +93,15 @@ return {
             },
           },
         },
-        yamlls = {},
-        gopls = {},
-        graphql = {},
-        html = {},
-        dockerls = {},
-        docker_compose_language_service = {},
-        ltex = {
+        yamlls = {}, -- YAML
+        html = {}, -- HTML
+        dockerls = {}, -- Docker
+        docker_compose_language_service = {}, -- Docker
+        ltex = { -- Spellcheck
           ltex = {
             languageToolHttpServerUri = "http://localhost:8010/",
             checkFrequency = "save",
-            completionEnabled = true,
+            completionEnabled = false,
           },
         },
         lua_ls = {
@@ -139,6 +111,14 @@ return {
             diagnostics = { disable = { "missing-fields" } },
           },
         },
+        marksman = {}, -- Markdown
+        vtsls = {}, -- TypeScript
+        -- gopls = {},
+        -- OLD
+        -- tsserver = {},
+        -- mdx_analyzer = {},
+        -- zk = {},
+        -- graphql = {},
         -- vale_ls = {},
       }
 
@@ -158,7 +138,6 @@ return {
             on_attach = on_attach,
             capabilities = capabilities,
             settings = servers[server_name],
-            -- filetypes = (servers[server_name] or {}).filetypes,
           })
           -- end
         end,
@@ -168,34 +147,6 @@ return {
         --   require("rust-tools").setup({})
         -- end,
       })
-    end,
-  },
-
-  -- Symbols outline
-
-  {
-    "simrat39/symbols-outline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local Config = require("config")
-      local defaults = require("symbols-outline.config").defaults
-
-      local opts = {
-        symbols = {},
-        symbol_blacklist = {},
-      }
-
-      for kind, symbol in pairs(defaults.symbols) do
-        opts.symbols[kind] = {
-          icon = Config.icons.kinds[kind] or symbol.icon,
-          hl = symbol.hl,
-        }
-        if not vim.tbl_contains(Config.kind_filter.default, kind) then
-          table.insert(opts.symbol_blacklist, kind)
-        end
-      end
-
-      require("symbols-outline").setup(opts)
     end,
   },
 }

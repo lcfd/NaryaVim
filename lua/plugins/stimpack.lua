@@ -105,9 +105,6 @@ return {
     end,
   },
   {
-    "ThePrimeagen/harpoon",
-  },
-  {
     -- Automatically highlighting other uses of the word under the cursor
     "RRethy/vim-illuminate",
     event = {
@@ -146,7 +143,6 @@ return {
   },
   {
     "echasnovski/mini.bufremove",
-
     keys = {
       {
         "xx",
@@ -166,6 +162,30 @@ return {
         end,
         desc = "Delete Buffer",
       },
+    },
+  },
+  -- Open links without netrw
+  -- https://github.com/chrishrb/gx.nvim
+  {
+    "chrishrb/gx.nvim",
+    keys = {
+      { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } },
+    },
+    cmd = { "Browse" },
+    init = function()
+      vim.g.netrw_nogx = 1 -- disable netrw gx
+    end,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = true, -- default settings
+    submodules = false, -- not needed, submodules are required only for tests
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    opts = {
+      open_mapping = [[<c-\>]],
+      direction = "float",
+      border = "curved",
     },
   },
 }

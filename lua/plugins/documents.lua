@@ -1,15 +1,7 @@
 return {
-  -- {
-  --   "mickael-menu/zk-nvim",
-  --   config = function()
-  --     require("zk").setup({
-  --       picker = "telescope",
-  --     })
-  --   end,
-  -- },
   {
     "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, use latest release instead of latest commit
+    version = "*", -- recommended
     lazy = true,
     ft = "markdown",
     cmd = {
@@ -22,19 +14,8 @@ return {
       "ObsidianTomorrow",
       "ObsidianYesterday",
     },
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-    -- event = {
-    -- "BufReadPre " .. vim.fn.expand("~") .. "zettelkasten/zk-work/**.md",
-    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-    --   "BufReadPre path/to/my-vault/**.md",
-    --   "BufNewFile path/to/my-vault/**.md",
-    -- },
     dependencies = {
-      -- Required.
       "nvim-lua/plenary.nvim",
-
-      -- see below for full list of optional dependencies 👇
     },
     opts = {
       workspaces = {
@@ -62,7 +43,7 @@ return {
 
       templates = {
         subdir = "templates",
-        date_format = "%Y-%m-%d-%a",
+        date_format = "%Y-%m-%d",
         time_format = "%H:%M",
       },
 
@@ -89,7 +70,7 @@ return {
           action = function()
             return require("obsidian").util.toggle_checkbox()
           end,
-          opts = { buffer = true },
+          opts = { buffer = true, desc = "[Obsidian] Toggle checkbox." },
         },
       },
 
@@ -130,13 +111,14 @@ return {
         if title ~= nil then
           -- If title is given, transform it into valid file name.
           suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+          -- suffix = title:gsub("[^A-Za-z0-9-]", "")
         else
           -- If title is nil, just add 4 random uppercase letters to the suffix.
           for _ = 1, 4 do
-            suffix = suffix .. string.char(math.random(65, 90))
+            suffix = tostring(os.time()) .. "-" .. suffix .. string.char(math.random(65, 90))
           end
         end
-        return tostring(os.time()) .. "-" .. suffix
+        return suffix
       end,
 
       -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
@@ -149,4 +131,12 @@ return {
       end,
     },
   },
+  -- {
+  --   "mickael-menu/zk-nvim",
+  --   config = function()
+  --     require("zk").setup({
+  --       picker = "telescope",
+  --     })
+  --   end,
+  -- },
 }

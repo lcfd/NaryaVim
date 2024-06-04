@@ -1,3 +1,7 @@
+# Internal developement
+lua/plugins/trak.lua
+
+# ---
 .DS_Store
 .Trashes
 plugin

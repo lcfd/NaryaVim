@@ -19,7 +19,6 @@ return {
         -- minimal increase in priority.
         ext_prio_increase = 1,
         enable_autosnippets = false,
-        -- store_selection_keys = "<c-s>",
       })
 
       luasnip.filetype_extend("python", {
