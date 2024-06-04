@@ -37,10 +37,9 @@ local on_attach = function(_, bufnr)
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
-  -- nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-  nmap("<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, "[W]orkspace [L]ist Folders")
+  -- nmap("<leader>wl", function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, "[W]orkspace [L]ist Folders")
 end
 
 return {
@@ -58,28 +57,6 @@ return {
       diagnostics = {
         virtual_text = false,
       },
-      -- diagnostics = {
-      -- virtual_text = {
-      --   prefix = "●",
-      --   severity = {
-      --     vim.diagnostic.severity.HINT,
-      --   },
-      -- },
-      -- update_in_insert = true,
-      -- underline = true,
-      -- severity_sort = true,
-      -- float = {
-      --   focusable = false,
-      --   style = "minimal",
-      --   border = "rounded",
-      --   source = "if_many",
-      --   header = "",
-      --   prefix = "",
-      -- },
-      -- virtual_text = {
-      --   prefix = " "
-      -- },
-      -- },
     },
 
     config = function(_, opts)
@@ -99,35 +76,32 @@ return {
       require("mason").setup()
 
       local servers = {
-        ruff_lsp = {},
-        pyright = {},
-        eslint = {},
-        -- tsserver = {},
-        astro = {},
-        jsonls = {},
-        mdx_analyzer = {},
-        sqlls = {},
-        taplo = {},
-        tailwindcss = {
+        ruff_lsp = {}, -- Python
+        pyright = {}, -- Python
+        eslint = {}, -- JS
+        astro = {}, -- Astro
+        jsonls = {}, -- JSON
+        sqlls = {}, -- SQL
+        taplo = {}, -- TOML
+        tailwindcss = { -- TailwindCSS
           tailwindCSS = {
             experimental = {
               classRegex = {
                 { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-                { "cx\\(([^)]*)\\)",  "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
               },
             },
           },
         },
-        yamlls = {},
-        gopls = {},
-        html = {},
-        dockerls = {},
-        docker_compose_language_service = {},
-        ltex = {
+        yamlls = {}, -- YAML
+        html = {}, -- HTML
+        dockerls = {}, -- Docker
+        docker_compose_language_service = {}, -- Docker
+        ltex = { -- Spellcheck
           ltex = {
             languageToolHttpServerUri = "http://localhost:8010/",
             checkFrequency = "save",
-            completionEnabled = true,
+            completionEnabled = false,
           },
         },
         lua_ls = {
@@ -137,11 +111,12 @@ return {
             diagnostics = { disable = { "missing-fields" } },
           },
         },
-        marksman = {},
-        -- A better lsp for TypeScript
-        -- https://github.com/yioneko/vtsls
-        vtsls = {}
+        marksman = {}, -- Markdown
+        vtsls = {}, -- TypeScript
+        -- gopls = {},
         -- OLD
+        -- tsserver = {},
+        -- mdx_analyzer = {},
         -- zk = {},
         -- graphql = {},
         -- vale_ls = {},
@@ -174,9 +149,4 @@ return {
       })
     end,
   },
-  -- {
-  --   "pmizio/typescript-tools.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  --   opts = {},
-  -- },
 }

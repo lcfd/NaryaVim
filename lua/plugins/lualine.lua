@@ -14,7 +14,7 @@ return {
     local icons = require("config").icons
 
     require("lualine").setup({
-      extensions = { "nvim-tree", "lazy", "mason" },
+      extensions = { "nvim-tree", "lazy", "mason", "toggleterm" },
       options = {
         icons_enabled = true,
         theme = "tokyonight",

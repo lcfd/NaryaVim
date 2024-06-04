@@ -143,7 +143,6 @@ return {
   },
   {
     "echasnovski/mini.bufremove",
-
     keys = {
       {
         "xx",
@@ -165,7 +164,6 @@ return {
       },
     },
   },
-  -- gx.nvim
   -- Open links without netrw
   -- https://github.com/chrishrb/gx.nvim
   {

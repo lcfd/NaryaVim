@@ -13,26 +13,21 @@ function M.setup(config)
   --
 
   -- Avoid press shift to type ":" char
-  keyset("n", ";", ":")
+  keyset("n", ";", ":", { desc = "[Stimpack] Open cmd." })
 
-  keyset("n", "<C-j>", "<CMD>w<CR>", { desc = "Save current buffer" })
+  keyset("n", "<C-j>", "<CMD>w<CR>", { desc = "[Stimpack] Save current buffer." })
+  keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
 
   -- Go to the start and the end of a sentence
-  keyset("n", "H", "^", { desc = "Go to the start of the line." })
-
-  keyset("n", "L", "$", { desc = "Go to the end of the line." })
-
-  keyset("i", "jj", "<Esc>", { desc = "Map esc to jj in Insert Mode." })
-
-  -- new file
-  keyset("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+  keyset("n", "H", "^", { desc = "[Stimpack] Go to the start of the line." })
+  keyset("n", "L", "$", { desc = "[Stimpack] Go to the end of the line." })
 
   -- Neovim Windows
 
-  keyset("n", "\\", "<C-W><C-V>", { desc = "Split vertically." })
-  keyset("n", "|", "<CMD>q<CR>", { desc = "Close window." })
-  keyset("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-  keyset("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+  keyset("n", "\\", "<C-W><C-V>", { desc = "[Window] Split vertically." })
+  keyset("n", "|", "<CMD>q<CR>", { desc = "[Window] Close." })
+  keyset("n", "<C-h>", "<C-w>h", { desc = "[Window] Go to left.", remap = true })
+  keyset("n", "<C-l>", "<C-w>l", { desc = "[Window] Go to right.", remap = true })
 
   keyset({ "n", "v" }, "<leader>ff", function()
     require("conform").format({
@@ -40,7 +35,7 @@ function M.setup(config)
       async = false,
       timeout_ms = 1000,
     })
-  end, { desc = "Format file or range (in visual mode)" })
+  end, { desc = "[Conform] Format file (or range in visual mode)" })
 
   --
   -- telescope.nvim
@@ -99,7 +94,7 @@ function M.setup(config)
     "n",
     "<leader>fx",
     tsbuiltin.resume,
-    { noremap = true, silent = true, desc = "Resume Telescope's last search." }
+    { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
   )
 
   -- Text case
@@ -150,7 +145,7 @@ function M.setup(config)
   --
 
   keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-    desc = "Close all buffer apart the current one.",
+    desc = "[Buffer] Close all but the current one.",
   })
 
   --
@@ -158,30 +153,30 @@ function M.setup(config)
   --
 
   keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
-    desc = "Open the Git panel.",
+    desc = "[Neogit] Open the Git panel.",
   })
 
   --
   -- Neotest
   --
 
-  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>")
+  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>", { desc = "[Neotest] Run" })
 
   --
   -- Spectre
   --
 
   keyset("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
-    desc = "Toggle Spectre",
+    desc = "[Spectre] Toggle.",
   })
   keyset("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-    desc = "Search current word",
+    desc = "[Spectre] Search current word.",
   })
   keyset("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-    desc = "Search current word",
+    desc = "[Spectre] Search current word.",
   })
   keyset("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-    desc = "Search on current file",
+    desc = "[Spectre] Search on current file.",
   })
 
   --

@@ -20,7 +20,7 @@ return {
     end,
   },
   {
-    "utilyre/barbecue.nvim", -- Top bar code path
+    "utilyre/barbecue.nvim", -- Top bar code path.
     name = "barbecue",
     version = "*",
     dependencies = {
@@ -89,13 +89,6 @@ return {
     },
     -- opts.presets.lsp_doc_border = true
   },
-  -- {
-  --   "rcarriga/nvim-notify",
-  --   opts = {
-  --     timeout = 3000,
-  --     render = "wrapped-compact",
-  --   },
-  -- },
   {
     -- Floating statuslines for Neovim
     "b0o/incline.nvim",
@@ -123,7 +116,10 @@ return {
           local devicons = require("nvim-web-devicons")
           local helpers = require("incline.helpers")
 
+          -- https://neovim.io/doc/user/cmdline.html#filename-modifiers
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          -- Relative path, it helps navigation
+          local pathFilename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":.")
           if filename == "" then
             filename = "[No Name]"
           end
@@ -138,7 +134,7 @@ return {
           return {
             ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
             "",
-            { filename, gui = modified and "bold,italic" or "" },
+            { pathFilename, gui = modified and "bold,italic" or "" },
             " ",
             guibg = ft_color,
             guifg = helpers.contrast_color(ft_color),

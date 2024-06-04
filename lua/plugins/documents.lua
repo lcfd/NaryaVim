@@ -1,15 +1,7 @@
 return {
-  -- {
-  --   "mickael-menu/zk-nvim",
-  --   config = function()
-  --     require("zk").setup({
-  --       picker = "telescope",
-  --     })
-  --   end,
-  -- },
   {
     "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, use latest release instead of latest commit
+    version = "*", -- recommended
     lazy = true,
     ft = "markdown",
     cmd = {
@@ -78,7 +70,7 @@ return {
           action = function()
             return require("obsidian").util.toggle_checkbox()
           end,
-          opts = { buffer = true },
+          opts = { buffer = true, desc = "[Obsidian] Toggle checkbox." },
         },
       },
 
@@ -139,4 +131,12 @@ return {
       end,
     },
   },
+  -- {
+  --   "mickael-menu/zk-nvim",
+  --   config = function()
+  --     require("zk").setup({
+  --       picker = "telescope",
+  --     })
+  --   end,
+  -- },
 }
