@@ -1,15 +1,12 @@
 -- A lua powered greeter like vim-startify / dashboard-nvim
 -- https://github.com/goolord/alpha-nvim
 
+local safe_import = require("utils.safe_import")
 return {
   "goolord/alpha-nvim",
   event = "VimEnter",
   config = function()
-    local status_ok, alpha = pcall(require, "alpha")
-    if not status_ok then
-      vim.notify("Require alpha", "error")
-      return
-    end
+    local alpha = safe_import("alpha")
 
     local dashboard = require("alpha.themes.dashboard")
 

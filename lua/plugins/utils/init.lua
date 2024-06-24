@@ -1,3 +1,5 @@
+local safe_import = require("utils.safe_import")
+
 return {
   {
     -- Autopairs for neovim written by lua
@@ -14,7 +16,9 @@ return {
       { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
     },
     config = function(_, opts)
-      local leap = require("leap")
+      local leap = safe_import("leap")
+      local leap = safe_import("leap")
+
       for k, v in pairs(opts) do
         leap.opts[k] = v
       end
@@ -28,8 +32,9 @@ return {
     lazy = false,
     config = function()
       -- Examples https://github.com/numToStr/Comment.nvim#examples
+      local comment = safe_import("Comment")
 
-      require("Comment").setup({
+      comment.setup({
         toggler = {
           ---Line-comment toggle keymap
           line = "gcc",
@@ -72,27 +77,20 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup({
-        keymaps = {
-          insert = "<C-g>m",
-          insert_line = "<C-g>M",
-          normal = "ms",
-          normal_cur = "mss",
-          normal_line = "mS",
-          normal_cur_line = "mSS",
-          visual = "M",
-          visual_line = "gS",
-          delete = "ds",
-          change = "cs",
-          change_line = "cS",
-        },
+      local nvim_surround = safe_import("nvim-surround")
+      -- local get_pickers = require("plugins.telescope.get_pickers")
+      local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
+
+      nvim_surround.setup({
+        keymaps = sorround_mappings,
       })
     end,
   },
   {
     "johmsalas/text-case.nvim",
     config = function()
-      require("textcase").setup({})
+      local textcase = safe_import("textcase")
+      textcase.setup({})
     end,
   },
   {
@@ -101,7 +99,8 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      require("spectre").setup()
+      local spectre = safe_import("spectre")
+      spectre.setup()
     end,
   },
   {
@@ -120,8 +119,10 @@ return {
         },
       },
     },
-    config = function(_)
-      require("illuminate").configure({
+    config = function()
+      local illuminate = safe_import("illuminate")
+
+      illuminate.configure({
         delay = 200,
         large_file_cutoff = 2000,
         large_file_overrides = {
@@ -147,17 +148,19 @@ return {
       {
         "xx",
         function()
-          local bd = require("mini.bufremove").delete
+          local mini_bufremove = safe_import("mini.bufremove")
+          local buff_delete = mini_bufremove.delete
+
           if vim.bo.modified then
             local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
             if choice == 1 then -- Yes
               vim.cmd.write()
-              bd(0)
+              buff_delete(0)
             elseif choice == 2 then -- No
-              bd(0, true)
+              buff_delete(0, true)
             end
           else
-            bd(0)
+            buff_delete(0)
           end
         end,
         desc = "Delete Buffer",
@@ -186,6 +189,22 @@ return {
       open_mapping = [[<c-\>]],
       direction = "float",
       border = "curved",
+    },
+  },
+  {
+    "folke/zen-mode.nvim",
+    opts = {},
+  },
+  {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = { "BufReadPost", "BufNewFile" },
+    config = true,
+    -- stylua: ignore
+    keys = {
+      { "]t", function() require("todo-comments").jump_next() end, desc = "[TodoComments] Next [TODO]." },
+      { "[t", function() require("todo-comments").jump_prev() end, desc = "[TodoComments] Previous [TODO]." },
+      { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "[Telescope] Todo/Fix/Fixme." },
     },
   },
 }

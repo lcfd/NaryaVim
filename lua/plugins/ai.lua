@@ -1,7 +1,9 @@
+local safe_import = require("utils.safe_import")
+
 return {
   "David-Kunz/gen.nvim",
   opts = {
-    model = "mistral", -- The default model to use.
+    model = "llama3:latest", -- The default model to use.
     host = "localhost", -- The host running the Ollama service.
     port = "11434", -- The port on which the Ollama service is listening.
     display_mode = "float", -- The display mode. Can be "float" or "split".
@@ -15,27 +17,17 @@ return {
     command = function(options)
       return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
     end,
-    -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
-    -- This can also be a command string.
-    -- The executed command must return a JSON object with { response, context }
-    -- (context property is optional).
-    -- list_models = '<omitted lua function>', -- Retrieves a list of model names
     debug = false, -- Prints errors and the command which is run.
   },
   config = function()
-    local gen = require("gen")
-    gen.prompts["Tell_Me_More"] = {
-      prompt = "Tell me more about the topic:\n$text",
-      replace = true,
-    }
+    local gen = safe_import("gen")
     gen.prompts["Elaborate_Text"] = {
       prompt = "Elaborate the following text:\n$text",
       replace = true,
     }
-    gen.prompts["Fix_Code"] = {
-      prompt = "Fix the following code. Only ouput the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
-      replace = true,
-      extract = "```$filetype\n(.-)```",
+    gen.prompts["Grammar_check"] = {
+      prompt = "Check the grammar of the following text:\n$text",
+      replace = false,
     }
   end,
 }

@@ -1,3 +1,4 @@
+local safe_import = require("utils.safe_import")
 local M = {}
 
 function M.safe_keymap_set(mode, lhs, rhs, opts)
@@ -41,10 +42,7 @@ function M.setup(config)
   -- telescope.nvim
   --
 
-  local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
-  if not status_ok then
-    return
-  end
+  local tsbuiltin = safe_import("telescope.builtin")
 
   keyset("n", "<leader><space>", tsbuiltin.find_files, {
     desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
@@ -133,12 +131,12 @@ function M.setup(config)
   -- NvimTree
   --
 
-  keyset(
-    "n",
-    "<leader>p",
-    "<CMD>NvimTreeToggle<CR>",
-    { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
-  )
+  -- keyset(
+  --   "n",
+  --   "<leader>p",
+  --   "<CMD>NvimTreeToggle<CR>",
+  --   { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
+  -- )
 
   --
   -- Delete buffers
@@ -152,9 +150,9 @@ function M.setup(config)
   -- Neogit
   --
 
-  keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
-    desc = "[Neogit] Open the Git panel.",
-  })
+  -- keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
+  --   desc = "[Neogit] Open the Git panel.",
+  -- })
 
   --
   -- Neotest

@@ -1,51 +1,17 @@
-local default_picker_setting = {
-  theme = "dropdown",
-  initial_mode = "normal",
-}
+local safe_import = require("utils.safe_import")
+local get_pickers = require("plugins.telescope.get_pickers")
 
-local grep_options = {
-  theme = "dropdown",
-  only_sort_text = true,
+local vimgrep_arguments = {
+  "rg",
+  "--color=never",
+  "--no-heading",
+  "--with-filename",
+  "--line-number",
+  "--column",
+  "--smart-case",
+  "--hidden",
+  "--glob=!.git/",
 }
-
-local function get_pickers(actions)
-  return {
-    find_files = {
-      theme = "dropdown",
-      previewer = true,
-      wrap_results = true,
-      path_display = { "absolute" },
-    },
-    commands = {
-      theme = "dropdown",
-    },
-    live_grep = grep_options,
-    grep_string = grep_options,
-    buffers = {
-      theme = "dropdown",
-      previewer = false,
-      initial_mode = "normal",
-      mappings = {
-        i = {
-          ["<C-d>"] = actions.delete_buffer,
-        },
-        n = {
-          ["dd"] = actions.delete_buffer,
-        },
-      },
-    },
-    git_files = {
-      theme = "dropdown",
-      previewer = false,
-      hidden = true,
-      show_untracked = true,
-    },
-    lsp_references = default_picker_setting,
-    lsp_definitions = default_picker_setting,
-    lsp_declarations = default_picker_setting,
-    lsp_implementations = default_picker_setting,
-  }
-end
 
 return {
   {
@@ -71,19 +37,9 @@ return {
       -- "nvim-telescope/telescope-dap.nvim"
     },
     config = function()
-      local telescope_status_ok, telescope = pcall(require, "telescope")
-      if not telescope_status_ok then
-        vim.notify("Require Telescope.", "error")
-        return
-      end
-
-      local status_tsa_ok, actions = pcall(require, "telescope.actions")
-      if not status_tsa_ok then
-        vim.notify("Require Telescope actions.", "error")
-        return
-      end
-
-      local themes = require("telescope.themes")
+      local telescope = safe_import("telescope")
+      local actions = safe_import("telescope.actions")
+      local themes = safe_import("telescope.themes")
 
       telescope.setup({
         defaults = {
@@ -95,17 +51,7 @@ return {
             "smart",
             -- "absolute",
           },
-          vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
-            "--glob=!.git/",
-          },
+          vimgrep_arguments = vimgrep_arguments,
           winblend = 0,
           color_devicons = true,
           set_env = {
@@ -133,11 +79,11 @@ return {
       telescope.load_extension("fzf")
       telescope.load_extension("ui-select")
 
-      -- Using obsidian.nvim now
-      -- telescope.load_extension("zk")
-
       -- It's here for future dap usage
       -- telescope.load_extension("dap")
+
+      -- Using obsidian.nvim now
+      -- telescope.load_extension("zk")
     end,
   },
 }

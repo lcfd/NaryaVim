@@ -1,6 +1,9 @@
+local safe_import = require("utils.safe_import")
+
 local jumpToFile = function(n)
   return function()
-    require("harpoon"):list():select(n)
+    local harpoon = safe_import("harpoon")
+    harpoon:list():select(n)
   end
 end
 
@@ -9,7 +12,9 @@ return {
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
-    require("harpoon").setup({
+    local harpoon = safe_import("harpoon")
+
+    harpoon.setup({
       settings = {
         save_on_toggle = true,
       },
@@ -19,7 +24,7 @@ return {
     {
       "=",
       function()
-        local harpoon = require("harpoon")
+        local harpoon = safe_import("harpoon")
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end,
       desc = "[Harpoon] Quick menu.",
@@ -55,6 +60,11 @@ return {
       "<leader>5",
       jumpToFile(5),
       desc = "[Harpoon] To file 5.",
+    },
+    {
+      "<leader>6",
+      jumpToFile(6),
+      desc = "[Harpoon] To file 6.",
     },
   },
 }

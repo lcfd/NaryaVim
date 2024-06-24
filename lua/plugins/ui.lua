@@ -1,5 +1,13 @@
+local git_colors = {
+  add = "#22c55e",
+  change = "#ec4899",
+  delete = "#f43f5e",
+  ingore = "#545c7e",
+}
+
 return {
   {
+    -- Theme
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
@@ -8,19 +16,15 @@ return {
         style = "night",
         comments = { italic = true },
         on_colors = function(colors)
-          colors.git = {
-            add = "#22c55e",
-            change = "#ec4899",
-            delete = "#f43f5e",
-            ingore = "#545c7e",
-          }
+          colors.git = git_colors
         end,
       })
       vim.cmd([[colorscheme tokyonight]])
     end,
   },
   {
-    "utilyre/barbecue.nvim", -- Top bar code path.
+    -- Code path at the top
+    "utilyre/barbecue.nvim",
     name = "barbecue",
     version = "*",
     dependencies = {
@@ -99,7 +103,8 @@ return {
     priority = 1200,
     config = function()
       local colors = require("tokyonight.colors").setup()
-      require("incline").setup({
+      local incline = require("incline")
+      incline.setup({
         -- Force colors of the box
         -- highlight = {
         --   groups = {

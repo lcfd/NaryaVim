@@ -1,8 +1,5 @@
 {
   "name": "narya-snippets",
-  "engines": {
-    "vscode": "^1.11.0"
-  },
   "contributes": {
     "snippets": [
       {
@@ -25,6 +22,12 @@
           "markdown"
         ],
         "path": "./blog.json"
+      },
+      {
+        "language": [
+          "typescriptreact"
+        ],
+        "path": "./react-hook-form.json"
       }
     ]
   }

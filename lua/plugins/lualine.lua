@@ -1,3 +1,6 @@
+local safe_import = require("utils.safe_import")
+local icons = require("config").icons
+
 local maxSizeFile = 5
 
 return {
@@ -5,15 +8,16 @@ return {
   event = "VeryLazy",
   dependencies = { "abeldekat/harpoonline", version = "*" },
   config = function()
-    local Harpoonline = require("harpoonline")
+    local Harpoonline = safe_import("harpoonline")
+    local lualine = safe_import("lualine")
+
     Harpoonline.setup({
       on_update = function()
-        require("lualine").refresh()
+        lualine.refresh()
       end,
     })
-    local icons = require("config").icons
 
-    require("lualine").setup({
+    lualine.setup({
       extensions = { "nvim-tree", "lazy", "mason", "toggleterm" },
       options = {
         icons_enabled = true,

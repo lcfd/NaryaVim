@@ -1,3 +1,5 @@
+local safe_import = require("utils.safe_import")
+
 return {
   {
     "L3MON4D3/LuaSnip",
@@ -6,11 +8,7 @@ return {
     build = "make install_jsregexp",
     lazy = true,
     config = function(_, opts)
-      local status_ok, luasnip = pcall(require, "luasnip")
-      if not status_ok then
-        vim.notify("Setup: No luasnip", "error")
-        return
-      end
+      local luasnip = safe_import("luasnip")
 
       luasnip.config.set_config({
         history = true,

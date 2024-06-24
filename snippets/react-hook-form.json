@@ -1,0 +1,36 @@
+{
+  "formSchema": {
+    "prefix": "formSchema",
+    "description": "Zod formSchema for react-hook-form",
+    "body": ["import { z } from 'zod';", "const formSchema = z.object({", "  $1", "});"]
+  },
+  "useForm": {
+    "prefix": "useForm",
+    "description": "useForm react-hook-form",
+    "body": ["const form = useForm<z.infer<typeof formSchema>>({", "  resolver: zodResolver(formSchema),", "  defaultValues: {$1}", "});"]
+  },
+  "handleSubmit": {
+    "prefix": "handleSubmit",
+    "description": "Function for form handleSubmit react-hook-form",
+    "body": ["const onSubmit = async (data: z.infer<typeof formSchema>) => {", "$1", "};"]
+  },
+  "racthookformcomplete": {
+    "prefix": "racthookformcomplete",
+    "description": "All you need to initialize a react-hook-form form.",
+    "body": [
+      "import { z } from 'zod';",
+      "const formSchema = z.object({",
+      "  $1",
+      "});",
+      "",
+      "const form = useForm<z.infer<typeof formSchema>>({",
+      "  resolver: zodResolver(formSchema),",
+      "  defaultValues: {$2}",
+      "});",
+      "",
+      "const onSubmit = async (data: z.infer<typeof formSchema>) => {",
+      "",
+      "};"
+    ]
+  }
+}
