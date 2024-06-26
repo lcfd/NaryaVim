@@ -1,4 +1,5 @@
 -- by_filetype
+local prettier = { "prettierd", "prettier" }
 
 return function(conform)
   local config = {

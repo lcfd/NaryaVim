@@ -1,8 +1,6 @@
 local safe_import = require("utils.safe_import")
 local by_filetype = require("plugins.formatter.config_by_filetype")
 
-local prettier = { "prettierd", "prettier" }
-
 return {
   {
     "stevearc/conform.nvim",
