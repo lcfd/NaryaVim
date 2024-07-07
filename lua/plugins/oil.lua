@@ -8,19 +8,21 @@ return {
   config = function()
     local oil = safe_import("oil")
 
-    oil.setup({
-      default_file_explorer = true,
-      columns = {
-        "icon",
-        -- "permissions"
-      },
-      keymaps = {
-        ["<C-h>"] = false,
-      },
-      view_options = {
-        show_idden = true,
-      },
-    })
+    if oil then
+      oil.setup({
+        default_file_explorer = false,
+        columns = {
+          "icon",
+          -- "permissions"
+        },
+        keymaps = {
+          ["<C-h>"] = false,
+        },
+        view_options = {
+          show_idden = true,
+        },
+      })
+    end
 
     -- vim.keymap.set("n", "<leader>p", oil.toggle_float, {
     vim.keymap.set("n", "<leader>p", "<CMD>Oil<CR>", {
