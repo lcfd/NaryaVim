@@ -6,7 +6,7 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
-function M.setup(config)
+function M.setup()
   local keyset = M.safe_keymap_set
 
   --
@@ -44,57 +44,60 @@ function M.setup(config)
 
   local tsbuiltin = safe_import("telescope.builtin")
 
-  keyset("n", "<leader><space>", tsbuiltin.find_files, {
-    desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
-    noremap = true,
-  })
+  if tsbuiltin then
+    keyset("n", "<leader><space>", tsbuiltin.find_files, {
+      desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
-    noremap = true,
-  })
+    keyset("n", "<leader>fw", tsbuiltin.live_grep, {
+      desc =
+      "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+      noremap = true,
+    })
 
-  keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
-    desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
-  })
+    keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
+      desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
+    })
 
-  keyset("n", "<leader>fb", tsbuiltin.buffers, {
-    desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
-    noremap = true,
-  })
+    keyset("n", "<leader>fb", tsbuiltin.buffers, {
+      desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fh", tsbuiltin.help_tags, {
-    desc = "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
-    noremap = true,
-  })
+    keyset("n", "<leader>fh", tsbuiltin.help_tags, {
+      desc =
+      "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
-    desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
-    noremap = true,
-  })
+    keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
+      desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
-    desc = "[Telescope] Lists previously open files.",
-    noremap = true,
-  })
+    keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
+      desc = "[Telescope] Lists previously open files.",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fe", tsbuiltin.symbols, {
-    desc = "[Telescope] Lists of emojis.",
-    noremap = true,
-  })
+    keyset("n", "<leader>fe", tsbuiltin.symbols, {
+      desc = "[Telescope] Lists of emojis.",
+      noremap = true,
+    })
 
-  keyset("n", "<leader>fc", tsbuiltin.commands, {
-    desc = "[Telescope] Lists commands.",
-    noremap = true,
-  })
+    keyset("n", "<leader>fc", tsbuiltin.commands, {
+      desc = "[Telescope] Lists commands.",
+      noremap = true,
+    })
 
-  keyset(
-    "n",
-    "<leader>fx",
-    tsbuiltin.resume,
-    { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
-  )
-
+    keyset(
+      "n",
+      "<leader>fx",
+      tsbuiltin.resume,
+      { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
+    )
+  end
   -- Text case
   keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
   keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
@@ -103,13 +106,15 @@ function M.setup(config)
   -- Diagnostic keymaps
   --
 
-  keyset("n", "<leader>lk", function()
-    tsbuiltin.diagnostics({
-      bufnr = 0,
+  if tsbuiltin then
+    keyset("n", "<leader>lk", function()
+      tsbuiltin.diagnostics({
+        bufnr = 0,
+      })
+    end, {
+      desc = "[Diagnostics] Current buffer.",
     })
-  end, {
-    desc = "[Diagnostics] Current buffer.",
-  })
+  end
 
   keyset("n", "<leader>lj", function()
     vim.diagnostic.open_float(nil, {
