@@ -24,21 +24,21 @@ return {
           path = "~/zettelkasten/zk-work",
         },
         {
-          name = "personal",
-          path = "~/zettelkasten/zk-personal",
-        },
-        {
           name = "knowledge",
           path = "~/zettelkasten/zk-knowledge",
-        },
-        {
-          name = "dnd",
-          path = "~/zettelkasten/zk-dnd",
         },
         {
           name = "viandante",
           path = "~/Yama/websites/viandante.blog",
         },
+        -- {
+        --   name = "personal",
+        --   path = "~/zettelkasten/zk-personal",
+        -- },
+        -- {
+        --   name = "dnd",
+        --   path = "~/zettelkasten/zk-dnd",
+        -- },
       },
 
       templates = {
