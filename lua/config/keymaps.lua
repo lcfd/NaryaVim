@@ -43,21 +43,28 @@ function M.setup()
   --
 
   local tsbuiltin = safe_import("telescope.builtin")
+  local telescope = safe_import("telescope")
 
-  if tsbuiltin then
+  if tsbuiltin and telescope then
     keyset("n", "<leader><space>", tsbuiltin.find_files, {
       desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
       noremap = true,
     })
 
-    keyset("n", "<leader>fw", tsbuiltin.live_grep, {
+
+    keyset("n", "<leader>fw", telescope.extensions.live_grep_args.live_grep_args, {
       desc =
       "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
       noremap = true,
     })
 
-    keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
+    -- Shortcut
+    local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+    keyset({ "n", "v" }, "<leader>fg", live_grep_args_shortcuts.grep_word_under_cursor, {
       desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
+    })
+    keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
+      desc = "[Telescope] Start live grep with visual selection.",
     })
 
     keyset("n", "<leader>fb", tsbuiltin.buffers, {

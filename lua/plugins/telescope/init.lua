@@ -11,6 +11,7 @@ local vimgrep_arguments = {
   "--smart-case",
   "--hidden",
   "--glob=!.git/",
+  "--glob=!.yarn/",
 }
 
 return {
@@ -34,6 +35,7 @@ return {
       },
       "nvim-telescope/telescope-symbols.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
       -- "nvim-telescope/telescope-dap.nvim"
     },
     config = function()
@@ -41,43 +43,52 @@ return {
       local actions = safe_import("telescope.actions")
       local themes = safe_import("telescope.themes")
 
-      telescope.setup({
-        defaults = {
-          selection_strategy = "reset",
-          sorting_strategy = "descending",
-          layout_strategy = "horizontal",
-          entry_prefix = "  ",
-          path_display = {
-            "smart",
-            -- "absolute",
+      if telescope and themes then
+        telescope.setup({
+          defaults = {
+            selection_strategy = "reset",
+            sorting_strategy = "descending",
+            layout_strategy = "horizontal",
+            entry_prefix = "  ",
+            path_display = {
+              "smart",
+              -- "absolute",
+            },
+            vimgrep_arguments = vimgrep_arguments,
+            winblend = 0,
+            color_devicons = true,
+            set_env = {
+              ["COLORTERM"] = "truecolor",
+            },
           },
-          vimgrep_arguments = vimgrep_arguments,
-          winblend = 0,
-          color_devicons = true,
-          set_env = {
-            ["COLORTERM"] = "truecolor",
+          pickers = get_pickers(actions),
+          extensions = {
+            fzf = {
+              fuzzy = true,
+              override_generic_sorter = true,
+              override_file_sorter = true,
+              case_mode = "smart_case",
+            },
+            ["ui-select"] = {
+              themes.get_dropdown(),
+            },
+            live_grep_args = {
+              auto_quoting = true, -- enable/disable auto-quoting
+            },
           },
-        },
-        pickers = get_pickers(actions),
-        extensions = {
-          fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = "smart_case",
-          },
-          ["ui-select"] = {
-            themes.get_dropdown(),
-          },
-        },
-      })
-      -- From stimpack https://github.com/johmsalas/text-case.nvim
-      telescope.load_extension("textcase")
-      -- Notify
-      telescope.load_extension("notify")
-      -- fzf
-      telescope.load_extension("fzf")
-      telescope.load_extension("ui-select")
+        })
+        -- From stimpack https://github.com/johmsalas/text-case.nvim
+        telescope.load_extension("textcase")
+        -- Notify
+        telescope.load_extension("notify")
+        -- fzf
+        telescope.load_extension("fzf")
+        telescope.load_extension("ui-select")
+
+        -- Live grep
+        telescope.load_extension("live_grep_args")
+      end
+
 
       -- It's here for future dap usage
       -- telescope.load_extension("dap")
