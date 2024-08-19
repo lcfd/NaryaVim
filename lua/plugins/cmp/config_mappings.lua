@@ -1,6 +1,8 @@
 -- mappings
 
 return function(cmp)
+  local luasnip = require("luasnip")
+
   local mappings = {
     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
