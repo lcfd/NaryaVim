@@ -1,5 +1,5 @@
 {
-  "Luca Fedrizzi frontmatter": {
+  "frontmatter-blog": {
     "prefix": "frontmatter-lucafedrizzi",
     "description": "The frontmatter for lucafedrizzi.com",
     "body": [
@@ -16,20 +16,6 @@
       "",
       "$1",
       "$4"
-    ]
-  },
-  "Three Layers of Evidence": {
-    "prefix": "method-three-layers-of-evidence",
-    "description": "Three Layers of Evidence",
-    "body": [
-      "## Phenomenon",
-      "What does the content say, quoted?",
-      "",
-      "## Interpretation",
-      "What do I think does this mean? Why is it interesting? How does secondary literature interpret it?",
-      "",
-      "## Practical Application",
-      "Entertaining/speculations, tool, the broader picture"
     ]
   }
 }
