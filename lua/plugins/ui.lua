@@ -112,7 +112,13 @@ return {
         --     InclineNormalNC = { guifg = "#F4F4F4", guibg = "#A9A9A9" },
         --   },
         -- },
-        window = { margin = { vertical = 0, horizontal = 1 } },
+        window = {
+          margin = { vertical = 2, horizontal = 0 },
+          placement = {
+            horizontal = "right",
+            vertical = "bottom",
+          },
+        },
         hide = {
           -- The file name must always be visible
           cursorline = false,

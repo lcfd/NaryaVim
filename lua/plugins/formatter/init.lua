@@ -11,6 +11,13 @@ return {
       local conform = safe_import("conform")
 
       conform.setup({
+        formatters = {
+          djhtml = {
+            command = "djhtml",
+            args = "cat $FILENAME | djhtml",
+            stdin = false,
+          },
+        },
         -- Apply formatters based on file types
         formatters_by_ft = by_filetype(conform),
       })

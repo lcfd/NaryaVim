@@ -3,8 +3,8 @@ local prettier = { "prettierd", "prettier" }
 
 return function(conform)
   local config = {
-    htmldjango = { "djlint" },
-    -- htmldjango = { { "prettierd", "prettier" }, "djlint" },
+    htmldjango = { "djhtml" },
+    html = { "djhtml" },
     lua = { "stylua" },
     python = function(bufnr)
       if conform.get_formatter_info("ruff_format", bufnr).available then
@@ -15,7 +15,6 @@ return function(conform)
     end,
     json = { prettier },
     javascript = { prettier },
-    html = { prettier, "djlint" },
     typescript = { prettier },
     javascriptreact = { prettier },
     typescriptreact = { prettier },
