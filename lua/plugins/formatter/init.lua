@@ -13,6 +13,7 @@ return {
       conform.setup({
         formatters = {
           djhtml = {
+            inherit = false,
             command = "djhtml",
             args = "cat $FILENAME | djhtml",
             stdin = false,

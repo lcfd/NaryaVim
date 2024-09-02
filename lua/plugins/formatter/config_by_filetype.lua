@@ -1,5 +1,5 @@
 -- by_filetype
-local prettier = { "prettierd", "prettier" }
+local prettier = { "prettierd", "prettier", stop_after_first = true }
 
 return function(conform)
   local config = {
@@ -20,7 +20,8 @@ return function(conform)
     typescriptreact = { prettier },
     css = { prettier },
     markdown = {
-      prettier,
+      "prettierd",
+      "prettier",
       "markdown-toc",
       "markdownlint",
     },
