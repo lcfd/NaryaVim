@@ -1,61 +1,14 @@
 local safe_import = require("utils.safe_import")
 
 return {
-  -- TODO: Review if necessary, give some "w/o" trial
-  -- {
-  --   -- Autopairs for neovim written by lua
-  --   -- https://github.com/windwp/nvim-autopairs
-  --   "windwp/nvim-autopairs",
-  --   event = "InsertEnter",
-  --   opts = {},
-  -- },
-  --
-  -- Motion plugins
-  -- {
-  --   'smoka7/hop.nvim',
-  --   version = "*",
-  --   opts = {
-  --     keys = 'etovxqpdygfblzhckisuran'
-  --   },
-  --   config = function(_, opts)
-  --     local hop = safe_import("hop")
-  --     local hopYank = safe_import("hop-yank")
-  --
-  --     if hop and hopYank then
-  --       -- Setup
-  --
-  --       hop.setup({
-  --         keys = opts.keys,
-  --         multi_windows = true,
-  --         current_line_only = false
-  --       })
-  --
-  --       -- Keybindings
-  --
-  --       local directions = require('hop.hint').HintDirection
-  --       vim.keymap.set('', 's', function()
-  --         hop.hint_char1({ direction = directions.AFTER_CURSOR, })
-  --       end, { remap = true })
-  --       vim.keymap.set('', 'S', function()
-  --         hop.hint_char1({ direction = directions.BEFORE_CURSOR })
-  --       end, { remap = true })
-  --       vim.keymap.set('', 't', function()
-  --         -- hop.paste_char1({ direction = directions.AFTER_CURSOR, hint_offset = 1 })
-  --         hopYank.paste_char1({})
-  --       end, { remap = true })
-  --     end
-  --   end
-  -- },
-  --
+  -- Motion plugin
   {
     "ggandor/leap.nvim",
     config = function()
-      -- local leap = safe_import("leap")
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
       vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
     end,
   },
-  --
   {
     "numToStr/Comment.nvim",
     lazy = false,
@@ -112,16 +65,22 @@ return {
       -- local get_pickers = require("plugins.telescope.get_pickers")
       local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
 
-      nvim_surround.setup({
-        keymaps = sorround_mappings,
-      })
+      if nvim_surround then
+        nvim_surround.setup({
+
+          keymaps = sorround_mappings,
+        })
+      end
     end,
   },
   {
     "johmsalas/text-case.nvim",
     config = function()
       local textcase = safe_import("textcase")
-      textcase.setup({})
+
+      if textcase then
+        textcase.setup({})
+      end
     end,
   },
   {
@@ -131,7 +90,9 @@ return {
     },
     config = function()
       local spectre = safe_import("spectre")
-      spectre.setup()
+      if spectre then
+        spectre.setup()
+      end
     end,
   },
   {
@@ -153,15 +114,17 @@ return {
     config = function()
       local illuminate = safe_import("illuminate")
 
-      illuminate.configure({
-        delay = 200,
-        large_file_cutoff = 2000,
-        large_file_overrides = {
-          providers = {
-            "lsp",
+      if illuminate then
+        illuminate.configure({
+          delay = 200,
+          large_file_cutoff = 2000,
+          large_file_overrides = {
+            providers = {
+              "lsp",
+            },
           },
-        },
-      })
+        })
+      end
     end,
   },
   {
@@ -180,18 +143,20 @@ return {
         "xx",
         function()
           local mini_bufremove = safe_import("mini.bufremove")
-          local buff_delete = mini_bufremove.delete
+          if mini_bufremove then
+            local buff_delete = mini_bufremove.delete
 
-          if vim.bo.modified then
-            local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
-            if choice == 1 then -- Yes
-              vim.cmd.write()
+            if vim.bo.modified then
+              local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
+              if choice == 1 then -- Yes
+                vim.cmd.write()
+                buff_delete(0)
+              elseif choice == 2 then -- No
+                buff_delete(0, true)
+              end
+            else
               buff_delete(0)
-            elseif choice == 2 then -- No
-              buff_delete(0, true)
             end
-          else
-            buff_delete(0)
           end
         end,
         desc = "Delete Buffer",

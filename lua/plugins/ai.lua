@@ -4,13 +4,13 @@ return {
   "David-Kunz/gen.nvim",
   opts = {
     model = "llama3:latest", -- The default model to use.
-    host = "localhost", -- The host running the Ollama service.
-    port = "11434", -- The port on which the Ollama service is listening.
-    display_mode = "float", -- The display mode. Can be "float" or "split".
-    show_prompt = false, -- Shows the Prompt submitted to Ollama.
-    show_model = false, -- Displays which model you are using at the beginning of your chat session.
-    no_auto_close = false, -- Never closes the window automatically.
-    init = function(options)
+    host = "localhost",      -- The host running the Ollama service.
+    port = "11434",          -- The port on which the Ollama service is listening.
+    display_mode = "float",  -- The display mode. Can be "float" or "split".
+    show_prompt = false,     -- Shows the Prompt submitted to Ollama.
+    show_model = false,      -- Displays which model you are using at the beginning of your chat session.
+    no_auto_close = false,   -- Never closes the window automatically.
+    init = function(_)
       pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
     end,
     -- Function to initialize Ollama

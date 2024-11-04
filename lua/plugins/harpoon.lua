@@ -3,7 +3,9 @@ local safe_import = require("utils.safe_import")
 local jumpToFile = function(n)
   return function()
     local harpoon = safe_import("harpoon")
-    harpoon:list():select(n)
+    if harpoon then
+      harpoon:list():select(n)
+    end
   end
 end
 
@@ -14,18 +16,23 @@ return {
   config = function()
     local harpoon = safe_import("harpoon")
 
-    harpoon.setup({
-      settings = {
-        save_on_toggle = true,
-      },
-    })
+    if harpoon then
+      harpoon.setup({
+        settings = {
+          save_on_toggle = true,
+        },
+      })
+    end
   end,
   keys = {
     {
       "=",
       function()
         local harpoon = safe_import("harpoon")
-        harpoon.ui:toggle_quick_menu(harpoon:list())
+
+        if harpoon then
+          harpoon.ui:toggle_quick_menu(harpoon:list())
+        end
       end,
       desc = "[Harpoon] Quick menu.",
     },

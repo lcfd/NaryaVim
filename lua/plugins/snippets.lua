@@ -7,36 +7,38 @@ return {
     dependencies = { "rafamadriz/friendly-snippets" },
     build = "make install_jsregexp",
     lazy = true,
-    config = function(_, opts)
+    config = function()
       local luasnip = safe_import("luasnip")
 
-      luasnip.config.set_config({
-        history = true,
-        -- treesitter-hl has 100, use something higher (default is 200).
-        ext_base_prio = 200,
-        -- minimal increase in priority.
-        ext_prio_increase = 1,
-        enable_autosnippets = false,
-      })
+      if luasnip then
+        local config = {
+          history = true,
+          ext_base_prio = 200,
+          ext_prio_increase = 1,
+          enable_autosnippets = false,
+        }
 
-      luasnip.filetype_extend("python", {
-        "django",
-      })
+        luasnip.config.set_config(config)
 
-      luasnip.filetype_extend("html", {
-        "htmldjango",
-      })
+        luasnip.filetype_extend("python", {
+          "django",
+        })
 
-      luasnip.filetype_extend("htmldjango", {
-        "html",
-      })
+        luasnip.filetype_extend("html", {
+          "htmldjango",
+        })
 
-      luasnip.filetype_extend("typescriptreact", {
-        "html",
-      })
+        luasnip.filetype_extend("htmldjango", {
+          "html",
+        })
 
-      require("luasnip.loaders.from_vscode").lazy_load()
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+        luasnip.filetype_extend("typescriptreact", {
+          "html",
+        })
+
+        require("luasnip.loaders.from_vscode").lazy_load()
+        require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+      end
     end,
   },
 }

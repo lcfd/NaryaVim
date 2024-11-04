@@ -4,29 +4,30 @@
 local on_attach = require("plugins.lsp.on_attach")
 
 local servers = {
-  ruff_lsp = {}, -- Python
-  pyright = {}, -- Python
-  eslint = {}, -- JS
-  astro = {}, -- Astro
-  jsonls = {}, -- JSON
-  sqlls = {}, -- SQL
-  taplo = {}, -- TOML
+  ruff_lsp = {},  -- Python
+  pyright = {},   -- Python
+  -- basedpyright = {}, -- Python
+  eslint = {},    -- JS
+  astro = {},     -- Astro
+  jsonls = {},    -- JSON
+  sqlls = {},     -- SQL
+  taplo = {},     -- TOML
   tailwindcss = { -- TailwindCSS
     tailwindCSS = {
       experimental = {
         classRegex = {
-          { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-          { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+          { "cva\\(([^)]*)\\)",          "[\"'`]([^\"'`]*).*?[\"'`]" },
+          { "cx\\(([^)]*)\\)",           "(?:'|\"|`)([^']*)(?:'|\"|`)" },
           { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
         },
       },
     },
   },
-  yamlls = {}, -- YAML
-  html = {}, -- HTML
-  dockerls = {}, -- Docker
+  yamlls = {},                          -- YAML
+  html = {},                            -- HTML
+  dockerls = {},                        -- Docker
   docker_compose_language_service = {}, -- Docker
-  ltex = { -- Spellcheck
+  ltex = {                              -- Spellcheck
     ltex = {
       languageToolHttpServerUri = "http://localhost:8010/",
       checkFrequency = "save",
@@ -41,7 +42,7 @@ local servers = {
     },
   },
   marksman = {}, -- Markdown
-  vtsls = {}, -- TypeScript
+  vtsls = {},    -- TypeScript
 
   -- ###############
   -- Other servers

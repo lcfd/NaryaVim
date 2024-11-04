@@ -102,7 +102,6 @@ return {
     event = "BufReadPre",
     priority = 1200,
     config = function()
-      local colors = require("tokyonight.colors").setup()
       local incline = require("incline")
       incline.setup({
         -- Force colors of the box

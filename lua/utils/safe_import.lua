@@ -1,9 +1,9 @@
 return function(pkg)
   local s, p = pcall(require, pkg)
   if not s then
-    local message = string.format("Setup: [%s] package", myVar)
+    local message = string.format("Setup: [%s] package", p)
     vim.notify(message, "error")
-    return
+    return nil
   end
 
   return p

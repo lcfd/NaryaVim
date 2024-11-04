@@ -1,3 +1,5 @@
+local safe_import = require("utils.safe_import")
+
 return {
   {
     "nvim-neotest/neotest",
@@ -10,13 +12,21 @@ return {
       "nvim-neotest/neotest-python",
     },
     config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-python"),
-        },
-        runner = "pytest",
-        python = vim.fn.getcwd() .. ".venv/bin/python",
-      })
+      local neotest = safe_import("neotest")
+      local neotest_python = safe_import("neotest-python")
+
+      if neotest and neotest_python then
+        local venv_python = vim.fn.getcwd() .. ".venv/bin/python"
+
+
+        local setup = {
+          adapters = { neotest_python },
+          runner = "pytest",
+          python = venv_python,
+        }
+
+        neotest.setup(setup)
+      end
     end,
   },
 }

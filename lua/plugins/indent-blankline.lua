@@ -18,11 +18,13 @@ return {
   config = function()
     local ibl = safe_import("ibl")
 
-    ibl.setup({
-      scope = { enabled = true },
-      exclude = {
-        filetypes = file_types_to_exclude,
-      },
-    })
+    if ibl then
+      ibl.setup({
+        scope = { enabled = true },
+        exclude = {
+          filetypes = file_types_to_exclude,
+        },
+      })
+    end
   end,
 }

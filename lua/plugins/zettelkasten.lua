@@ -20,27 +20,12 @@ return {
     opts = {
       workspaces = {
         {
-          name = "work",
-          path = "~/zettelkasten/zk-work",
+          name = "buf-parent",
+          path = function()
+            return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+          end,
         },
-        {
-          name = "knowledge",
-          path = "~/zettelkasten/zk-knowledge",
-        },
-        {
-          name = "viandante",
-          path = "~/Yama/websites/viandante.blog",
-        },
-        -- {
-        --   name = "personal",
-        --   path = "~/zettelkasten/zk-personal",
-        -- },
-        -- {
-        --   name = "dnd",
-        --   path = "~/zettelkasten/zk-dnd",
-        -- },
       },
-
       templates = {
         subdir = "templates",
         date_format = "%Y-%m-%d",
@@ -131,12 +116,4 @@ return {
       end,
     },
   },
-  -- {
-  --   "mickael-menu/zk-nvim",
-  --   config = function()
-  --     require("zk").setup({
-  --       picker = "telescope",
-  --     })
-  --   end,
-  -- },
 }
