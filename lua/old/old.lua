@@ -17,6 +17,10 @@ return {
   --   end,
   -- },
   -- {
+  --   "folke/zen-mode.nvim",
+  --   opts = {},
+  -- },
+  -- {
   --   "iamcco/markdown-preview.nvim",
   --   lazy = true,
   --   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },

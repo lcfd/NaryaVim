@@ -188,10 +188,6 @@ return {
     },
   },
   {
-    "folke/zen-mode.nvim",
-    opts = {},
-  },
-  {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = { "BufReadPost", "BufNewFile" },
