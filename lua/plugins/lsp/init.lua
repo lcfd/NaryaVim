@@ -4,7 +4,7 @@
 local on_attach = require("plugins.lsp.on_attach")
 
 local servers = {
-  ruff_lsp = {},  -- Python
+  ruff = {},      -- Python
   pyright = {},   -- Python
   -- basedpyright = {}, -- Python
   eslint = {},    -- JS
