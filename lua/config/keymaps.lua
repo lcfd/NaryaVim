@@ -140,25 +140,6 @@ function M.setup()
   })
 
   --
-  -- NvimTree
-  --
-
-  -- keyset(
-  --   "n",
-  --   "<leader>p",
-  --   "<CMD>NvimTreeToggle<CR>",
-  --   { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
-  -- )
-
-  --
-  -- Delete buffers
-  --
-
-  -- keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-  --   desc = "[Buffer] Close all but the current one.",
-  -- })
-
-  --
   -- Neotest
   --
 
