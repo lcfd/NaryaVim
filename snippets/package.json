@@ -11,6 +11,13 @@
       },
       {
         "language": [
+          "html",
+          "htmldjango"
+        ],
+        "path": "./htmldjango.json"
+      },
+      {
+        "language": [
           "md",
           "markdown"
         ],

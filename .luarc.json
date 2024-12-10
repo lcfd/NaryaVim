@@ -1,6 +1,7 @@
 {
     "workspace.checkThirdParty": false,
     "diagnostics.globals": [
-        "vim"
+        "vim",
+        "Snacks"
     ]
 }

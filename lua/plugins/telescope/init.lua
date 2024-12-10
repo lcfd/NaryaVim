@@ -79,8 +79,10 @@ return {
         })
         -- From stimpack https://github.com/johmsalas/text-case.nvim
         telescope.load_extension("textcase")
+
         -- Notify
-        telescope.load_extension("notify")
+        -- telescope.load_extension("notify")
+
         -- fzf
         telescope.load_extension("fzf")
         telescope.load_extension("ui-select")

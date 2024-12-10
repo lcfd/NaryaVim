@@ -5,23 +5,23 @@ return {
   {
     "stevearc/conform.nvim",
     lazy = true,
-    -- To disable, comment next line
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local conform = safe_import("conform")
-
-      conform.setup({
-        formatters = {
-          djhtml = {
-            inherit = false,
-            command = "djhtml",
-            args = "cat $FILENAME | djhtml",
-            stdin = false,
+      if conform then
+        conform.setup({
+          formatters = {
+            djhtml = {
+              inherit = false,
+              command = "djhtml",
+              args = "cat $FILENAME | djhtml",
+              stdin = false,
+            },
           },
-        },
-        -- Apply formatters based on file types
-        formatters_by_ft = by_filetype(conform),
-      })
+          -- Apply formatters based on file types
+          formatters_by_ft = by_filetype(conform),
+        })
+      end
     end,
   },
 }

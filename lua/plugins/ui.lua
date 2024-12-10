@@ -43,15 +43,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        config = function()
-          require("notify").setup({
-            render = "wrapped-compact",
-            max_width = 100,
-          })
-        end,
-      },
     },
     opts = {
       lsp = {
@@ -61,37 +52,15 @@ return {
           ["cmp.entry.get_documentation"] = true,
         },
       },
-      routes = {
-        {
-          filter = {
-            event = "msg_show",
-            any = {
-              { find = "%d+L, %d+B" },
-              { find = "; after #%d+" },
-              { find = "; before #%d+" },
-            },
-          },
-          view = "mini",
-        },
-        {
-          filter = {
-            event = "notify",
-            find = "No information available",
-          },
-          opts = {
-            skip = true,
-          },
-        },
+      notify = {
+        enabled = false,
       },
       presets = {
         bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = true,
         lsp_doc_border = true,
+        command_palette = true,
       },
     },
-    -- opts.presets.lsp_doc_border = true
   },
   {
     -- Floating statuslines for Neovim

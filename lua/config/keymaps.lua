@@ -154,16 +154,8 @@ function M.setup()
   -- Delete buffers
   --
 
-  keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-    desc = "[Buffer] Close all but the current one.",
-  })
-
-  --
-  -- Neogit
-  --
-
-  -- keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
-  --   desc = "[Neogit] Open the Git panel.",
+  -- keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
+  --   desc = "[Buffer] Close all but the current one.",
   -- })
 
   --
