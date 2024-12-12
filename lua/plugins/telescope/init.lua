@@ -12,6 +12,7 @@ local vimgrep_arguments = {
   "--hidden",
   "--glob=!.git/",
   "--glob=!.yarn/",
+  "--glob=!*.min.{js,css}"
 }
 
 return {
