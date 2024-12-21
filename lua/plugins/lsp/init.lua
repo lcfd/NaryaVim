@@ -1,12 +1,8 @@
 -- ### LSP
 
--- Keybindings and other configurations
-local on_attach = require("plugins.lsp.on_attach")
-
 local servers = {
   ruff = {},      -- Python
   pyright = {},   -- Python
-  -- basedpyright = {}, -- Python
   eslint = {},    -- JS
   astro = {},     -- Astro
   jsonls = {},    -- JSON
@@ -62,6 +58,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      'saghen/blink.cmp'
     },
 
     opts = {
@@ -80,30 +77,29 @@ return {
     "williamboman/mason.nvim",
     dependencies = {
       { "williamboman/mason-lspconfig.nvim" },
-      { "hrsh7th/cmp-nvim-lsp" },
     },
     cmd = "Mason",
     opts = {},
     config = function()
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
+      local lspconfig = require("lspconfig")
+      local blink = require('blink.cmp')
 
+      -- Mason
       mason.setup()
-
       mason_lspconfig.setup({
         ensure_installed = vim.tbl_keys(servers),
         automatic_installation = true,
       })
 
-      local lspconfig = require("lspconfig")
-
+      -- Capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+      capabilities = blink.get_lsp_capabilities(capabilities)
 
       mason_lspconfig.setup_handlers({
         function(server_name)
           lspconfig[server_name].setup({
-            on_attach = on_attach,
             capabilities = capabilities,
             settings = servers[server_name],
           })

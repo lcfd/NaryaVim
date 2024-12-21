@@ -1,5 +1,3 @@
-local safe_import = require("utils.safe_import")
-
 return {
   {
     "L3MON4D3/LuaSnip",
@@ -8,7 +6,8 @@ return {
     build = "make install_jsregexp",
     lazy = true,
     config = function()
-      local luasnip = safe_import("luasnip")
+      local luasnip = require("luasnip")
+      local loader_from_vscode = require("luasnip.loaders.from_vscode")
 
       if luasnip then
         local config = {
@@ -36,8 +35,8 @@ return {
           "html",
         })
 
-        require("luasnip.loaders.from_vscode").lazy_load()
-        require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+        loader_from_vscode.lazy_load()
+        loader_from_vscode.lazy_load({ paths = "~/.config/nvim/snippets" })
       end
     end,
   },
