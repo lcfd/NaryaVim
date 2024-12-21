@@ -1,6 +1,4 @@
-local safe_import = require("utils.safe_import")
-
-return {
+return { {
   "David-Kunz/gen.nvim",
   opts = {
     model = "llama3:latest", -- The default model to use.
@@ -20,7 +18,8 @@ return {
     debug = false, -- Prints errors and the command which is run.
   },
   config = function()
-    local gen = safe_import("gen")
+    local gen = require("gen")
+
     gen.prompts["Elaborate_Text"] = {
       prompt = "Elaborate the following text:\n$text",
       replace = true,
@@ -30,4 +29,36 @@ return {
       replace = false,
     }
   end,
+},
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      provider = 'ollama',
+      vendors = {
+        ollama = {
+          __inherited_from = "openai",
+          api_key_name = "",
+          endpoint = "http://127.0.0.1:11434/v1",
+          model = "codegemma",
+        },
+      },
+    },
+    build = "make",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  }
 }
