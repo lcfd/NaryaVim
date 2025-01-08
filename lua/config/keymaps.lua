@@ -39,6 +39,15 @@ function M.setup()
 	end, { desc = "[Conform] Format file (or range in visual mode)" })
 
 	--
+	-- LSP
+	--
+
+	keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
+	keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
+	keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
+	keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
+
+	--
 	-- telescope.nvim
 	--
 
