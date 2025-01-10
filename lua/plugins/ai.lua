@@ -1,65 +1,65 @@
 return {
-  {
-    "David-Kunz/gen.nvim",
-    opts = {
-      model = "llama3:latest",
-      host = "localhost",
-      port = "11434",
-      display_mode = "float", -- The display mode. Can be "float" or "split".
-      show_prompt = false,  -- Shows the Prompt submitted to Ollama.
-      show_model = false,   -- Displays which model you are using at the beginning of your chat session.
-      no_auto_close = false, -- Never closes the window automatically.
-      init = function(_)
-        pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
-      end,
-      -- Function to initialize Ollama
-      command = function(options)
-        return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
-      end,
-      debug = false,
-    },
-    config = function()
-      local gen = require("gen")
+  -- {
+  --   "David-Kunz/gen.nvim",
+  --   opts = {
+  --     model = "llama3:latest",
+  --     host = "localhost",
+  --     port = "11434",
+  --     display_mode = "float", -- The display mode. Can be "float" or "split".
+  --     show_prompt = false,  -- Shows the Prompt submitted to Ollama.
+  --     show_model = false,   -- Displays which model you are using at the beginning of your chat session.
+  --     no_auto_close = false, -- Never closes the window automatically.
+  --     init = function(_)
+  --       pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
+  --     end,
+  --     -- Function to initialize Ollama
+  --     command = function(options)
+  --       return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
+  --     end,
+  --     debug = false,
+  --   },
+  --   config = function()
+  --     local gen = require("gen")
 
-      gen.prompts["Elaborate_Text"] = {
-        prompt = "Elaborate the following text:\n$text",
-        replace = true,
-      }
-      gen.prompts["Grammar_check"] = {
-        prompt = "Check the grammar of the following text:\n$text",
-        replace = false,
-      }
-    end,
-  },
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this if you want to always pull the latest change
-    opts = {
-      provider = 'ollama',
-      vendors = {
-        ollama = {
-          __inherited_from = "openai",
-          api_key_name = "",
-          endpoint = "http://127.0.0.1:11434/v1",
-          model = "codegemma",
-        },
-      },
-    },
-    build = "make",
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-  }
+  --     gen.prompts["Elaborate_Text"] = {
+  --       prompt = "Elaborate the following text:\n$text",
+  --       replace = true,
+  --     }
+  --     gen.prompts["Grammar_check"] = {
+  --       prompt = "Check the grammar of the following text:\n$text",
+  --       replace = false,
+  --     }
+  --   end,
+  -- },
+  -- {
+  --   "yetone/avante.nvim",
+  --   event = "VeryLazy",
+  --   lazy = false,
+  --   version = false, -- set this if you want to always pull the latest change
+  --   opts = {
+  --     provider = 'ollama',
+  --     vendors = {
+  --       ollama = {
+  --         __inherited_from = "openai",
+  --         api_key_name = "",
+  --         endpoint = "http://127.0.0.1:11434/v1",
+  --         model = "codegemma",
+  --       },
+  --     },
+  --   },
+  --   build = "make",
+  --   dependencies = {
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-tree/nvim-web-devicons",
+  --     {
+  --       'MeanderingProgrammer/render-markdown.nvim',
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- }
 }
