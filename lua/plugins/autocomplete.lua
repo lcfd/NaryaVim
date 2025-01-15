@@ -23,7 +23,7 @@ return {
       completion = {
         list = {
           selection = {
-            preselect = false,
+            preselect = true,
             auto_insert = false,
           },
         },

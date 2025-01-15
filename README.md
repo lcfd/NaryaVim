@@ -15,6 +15,7 @@
 </br>
 
 ![screenshot-1](img/screen-1.png "Screenshot 1")
+
 <!-- ![screenshot-2](img/screen-2.png "Screenshot 2") -->
 
 - [Why](#why)
@@ -56,6 +57,11 @@ More details in the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Install).
 Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki).
 
 ⭐ All shortcuts are described in the `whichkey` popup.
+
+### Options
+
+Specific configuration options, not mandatory.
+Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Options).
 
 ### Python
 

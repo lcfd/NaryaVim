@@ -1,3 +1,20 @@
+local options_ok, options = pcall(require, "options")
+
+local get_workspaces = function(ok, o)
+  if ok then
+    return o.OBSIDIAN_WORKSPACES
+  else
+    return {
+      {
+        name = "buf-parent",
+        path = function()
+          return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+        end,
+      },
+    }
+  end
+end
+
 return {
   {
     "epwalsh/obsidian.nvim",
@@ -13,19 +30,20 @@ return {
       "ObsidianToday",
       "ObsidianTomorrow",
       "ObsidianYesterday",
+      "ObsidianTags",
+      "ObsidianDailies",
+      "ObsidianTemplate",
+      "ObsidianWorkspace",
+      "ObsidianPasteImg",
+      "ObsidianNewFromTemplate",
+      "ObsidianTOC",
+
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
     opts = {
-      workspaces = {
-        {
-          name = "buf-parent",
-          path = function()
-            return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
-          end,
-        },
-      },
+      workspaces = get_workspaces(options_ok, options),
       templates = {
         subdir = "templates",
         date_format = "%Y-%m-%d",
@@ -60,9 +78,6 @@ return {
       },
 
       attachments = {
-        -- The default folder to place images in via `:ObsidianPasteImg`.
-        -- If this is a relative path it will be interpreted as relative to the vault root.
-        -- You can always override this per image by passing a full path to the command instead of just a filename.
         img_folder = "attachments", -- This is the default
         -- A function that determines the text to insert in the note when pasting an image.
         -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
