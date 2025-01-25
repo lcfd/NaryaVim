@@ -15,7 +15,7 @@ return {
       },
 
       sources = {
-        default = { "snippets", "lsp", "path", "buffer" },
+        default = { "path", "buffer", "lsp", "snippets" },
       },
 
       signature = { enabled = true },
