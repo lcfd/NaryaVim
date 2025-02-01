@@ -6,7 +6,6 @@ return {
     },
     version = "*",
     opts = {
-      -- keymap = { preset = 'default' },
       keymap = { preset = "enter" },
 
       appearance = {
@@ -15,12 +14,23 @@ return {
       },
 
       sources = {
-        default = { "path", "buffer", "lsp", "snippets" },
+        -- https://cmp.saghen.dev/recipes.html#dynamically-picking-providers-by-treesitter-node-filetype
+        default = function(ctx)
+          local success, node = pcall(vim.treesitter.get_node)
+          if vim.bo.filetype == 'lua' then
+            return { 'lsp', 'path' }
+          elseif success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment' }, node:type()) then
+            return { 'buffer' }
+          else
+            return { 'lsp', 'path', 'snippets', 'buffer' }
+          end
+        end,
       },
 
       signature = { enabled = true },
 
       completion = {
+        menu = { border = 'single' },
         list = {
           selection = {
             preselect = true,
@@ -30,26 +40,12 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 1500,
+          window = { border = 'single' }
         },
       },
 
       snippets = {
         preset = "luasnip",
-        -- expand = function(snippet)
-        --   local luasnip = require("luasnip")
-        --   luasnip.lsp_expand(snippet)
-        -- end,
-        -- active = function(filter)
-        --   local luasnip = require("luasnip")
-        --   if filter and filter.direction then
-        --     return luasnip.jumpable(filter.direction)
-        --   end
-        --   return luasnip.in_snippet()
-        -- end,
-        -- jump = function(direction)
-        --   local luasnip = require("luasnip")
-        --   luasnip.jump(direction)
-        -- end,
       },
     },
     -- Required, sources are modified
