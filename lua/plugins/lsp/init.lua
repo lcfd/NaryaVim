@@ -23,14 +23,7 @@ local servers = {
   html = {},                            -- HTML
   dockerls = {},                        -- Docker
   docker_compose_language_service = {}, -- Docker
-  ltex = {                              -- Spellcheck
-    ltex = {
-      languageToolHttpServerUri = "http://localhost:8010/",
-      checkFrequency = "save",
-      completionEnabled = false,
-    },
-  },
-  lua_ls = { -- Lua
+  lua_ls = {                            -- Lua
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
@@ -44,6 +37,7 @@ local servers = {
   -- Other servers
   -- ###############
 
+  -- htmx = {},     -- HTMX
   -- gopls = {}, -- Go
   -- tsserver = {}, -- TypeScript Alternavie
   -- mdx_analyzer = {}, - MDX
@@ -52,6 +46,15 @@ local servers = {
 }
 
 return {
+  -- {
+  --   'jmbuhr/otter.nvim',
+  --   dependencies = {
+  --     'nvim-treesitter/nvim-treesitter',
+  --   },
+  --   opts = {},
+  --   config = function()
+  --   end
+  -- },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },

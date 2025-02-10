@@ -10,14 +10,15 @@ return {
       local conform = safe_import("conform")
       if conform then
         conform.setup({
-          formatters = {
-            djhtml = {
-              inherit = false,
-              command = "djhtml",
-              args = "cat $FILENAME | djhtml",
-              stdin = false,
-            },
-          },
+          -- Custom formatters
+          -- formatters = {
+          --   djhtml = {
+          --     inherit = false,
+          --     command = "djhtml",
+          --     args = "cat $FILENAME | djhtml",
+          --     stdin = false,
+          --   },
+          -- },
           -- Apply formatters based on file types
           formatters_by_ft = by_filetype(conform),
         })

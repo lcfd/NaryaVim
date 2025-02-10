@@ -41,7 +41,12 @@ return function(actions)
       hidden = true,
       show_untracked = true,
     },
-    lsp_references = default_picker_setting,
+    lsp_references = {
+      theme = "dropdown",
+      initial_mode = "normal",
+      dynamic_preview_title = true,
+      path_display = { "truncate" },
+    },
     lsp_definitions = default_picker_setting,
     lsp_declarations = default_picker_setting,
     lsp_implementations = default_picker_setting,

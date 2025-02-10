@@ -3,6 +3,7 @@ return {
     "saghen/blink.cmp",
     dependencies = {
       { "L3MON4D3/LuaSnip", version = "v2.*" },
+      -- 'jmbuhr/otter.nvim',
     },
     version = "*",
     opts = {
@@ -22,7 +23,7 @@ return {
           elseif success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment' }, node:type()) then
             return { 'buffer' }
           else
-            return { 'lsp', 'path', 'snippets', 'buffer' }
+            return { 'lsp', 'snippets', 'path', 'buffer' }
           end
         end,
       },
