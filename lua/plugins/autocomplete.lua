@@ -4,7 +4,6 @@ return {
     enabled = true,
     dependencies = {
       { "L3MON4D3/LuaSnip", version = "v2.*" },
-      "moyiz/blink-emoji.nvim",
       -- 'jmbuhr/otter.nvim', Maybe in the future
     },
     version = "*",
@@ -15,33 +14,34 @@ return {
         -- Get the current buffer's filetype
         local filetype = vim.bo[0].filetype
         -- Disable for Telescope buffers
-        if filetype == "TelescopePrompt" or filetype == "minifiles" or filetype == "snacks_picker_input" then
+        if filetype == "TelescopePrompt" or filetype == "snacks_picker_input" then
           return false
         end
         return true
       end
 
       -- NOTE: The new way to enable LuaSnip
-      -- Merge custom sources with the existing ones from lazyvim
+      -- Merge custom sources with the existing ones from lazyvim;qa
       opts.sources = vim.tbl_deep_extend("force", opts.sources or {}, {
-        default = { "lsp", "path", "snippets", "buffer", "emoji" },
+        default = { "lsp", "snippets", "path", "buffer" },
         providers = {
           lsp = {
             name = "LSP",
             enabled = true,
             module = "blink.cmp.sources.lsp",
-            min_keyword_length = 2,
-            score_offset = 86,
+            min_keyword_length = 0,
+            score_offset = 96,
           },
           path = {
             name = "Path",
             module = "blink.cmp.sources.path",
             score_offset = 25,
+            max_items = 3,
             -- When typing a path, I would get snippets and text in the
             -- suggestions, I want those to show only if there are no path
             -- suggestions
-            fallbacks = { "snippets", "buffer" },
-            min_keyword_length = 2,
+            -- fallbacks = { "snippets", "buffer" },
+            min_keyword_length = 4,
             opts = {
               trailing_slash = false,
               label_trailing_slash = true,
@@ -62,22 +62,12 @@ return {
           snippets = {
             name = "snippets",
             enabled = true,
-            max_items = 15,
+            max_items = 10,
             min_keyword_length = 1,
             module = "blink.cmp.sources.snippets",
-            score_offset = 85,
-          },
-          -- https://github.com/moyiz/blink-emoji.nvim
-          emoji = {
-            module = "blink-emoji",
-            name = "Emoji",
-            score_offset = 93, -- the higher the number, the higher the priority
-            min_keyword_length = 3,
-            opts = { insert = true }, -- Insert emoji (default) or complete its name
+            score_offset = 80,
           },
         },
-        -- command line completion, thanks to dpetka2001 in reddit
-        -- https://www.reddit.com/r/neovim/comments/1hjjf21/comment/m37fe4d/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
         cmdline = function()
           local type = vim.fn.getcmdtype()
           if type == "/" or type == "?" then
@@ -92,31 +82,23 @@ return {
 
       opts.completion = {
         keyword = {
-          -- 'prefix' will fuzzy match on the text before the cursor
-          -- 'full' will fuzzy match on the text before *and* after the cursor
-          range = "full",
+          range = "prefix",
         },
         menu = {
           border = "single",
+          auto_show = true,
+          draw = {
+            treesitter = { "lsp" },
+            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }},
+          },
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 1500,
+          auto_show_delay_ms = 1000,
           window = {
             border = "single",
           },
         },
-        -- Displays a preview of the selected item on the current line
-        ghost_text = {
-          enabled = true,
-        },
-      }
-
-      opts.fuzzy = {
-        -- Frecency tracks the most recently/frequently used items and boosts the score of the item
-        use_frecency = true,
-        -- Proximity bonus boosts the score of items matching nearby words
-        use_proximity = false,
       }
 
       opts.snippets = {
@@ -140,9 +122,18 @@ return {
 
       opts.keymap = {
         preset = "enter",
+        ["<C-space>"] = {
+          function(cmp)
+            cmp.show({ providers = { "lsp" } })
+          end,
+        },
       }
 
       opts.signature = { enabled = true }
+
+      opts.appearance = {
+        kind_icons = require("config").icons.kinds,
+      }
 
       return opts
     end,

@@ -3,7 +3,6 @@
   "FixCursorHold.nvim": { "branch": "master", "commit": "1900f89dc17c603eec29960f57c00bd9ae696495" },
   "LuaSnip": { "branch": "master", "commit": "03c8e67eb7293c404845b3982db895d59c0d1538" },
   "barbecue": { "branch": "main", "commit": "cd7e7da622d68136e13721865b4d919efd6325ed" },
-  "blink-emoji.nvim": { "branch": "master", "commit": "a77aebc092ebece1eed108f301452ae774d6b67a" },
   "blink.cmp": { "branch": "main", "commit": "b6f11a0aa33e601c469a126e3ed6e35208fe3ea3" },
   "bullets.vim": { "branch": "master", "commit": "af7e7adfd0d9b349cd48eb730e337fe3628b12b2" },
   "conform.nvim": { "branch": "master", "commit": "8ed162b0637d4c4f69ebe3e8e49b35662a82e137" },

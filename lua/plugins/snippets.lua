@@ -4,7 +4,7 @@ return {
     version = "v2.*",
     dependencies = { "rafamadriz/friendly-snippets" },
     build = "make install_jsregexp",
-    -- lazy = true,
+    lazy = true,
     config = function()
       local luasnip = require("luasnip")
       local loader_from_vscode = require("luasnip.loaders.from_vscode")
