@@ -11,6 +11,8 @@ return function(conform)
 
     python = { "ruff_format" },
 
+    astro = prettier,
+
     javascript = prettier,
     typescript = prettier,
     javascriptreact = prettier,
