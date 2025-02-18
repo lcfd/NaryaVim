@@ -18,7 +18,7 @@ return function(conform)
     javascriptreact = prettier,
     typescriptreact = prettier,
 
-    css = { prettier },
+    css = prettier,
 
     markdown = {
       "prettierd",
