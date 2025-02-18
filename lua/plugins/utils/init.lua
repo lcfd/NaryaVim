@@ -176,7 +176,7 @@ return {
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = true,      -- default settings
+    config = true, -- default settings
     submodules = false, -- not needed, submodules are required only for tests
   },
   {
@@ -198,6 +198,59 @@ return {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "[TodoComments] Next [TODO]." },
       { "[t",         function() require("todo-comments").jump_prev() end, desc = "[TodoComments] Previous [TODO]." },
       { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "[Telescope] Todo/Fix/Fixme." },
+    },
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async", "neovim/nvim-lspconfig" },
+    event = { "BufEnter" },
+    -- lazy = false,
+    config = function()
+      local ufo = require("ufo")
+      ufo.setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return { "lsp", "indent" }
+        end,
+        default = { "imports" },
+      })
+    end,
+    keys = {
+      {
+        "zr",
+        mode = "n",
+        function()
+          local ufo = require("ufo")
+          if ufo then
+            ufo.openAllFolds()
+          end
+        end,
+        desc = "[Ufo] Open all folds.",
+      },
+      {
+        "zm",
+        mode = "n",
+        function()
+          local ufo = require("ufo")
+          if ufo then
+            ufo.closeAllFolds()
+          end
+        end,
+        desc = "[Ufo] Close all folds.",
+      },
+      {
+        "zk",
+        mode = "n",
+        function()
+          local ufo = require("ufo")
+          if ufo then
+            local winid = ufo.peekFoldedLinesUnderCursor()
+            if not winid then
+              vim.lsp.buf.hover()
+            end
+          end
+        end,
+        desc = "[Ufo] Peek fold.",
+      },
     },
   },
 }

@@ -1,29 +1,29 @@
 -- ### LSP
 
 local servers = {
-  ruff = {},      -- Python
-  pyright = {},   -- Python
-  eslint = {},    -- JS
-  astro = {},     -- Astro
-  jsonls = {},    -- JSON
-  sqlls = {},     -- SQL
-  taplo = {},     -- TOML
+  ruff = {}, -- Python
+  pyright = {}, -- Python
+  eslint = {}, -- JS
+  astro = {}, -- Astro
+  jsonls = {}, -- JSON
+  sqlls = {}, -- SQL
+  taplo = {}, -- TOML
   tailwindcss = { -- TailwindCSS
     tailwindCSS = {
       experimental = {
         classRegex = {
-          { "cva\\(([^)]*)\\)",          "[\"'`]([^\"'`]*).*?[\"'`]" },
-          { "cx\\(([^)]*)\\)",           "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+          { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+          { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
           { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
         },
       },
     },
   },
-  yamlls = {},                          -- YAML
-  html = {},                            -- HTML
-  dockerls = {},                        -- Docker
+  yamlls = {}, -- YAML
+  html = {}, -- HTML
+  dockerls = {}, -- Docker
   docker_compose_language_service = {}, -- Docker
-  lua_ls = {                            -- Lua
+  lua_ls = { -- Lua
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
@@ -31,7 +31,7 @@ local servers = {
     },
   },
   marksman = {}, -- Markdown
-  vtsls = {},    -- TypeScript
+  vtsls = {}, -- TypeScript
 
   -- ###############
   -- Other servers
@@ -61,7 +61,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      'saghen/blink.cmp'
+      "saghen/blink.cmp",
     },
 
     opts = {
@@ -87,7 +87,7 @@ return {
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
       local lspconfig = require("lspconfig")
-      local blink = require('blink.cmp')
+      local blink = require("blink.cmp")
 
       -- Mason
       mason.setup()
@@ -98,6 +98,11 @@ return {
 
       -- Capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
+
       capabilities = blink.get_lsp_capabilities(capabilities)
 
       mason_lspconfig.setup_handlers({
