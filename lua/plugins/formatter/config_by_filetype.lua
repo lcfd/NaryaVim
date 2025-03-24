@@ -1,4 +1,4 @@
-local prettier = { "prettierd", "prettier", stop_after_first = true }
+local prettier = { "prettier" }
 
 -- Map formatters to filetypes
 return function(conform)
@@ -17,6 +17,8 @@ return function(conform)
     typescript = prettier,
     javascriptreact = prettier,
     typescriptreact = prettier,
+
+    vue = prettier,
 
     css = prettier,
 

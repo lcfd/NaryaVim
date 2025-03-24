@@ -29,6 +29,10 @@ return {
         "html",
       })
 
+      luasnip.filetype_extend("javascriptreact", {
+        "html",
+      })
+
       luasnip.filetype_extend("astro", {
         "html",
       })

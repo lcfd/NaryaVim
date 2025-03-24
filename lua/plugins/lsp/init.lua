@@ -9,12 +9,14 @@ local servers = {
   sqlls = {}, -- SQL
   taplo = {}, -- TOML
   tailwindcss = { -- TailwindCSS
-    tailwindCSS = {
-      experimental = {
-        classRegex = {
-          { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-          { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-          { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+    settings = {
+      tailwindCSS = {
+        experimental = {
+          classRegex = {
+            { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+            { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+            { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+          },
         },
       },
     },
@@ -24,14 +26,19 @@ local servers = {
   dockerls = {}, -- Docker
   docker_compose_language_service = {}, -- Docker
   lua_ls = { -- Lua
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      diagnostics = { disable = { "missing-fields" } },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+        diagnostics = { disable = { "missing-fields" } },
+      },
     },
   },
   marksman = {}, -- Markdown
   vtsls = {}, -- TypeScript
+  -- Vue 3
+  volar = {},
+  ts_ls = {}, -- TypeScript ts_ls is just for Vue
 
   -- ###############
   -- Other servers
@@ -46,22 +53,13 @@ local servers = {
 }
 
 return {
-  -- {
-  --   'jmbuhr/otter.nvim',
-  --   dependencies = {
-  --     'nvim-treesitter/nvim-treesitter',
-  --   },
-  --   opts = {},
-  --   config = function()
-  --   end
-  -- },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "saghen/blink.cmp",
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "saghen/blink.cmp" },
     },
 
     opts = {
@@ -91,6 +89,7 @@ return {
 
       -- Mason
       mason.setup()
+
       mason_lspconfig.setup({
         ensure_installed = vim.tbl_keys(servers),
         automatic_installation = true,
@@ -103,14 +102,40 @@ return {
         lineFoldingOnly = true,
       }
 
+      local mason_registry = require("mason-registry")
+      local vue_language_server = mason_registry.get_package("vue-language-server"):get_install_path()
+        .. "/node_modules/@vue/language-server"
+
       capabilities = blink.get_lsp_capabilities(capabilities)
+
+      -- ts_ls is just for Vue
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+        init_options = {
+          plugins = {
+            {
+              name = "@vue/typescript-plugin",
+              location = vue_language_server,
+              languages = { "vue" },
+            },
+          },
+        },
+        filetypes = { "vue" },
+      })
 
       mason_lspconfig.setup_handlers({
         function(server_name)
-          lspconfig[server_name].setup({
-            capabilities = capabilities,
-            settings = servers[server_name],
-          })
+          if server_name ~= "volar" and server_name ~= "ts_ls" then
+            local options = { capabilities = capabilities }
+
+            if servers[server_name] then
+              for k, v in pairs(servers[server_name]) do
+                table.insert(options, { [k] = v })
+              end
+            end
+
+            lspconfig[server_name].setup(options)
+          end
         end,
       })
     end,
