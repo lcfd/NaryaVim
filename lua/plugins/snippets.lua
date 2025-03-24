@@ -37,6 +37,11 @@ return {
         "html",
       })
 
+      luasnip.filetype_extend("vue", {
+        "html",
+        "javascript",
+      })
+
       loader_from_vscode.lazy_load()
       -- Not necessary, imported by blink.cmp
       -- loader_from_vscode.lazy_load({ paths = "~/.config/nvim/snippets" })
