@@ -42,10 +42,10 @@ function M.setup()
   -- LSP
   --
 
-  keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
-  keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
-  keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
-  keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
+  -- keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
+  -- keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
+  -- keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
+  -- keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
 
   --
   -- telescope.nvim
@@ -71,9 +71,9 @@ function M.setup()
     keyset({ "n", "v" }, "<leader>fg", live_grep_args_shortcuts.grep_word_under_cursor, {
       desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
     })
-    keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
-      desc = "[Telescope] Start live grep with visual selection.",
-    })
+    -- keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
+    --   desc = "[Telescope] Start live grep with visual selection.",
+    -- })
 
     keyset("n", "<leader>fb", tsbuiltin.buffers, {
       desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
@@ -91,19 +91,19 @@ function M.setup()
       noremap = true,
     })
 
-    keyset("n", "<leader>fr", function()
-      tsbuiltin.lsp_references({
-        show_line = false
-      })
-    end, {
-      desc = "[Telescope] Find references.",
-      noremap = true,
-    })
+    -- keyset("n", "<leader>fr", function()
+    --   tsbuiltin.lsp_references({
+    --     show_line = false
+    --   })
+    -- end, {
+    --   desc = "[Telescope] Find references.",
+    --   noremap = true,
+    -- })
 
-    keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
-      desc = "[Telescope] Document symbols.",
-      noremap = true,
-    })
+    -- keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
+    --   desc = "[Telescope] Document symbols.",
+    --   noremap = true,
+    -- })
 
     keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
       desc = "[Telescope] Lists previously open files.",

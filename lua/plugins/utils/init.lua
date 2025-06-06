@@ -136,33 +136,6 @@ return {
     end,
     opts = {},
   },
-  -- {
-  --   "echasnovski/mini.bufremove",
-  --   keys = {
-  --     {
-  --       "xx",
-  --       function()
-  --         local mini_bufremove = safe_import("mini.bufremove")
-  --         if mini_bufremove then
-  --           local buff_delete = mini_bufremove.delete
-  --
-  --           if vim.bo.modified then
-  --             local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
-  --             if choice == 1 then -- Yes
-  --               vim.cmd.write()
-  --               buff_delete(0)
-  --             elseif choice == 2 then -- No
-  --               buff_delete(0, true)
-  --             end
-  --           else
-  --             buff_delete(0)
-  --           end
-  --         end
-  --       end,
-  --       desc = "Delete Buffer",
-  --     },
-  --   },
-  -- },
 
   -- Open links without netrw
   -- https://github.com/chrishrb/gx.nvim
