@@ -12,7 +12,7 @@ local vimgrep_arguments = {
   "--hidden",
   "--glob=!.git/",
   "--glob=!.yarn/",
-  "--glob=!*.min.{js,css}"
+  "--glob=!*.min.{js,css}",
 }
 
 return {
@@ -23,6 +23,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
+        -- fzf-native is a c port of fzf.
         "nvim-telescope/telescope-fzf-native.nvim",
         -- `build` is used to run some command when the plugin is installed/updated.
         -- This is only run then, not every time Neovim starts up.
@@ -35,7 +36,9 @@ return {
         end,
       },
       "nvim-telescope/telescope-symbols.nvim",
+      -- Sets vim.ui.select to telescope, for example neovim core stuff can fill the telescope picker.
       "nvim-telescope/telescope-ui-select.nvim",
+      -- Enables passing arguments to the grep command
       "nvim-telescope/telescope-live-grep-args.nvim",
       -- "nvim-telescope/telescope-dap.nvim"
     },
@@ -53,7 +56,6 @@ return {
             entry_prefix = "  ",
             path_display = {
               "smart",
-              -- "absolute",
             },
             vimgrep_arguments = vimgrep_arguments,
             winblend = 0,
@@ -78,11 +80,9 @@ return {
             },
           },
         })
-        -- From stimpack https://github.com/johmsalas/text-case.nvim
-        telescope.load_extension("textcase")
 
-        -- Notify
-        -- telescope.load_extension("notify")
+        -- https://github.com/johmsalas/text-case.nvim
+        telescope.load_extension("textcase")
 
         -- fzf
         telescope.load_extension("fzf")
@@ -92,12 +92,8 @@ return {
         telescope.load_extension("live_grep_args")
       end
 
-
       -- It's here for future dap usage
       -- telescope.load_extension("dap")
-
-      -- Using obsidian.nvim now
-      -- telescope.load_extension("zk")
     end,
   },
 }

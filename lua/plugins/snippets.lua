@@ -12,7 +12,6 @@ return {
     lazy = true,
     config = function()
       local luasnip = require("luasnip")
-      local loader_from_vscode = require("luasnip.loaders.from_vscode")
 
       luasnip.filetype_extend("python", {
         "django",
@@ -49,7 +48,7 @@ return {
         "javascript",
       })
 
-      loader_from_vscode.lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
 }
