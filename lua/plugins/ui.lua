@@ -33,8 +33,9 @@ return {
     },
     opts = {
       theme = "tokyonight",
-      show_dirname = false,
-      show_basename = false,
+      show_dirname = true,
+      -- show_basename = false,
+      show_basename = true,
       show_modified = true,
     },
   },
