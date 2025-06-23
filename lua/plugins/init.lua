@@ -1,26 +1,13 @@
 return {
   -- {
-  --   "mickael-menu/zk-nvim",
+  --   dir = vim.fn.stdpath("config") .. "/lua/custom/django-cotton",
+  --   name = "django-cotton",
+  --   ft = { "html", "htmldjango", "django" },
   --   config = function()
-  --     require("zk").setup({
-  --       picker = "telescope",
+  --     require("django-cotton").setup({
+  --       template_paths = { "templates/cotton" },
+  --       filetypes = { "html", "htmldjango", "django" },
   --     })
   --   end,
   -- },
-  {
-    "folke/zen-mode.nvim",
-    opts = {},
-  },
-  {
-    "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
-    event = { "BufReadPost", "BufNewFile" },
-    config = true,
-    -- stylua: ignore
-    keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "[TodoComments] Next [TODO]." },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "[TodoComments] Previous [TODO]." },
-      { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "[Telescope] Todo/Fix/Fixme." },
-    },
-  },
 }

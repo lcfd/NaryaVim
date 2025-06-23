@@ -1,5 +1,13 @@
+local git_colors = {
+  add = "#22c55e",
+  change = "#ec4899",
+  delete = "#f43f5e",
+  ingore = "#545c7e",
+}
+
 return {
   {
+    -- Theme
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
@@ -8,19 +16,15 @@ return {
         style = "night",
         comments = { italic = true },
         on_colors = function(colors)
-          colors.git = {
-            add = "#22c55e",
-            change = "#ec4899",
-            delete = "#f43f5e",
-            ingore = "#545c7e",
-          }
+          colors.git = git_colors
         end,
       })
       vim.cmd([[colorscheme tokyonight]])
     end,
   },
   {
-    "utilyre/barbecue.nvim", -- Top bar code path.
+    -- Code path at the top
+    "utilyre/barbecue.nvim",
     name = "barbecue",
     version = "*",
     dependencies = {
@@ -29,8 +33,9 @@ return {
     },
     opts = {
       theme = "tokyonight",
-      show_dirname = false,
-      show_basename = false,
+      show_dirname = true,
+      -- show_basename = false,
+      show_basename = true,
       show_modified = true,
     },
   },
@@ -39,15 +44,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        config = function()
-          require("notify").setup({
-            render = "wrapped-compact",
-            max_width = 100,
-          })
-        end,
-      },
     },
     opts = {
       lsp = {
@@ -57,37 +53,15 @@ return {
           ["cmp.entry.get_documentation"] = true,
         },
       },
-      routes = {
-        {
-          filter = {
-            event = "msg_show",
-            any = {
-              { find = "%d+L, %d+B" },
-              { find = "; after #%d+" },
-              { find = "; before #%d+" },
-            },
-          },
-          view = "mini",
-        },
-        {
-          filter = {
-            event = "notify",
-            find = "No information available",
-          },
-          opts = {
-            skip = true,
-          },
-        },
+      notify = {
+        enabled = false,
       },
       presets = {
         bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = true,
         lsp_doc_border = true,
+        command_palette = true,
       },
     },
-    -- opts.presets.lsp_doc_border = true
   },
   {
     -- Floating statuslines for Neovim
@@ -98,8 +72,8 @@ return {
     event = "BufReadPre",
     priority = 1200,
     config = function()
-      local colors = require("tokyonight.colors").setup()
-      require("incline").setup({
+      local incline = require("incline")
+      incline.setup({
         -- Force colors of the box
         -- highlight = {
         --   groups = {
@@ -107,7 +81,13 @@ return {
         --     InclineNormalNC = { guifg = "#F4F4F4", guibg = "#A9A9A9" },
         --   },
         -- },
-        window = { margin = { vertical = 0, horizontal = 1 } },
+        window = {
+          margin = { vertical = 2, horizontal = 0 },
+          placement = {
+            horizontal = "right",
+            vertical = "bottom",
+          },
+        },
         hide = {
           -- The file name must always be visible
           cursorline = false,

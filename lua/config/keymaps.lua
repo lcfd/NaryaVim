@@ -1,3 +1,4 @@
+local safe_import = require("utils.safe_import")
 local M = {}
 
 function M.safe_keymap_set(mode, lhs, rhs, opts)
@@ -5,7 +6,7 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
-function M.setup(config)
+function M.setup()
   local keyset = M.safe_keymap_set
 
   --
@@ -38,65 +39,94 @@ function M.setup(config)
   end, { desc = "[Conform] Format file (or range in visual mode)" })
 
   --
+  -- LSP
+  --
+
+  -- keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
+  -- keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
+  -- keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
+  -- keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
+
+  --
   -- telescope.nvim
   --
 
-  local status_ok, tsbuiltin = pcall(require, "telescope.builtin")
-  if not status_ok then
-    return
+  local tsbuiltin = safe_import("telescope.builtin")
+  local telescope = safe_import("telescope")
+
+  if tsbuiltin and telescope then
+    keyset("n", "<leader><space>", tsbuiltin.find_files, {
+      desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>fw", telescope.extensions.live_grep_args.live_grep_args, {
+      desc =
+      "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+      noremap = true,
+    })
+
+    -- Shortcut
+    local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+    keyset({ "n", "v" }, "<leader>fg", live_grep_args_shortcuts.grep_word_under_cursor, {
+      desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
+    })
+    -- keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
+    --   desc = "[Telescope] Start live grep with visual selection.",
+    -- })
+
+    keyset("n", "<leader>fb", tsbuiltin.buffers, {
+      desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>fh", tsbuiltin.help_tags, {
+      desc =
+      "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
+      desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
+      noremap = true,
+    })
+
+    -- keyset("n", "<leader>fr", function()
+    --   tsbuiltin.lsp_references({
+    --     show_line = false
+    --   })
+    -- end, {
+    --   desc = "[Telescope] Find references.",
+    --   noremap = true,
+    -- })
+
+    -- keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
+    --   desc = "[Telescope] Document symbols.",
+    --   noremap = true,
+    -- })
+
+    keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
+      desc = "[Telescope] Lists previously open files.",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>fe", tsbuiltin.symbols, {
+      desc = "[Telescope] Lists of emojis.",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>fc", tsbuiltin.commands, {
+      desc = "[Telescope] Lists commands.",
+      noremap = true,
+    })
+
+    keyset(
+      "n",
+      "<leader>fx",
+      tsbuiltin.resume,
+      { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
+    )
   end
-
-  keyset("n", "<leader><space>", tsbuiltin.find_files, {
-    desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fw", tsbuiltin.live_grep, {
-    desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
-    noremap = true,
-  })
-
-  keyset({ "n", "v" }, "<leader>fg", tsbuiltin.grep_string, {
-    desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
-  })
-
-  keyset("n", "<leader>fb", tsbuiltin.buffers, {
-    desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fh", tsbuiltin.help_tags, {
-    desc = "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
-    desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
-    desc = "[Telescope] Lists previously open files.",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fe", tsbuiltin.symbols, {
-    desc = "[Telescope] Lists of emojis.",
-    noremap = true,
-  })
-
-  keyset("n", "<leader>fc", tsbuiltin.commands, {
-    desc = "[Telescope] Lists commands.",
-    noremap = true,
-  })
-
-  keyset(
-    "n",
-    "<leader>fx",
-    tsbuiltin.resume,
-    { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
-  )
-
   -- Text case
   keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
   keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
@@ -105,13 +135,15 @@ function M.setup(config)
   -- Diagnostic keymaps
   --
 
-  keyset("n", "<leader>lk", function()
-    tsbuiltin.diagnostics({
-      bufnr = 0,
+  if tsbuiltin then
+    keyset("n", "<leader>lk", function()
+      tsbuiltin.diagnostics({
+        bufnr = 0,
+      })
+    end, {
+      desc = "[Diagnostics] Current buffer.",
     })
-  end, {
-    desc = "[Diagnostics] Current buffer.",
-  })
+  end
 
   keyset("n", "<leader>lj", function()
     vim.diagnostic.open_float(nil, {
@@ -127,33 +159,6 @@ function M.setup(config)
 
   keyset("n", "]d", vim.diagnostic.goto_next, {
     desc = "[Diagnostic] Go to next error.",
-  })
-
-  --
-  -- NvimTree
-  --
-
-  keyset(
-    "n",
-    "<leader>p",
-    "<CMD>NvimTreeToggle<CR>",
-    { noremap = true, silent = true, desc = "[NvimTree] Toggle (cwd)" }
-  )
-
-  --
-  -- Delete buffers
-  --
-
-  keyset("n", "<leader>xa", "<cmd>%bd|e#<cr>", {
-    desc = "[Buffer] Close all but the current one.",
-  })
-
-  --
-  -- Neogit
-  --
-
-  keyset("n", "<leader>gg", "<CMD>Neogit<CR>", {
-    desc = "[Neogit] Open the Git panel.",
   })
 
   --

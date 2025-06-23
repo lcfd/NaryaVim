@@ -4,31 +4,37 @@
 
 <div align="center">
   <h1>NaryaVim</h1>
-  <p><b>A configuration for Neovim that inspires hope and resolution 🔥</b></p>
+  <p><b>A configuration for Neovim that inspires <br/> hope and resolution 🔥</b></p>
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Neovim-0.8%2B-green?style=flat&logo=neovim" />
+  <img src="https://img.shields.io/badge/Neovim-0.9%2B-green?style=flat&logo=neovim" />
   <img src="https://img.shields.io/github/license/lcfd/NaryaVim?label=License&logo=GNU&style=flat" />
 </div>
 
-- [⭐️ Why](#️-why)
-- [💾 Install](#-install)
-- [🐛 Debuggers](#-debuggers)
-- [🏋️ Usage](#️-usage)
-- [🔢 Neovim version](#-neovim-version)
-- [💡 Tips](#-tips)
-- [📸 Screenshots](#-screenshots)
-- [Others](#others)
-  - [obsidian.nvim for Zettelkasten](#obsidiannvim-for-zettelkasten)
+</br>
 
-## ⭐️ Why
+![screenshot-1](img/screen-1.png "Screenshot 1")
+
+<!-- ![screenshot-2](img/screen-2.png "Screenshot 2") -->
+
+- [Why](#why)
+- [Install](#install)
+- [Usage](#usage)
+  - [Python](#python)
+- [Tips](#tips)
+
+## Why
 
 I wanted a config that was truly mine and that would help me be fast and accurate.
 
 Neovim configurations are _really_ personal.
 I hope this repository can be more of a source of inspiration than a complete replacement.
-For that purpose, there are already excellent distributions such as [LunarVim](https://www.lunarvim.org/) and [AstroNvim](https://astronvim.com/).
+
+For that purpose, there are already excellent distributions such as:
+
+- [LunarVim](https://www.lunarvim.org/)
+- [AstroNvim](https://astronvim.com/)
 
 This configuration is intended to be used primarily with:
 
@@ -38,56 +44,29 @@ This configuration is intended to be used primarily with:
 - [HTMX](https://github.com/bigskysoftware/htmx)
 - [Alpine.js](https://github.com/alpinejs/alpine)
 
-I will add specific support to other technologies.
+## Install
 
-## 💾 Install
-
-Required brew packages:
-
-```
-brew install ripgrep cmake fzf gnu-sed
-```
-
-Clone the repository in the `nvim` config folder.
-
-```shell
+```sh
 git clone https://github.com/lcfd/NaryaVim ~/.config/nvim
 ```
 
-This distro may have some Python plugins in the future so you need to create a 
-virtual environment and install pynvim using the commands below.
+More details in the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Install).
 
-`python3 -m venv ~/.config/nvim/venv`
-`~/.config/nvim/venv/bin/pip install pynvim`
+## Usage
 
-## 🐛 Debuggers
+Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki).
 
-They will work automagically 🧙.
-Just run `PackerSync`.
-Make sure to already have the `virtualenv` in the `nvim` config folder.
+⭐ All shortcuts are described in the `whichkey` popup.
 
-## 🏋️ Usage
+### Options
 
-Read the [wiki](https://github.com/lcfd/NaryaVim/wiki).
+Specific configuration options, not mandatory.
+Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Options).
 
-## 🔢 Neovim version
+### Python
 
-I'm using this configuration in Neovim `v0.9.5`.
+Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Python).
 
-## 💡 Tips
+## Tips
 
-Use it with a Nerdfont to see the logos of frameworks and languages.
-
-For example, I suggest using JetBrainsMono Nerd.
-You can download it on [nerdfonts.com](https://www.nerdfonts.com/font-downloads).
-
-## 📸 Screenshots
-
-![screenshot-1](img/screen-1.png "Screenshot 1")
-![screenshot-2](img/screen-2.png "Screenshot 2")
-
-## Others
-
-### obsidian.nvim for Zettelkasten
-
-- [Maintaining a daily journal](https://github.com/mickael-menu/zk/blob/main/docs/daily-journal.md)
+Read the [wiki page](https://github.com/lcfd/NaryaVim/wiki/Tips).

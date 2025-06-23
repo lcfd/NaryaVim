@@ -1,5 +1,7 @@
 # Internal developement
+lua/plugins/development/
 lua/plugins/trak.lua
+lua/options.lua
 
 # ---
 .DS_Store

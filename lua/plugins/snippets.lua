@@ -2,24 +2,16 @@ return {
   {
     "L3MON4D3/LuaSnip",
     version = "v2.*",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    build = "make install_jsregexp",
-    lazy = true,
-    config = function(_, opts)
-      local status_ok, luasnip = pcall(require, "luasnip")
-      if not status_ok then
-        vim.notify("Setup: No luasnip", "error")
+    dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.cmp" },
+    build = (function()
+      if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
         return
       end
-
-      luasnip.config.set_config({
-        history = true,
-        -- treesitter-hl has 100, use something higher (default is 200).
-        ext_base_prio = 200,
-        -- minimal increase in priority.
-        ext_prio_increase = 1,
-        enable_autosnippets = false,
-      })
+      return "make install_jsregexp"
+    end)(),
+    lazy = true,
+    config = function()
+      local luasnip = require("luasnip")
 
       luasnip.filetype_extend("python", {
         "django",
@@ -27,18 +19,36 @@ return {
 
       luasnip.filetype_extend("html", {
         "htmldjango",
+        "javascript",
       })
 
       luasnip.filetype_extend("htmldjango", {
         "html",
+        "javascript",
       })
 
       luasnip.filetype_extend("typescriptreact", {
         "html",
       })
 
+      luasnip.filetype_extend("javascriptreact", {
+        "html",
+      })
+
+      luasnip.filetype_extend("typescript", {
+        "javascript",
+      })
+
+      luasnip.filetype_extend("astro", {
+        "html",
+      })
+
+      luasnip.filetype_extend("vue", {
+        "html",
+        "javascript",
+      })
+
       require("luasnip.loaders.from_vscode").lazy_load()
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
     end,
   },
 }

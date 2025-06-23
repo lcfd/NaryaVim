@@ -1,8 +1,5 @@
 {
   "name": "narya-snippets",
-  "engines": {
-    "vscode": "^1.11.0"
-  },
   "contributes": {
     "snippets": [
       {
@@ -11,6 +8,13 @@
           "python"
         ],
         "path": "./django-ninja.json"
+      },
+      {
+        "language": [
+          "html",
+          "htmldjango"
+        ],
+        "path": "./htmldjango.json"
       },
       {
         "language": [
@@ -25,6 +29,12 @@
           "markdown"
         ],
         "path": "./blog.json"
+      },
+      {
+        "language": [
+          "typescriptreact"
+        ],
+        "path": "./react-hook-form.json"
       }
     ]
   }

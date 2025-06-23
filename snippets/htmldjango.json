@@ -1,1 +1,22 @@
-{}
+{
+  "ifs": {
+    "prefix": "ifs",
+    "description": "if tag django template",
+    "body": ["{% if %}"]
+  },
+  "else": {
+    "prefix": "else",
+    "description": "else tag django template",
+    "body": ["{% else %}"]
+  },
+  "elif": {
+    "prefix": "elif",
+    "description": "elif tag django template",
+    "body": ["{% elif %}"]
+  },
+  "endif": {
+    "prefix": "endif",
+    "description": "endif tag django template",
+    "body": ["{% endif %}"]
+  }
+}

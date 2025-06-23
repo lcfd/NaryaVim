@@ -69,6 +69,12 @@ function M.setup()
   opt.winminwidth = 5 -- Minimum window width
   opt.wrap = true -- Disable line wrap
 
+  -- Fold
+  opt.foldcolumn = "0" -- '0' is not bad
+  opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+  opt.foldlevelstart = 99
+  opt.foldenable = true
+
   if vim.fn.has("nvim-0.10") == 1 then
     opt.smoothscroll = true
   end
