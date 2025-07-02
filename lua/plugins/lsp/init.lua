@@ -1,5 +1,34 @@
 -- ### LSP
 
+local vue_language_server_path = vim.fn.expand("$MASON/packages")
+  .. "/vue-language-server"
+  .. "/node_modules/@vue/language-server"
+
+local vtsls_config = {
+  filetypes = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+  },
+  settings = {
+    vtsls = {
+      tsserver = {
+        globalPlugins = {
+          {
+            name = "@vue/typescript-plugin",
+            location = vue_language_server_path,
+            languages = { "vue" },
+            configNamespace = "typescript",
+            enableForWorkspaceTypeScriptVersions = true,
+          },
+        },
+      },
+    },
+  },
+}
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -129,10 +158,22 @@ return {
         dockerls = {}, -- Docker
         docker_compose_language_service = {}, -- Docker
         marksman = {}, -- Markdown
-        vtsls = {
-          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-        },
-        -- ts_ls = {},
+        vtsls = vtsls_config,
+        -- ["vue-language-server"] = {
+        --   filetypes = { "vue" },
+        --   init_options = {
+        --     vue = {
+        --       hybridMode = false,
+        --     },
+        --     plugins = {
+        --       {
+        --         name = "@vue/typescript-plugin",
+        --         location = vue_language_server_path,
+        --         languages = { "typescript", "javascript", "vue" },
+        --       },
+        --     },
+        --   },
+        -- },
         lua_ls = {
           settings = {
             Lua = {
@@ -144,34 +185,12 @@ return {
         },
       }
 
-      -- require("mason-lspconfig").setup({
-      --   automatic_enable = vim.tbl_keys(servers or {}),
-      -- })
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        "stylua", -- Used to format Lua code
+      })
+      require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-      -- local ensure_installed = vim.tbl_keys(servers or {})
-      -- vim.list_extend(ensure_installed, {
-      --   "stylua", -- Used to format Lua code
-      -- })
-      -- require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-      -- Ensure the servers and tools above are installed
-
-      -- local ensure_installed = vim.tbl_keys(servers or {})
-      -- vim.list_extend(ensure_installed, {
-      --   "stylua", -- Used to format Lua code
-      -- })
-      -- local disabled_servers = {}
-
-      -- require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-      -- require("mason-lspconfig").setup({
-      --   automatic_enable = ensure_installed,
-      -- })
-
-      -- for server_name, config in pairs(servers) do
-      --   config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
-      --   vim.lsp.config(server_name, config)
-      -- end
       for server_name, config in pairs(servers) do
         vim.lsp.config(server_name, config)
       end
