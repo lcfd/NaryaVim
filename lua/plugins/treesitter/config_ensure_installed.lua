@@ -21,6 +21,7 @@ return {
   "bash",
   -- Frameworkds
   "astro",
+  "vue",
   -- Web
   "html",
   "scss",

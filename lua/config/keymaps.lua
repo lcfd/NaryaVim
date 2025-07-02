@@ -61,8 +61,7 @@ function M.setup()
     })
 
     keyset("n", "<leader>fw", telescope.extensions.live_grep_args.live_grep_args, {
-      desc =
-      "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
+      desc = "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
       noremap = true,
     })
 
@@ -81,8 +80,7 @@ function M.setup()
     })
 
     keyset("n", "<leader>fh", tsbuiltin.help_tags, {
-      desc =
-      "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
+      desc = "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
       noremap = true,
     })
 
@@ -100,10 +98,10 @@ function M.setup()
     --   noremap = true,
     -- })
 
-    -- keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
-    --   desc = "[Telescope] Document symbols.",
-    --   noremap = true,
-    -- })
+    keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
+      desc = "[Telescope] Document symbols.",
+      noremap = true,
+    })
 
     keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
       desc = "[Telescope] Lists previously open files.",
