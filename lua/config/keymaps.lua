@@ -1,4 +1,3 @@
-local safe_import = require("utils.safe_import")
 local M = {}
 
 function M.safe_keymap_set(mode, lhs, rhs, opts)
@@ -7,6 +6,9 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
 end
 
 function M.setup()
+  local telescope = require("telescope")
+  local tsbuiltin = require("telescope.builtin")
+
   local keyset = M.safe_keymap_set
 
   --
@@ -42,17 +44,15 @@ function M.setup()
   -- LSP
   --
 
-  -- keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
-  -- keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
-  -- keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
-  -- keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
+  keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] [R]e[n]ame" })
+  keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] [C]ode [A]ction" })
+  keyset("n", "gi", tsbuiltin.lsp_implementations, { desc = "[Telescope] [G]o to [I]mplementation" })
+  keyset("n", "gd", tsbuiltin.lsp_definitions, { desc = "[Telescope] [G]oto [D]efinition" })
+  keyset("n", "gr", tsbuiltin.lsp_references, { desc = "[Telescope] [G]oto [R]eferences" })
 
   --
   -- telescope.nvim
   --
-
-  local tsbuiltin = safe_import("telescope.builtin")
-  local telescope = safe_import("telescope")
 
   if tsbuiltin and telescope then
     keyset("n", "<leader><space>", tsbuiltin.find_files, {

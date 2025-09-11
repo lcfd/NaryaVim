@@ -86,6 +86,8 @@ function M.setup()
   vim.keymap.del("n", "gra")
   vim.keymap.del("n", "grn")
   vim.keymap.del("n", "gri")
+
+  vim.deprecate = function() end
 end
 
 return M
