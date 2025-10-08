@@ -3,6 +3,7 @@ return {
     "saghen/blink.cmp",
     event = "VimEnter",
     version = "1.*",
+    enabled = true,
     dependencies = {
       -- Snippet Engine
       {
@@ -28,10 +29,7 @@ return {
         },
         opts = {},
       },
-      "folke/lazydev.nvim",
     },
-    --- @module 'blink.cmp'
-    --- @type blink.cmp.Config
     opts = {
       keymap = {
         -- 'default' (recommended) for mappings similar to built-in completions
@@ -74,15 +72,9 @@ return {
           "lsp",
           "path",
           "snippets",
-          "lazydev",
-          -- "cotton",
         },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
-          -- cotton = {
-          --   name = "Django Cotton",
-          --   module = "django-cotton.blink",
-          -- },
         },
       },
 

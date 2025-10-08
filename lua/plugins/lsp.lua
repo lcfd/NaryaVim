@@ -13,7 +13,8 @@ return {
 
       vim.lsp.enable({
         "ruff",
-        "pylsp",
+        "ty",
+        "pyright",
         "eslint",
         "astro",
         "jsonls",
