@@ -18,5 +18,16 @@
     "prefix": "endif",
     "description": "endif tag django template",
     "body": ["{% endif %}"]
+  },
+  "htmx inline parameters for HtmxView": {
+    "prefix": "htmxview-params",
+    "body": [
+      "hx-post=\"{% url 'app:url_name' %}\"",
+      "hx-swap=\"outerHTML\"",
+      "hx-vals='{\"type\": \"action\", \"payload\": {}}'",
+      "id=\"partialdef_name\"",
+      "hx-target=\"#partialdef_name\""
+    ],
+    "description": "Inline html parameters to be used with HtmxView."
   }
 }
