@@ -17,31 +17,32 @@ end
 
 return {
   {
-    "epwalsh/obsidian.nvim",
-    version = "*", -- recommended
+    "obsidian-nvim/obsidian.nvim",
+    version = "*",
     lazy = true,
     ft = "markdown",
-    cmd = {
-      "ObsidianOpen",
-      "ObsidianQuickSwitch",
-      "ObsidianNew",
-      "ObsidianSearch",
-      "ObsidianTemplate",
-      "ObsidianToday",
-      "ObsidianTomorrow",
-      "ObsidianYesterday",
-      "ObsidianTags",
-      "ObsidianDailies",
-      "ObsidianTemplate",
-      "ObsidianWorkspace",
-      "ObsidianPasteImg",
-      "ObsidianNewFromTemplate",
-      "ObsidianTOC",
-
-    },
+    -- cmd = {
+    --   "ObsidianOpen",
+    --   "ObsidianQuickSwitch",
+    --   "ObsidianNew",
+    --   "ObsidianSearch",
+    --   "ObsidianTemplate",
+    --   "ObsidianToday",
+    --   "ObsidianTomorrow",
+    --   "ObsidianYesterday",
+    --   "ObsidianTags",
+    --   "ObsidianDailies",
+    --   "ObsidianTemplate",
+    --   "ObsidianWorkspace",
+    --   "ObsidianPasteImg",
+    --   "ObsidianNewFromTemplate",
+    --   "ObsidianTOC",
+    -- },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+    ---@module 'obsidian'
+    ---@type obsidian.config
     opts = {
       workspaces = get_workspaces(options_ok, options),
       templates = {

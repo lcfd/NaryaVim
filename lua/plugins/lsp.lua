@@ -17,6 +17,9 @@ return {
     vim.lsp.config["lua_ls"] = {}
     vim.lsp.config["vtsls"] = {
       settings = {
+        -- typescript = {
+        --   preferences = { includePackageJsonAutoImports = "off" },
+        -- },
         vtsls = {
           experimental = {
             completion = {
@@ -62,4 +65,11 @@ return {
       "lua_ls",
     })
   end,
+  -- keys = {
+    -- {
+    --   "gr",
+    --   vim.lsp.buf.references,
+    --   desc = "References",
+    -- },
+  -- },
 }

@@ -60,7 +60,6 @@ return {
     event = "VeryLazy",
     config = function()
       local nvim_surround = require("nvim-surround")
-      -- local get_pickers = require("plugins.telescope.get_pickers")
       local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
 
       if nvim_surround then
@@ -157,14 +156,15 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    -- cmd = { "TodoTrouble", "TodoTelescope" },
+    cmd = { "TodoTrouble" },
     event = { "BufReadPost", "BufNewFile" },
     config = true,
     -- stylua: ignore
     keys = {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "[TodoComments] Next [TODO]." },
       { "[t",         function() require("todo-comments").jump_prev() end, desc = "[TodoComments] Previous [TODO]." },
-      { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "[Telescope] Todo/Fix/Fixme." },
+      -- { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "[Telescope] Todo/Fix/Fixme." },
     },
   },
   -- {

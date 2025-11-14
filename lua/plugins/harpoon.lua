@@ -12,7 +12,10 @@ end
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    --  "nvim-telescope/telescope.nvim"
+  },
   config = function()
     local harpoon = safe_import("harpoon")
 
@@ -71,6 +74,21 @@ return {
     {
       "<leader>6",
       jumpToFile(6),
+      desc = "[Harpoon] To file 6.",
+    },
+    {
+      "<leader>7",
+      jumpToFile(7),
+      desc = "[Harpoon] To file 6.",
+    },
+    {
+      "<leader>8",
+      jumpToFile(8),
+      desc = "[Harpoon] To file 6.",
+    },
+    {
+      "<leader>9",
+      jumpToFile(9),
       desc = "[Harpoon] To file 6.",
     },
   },

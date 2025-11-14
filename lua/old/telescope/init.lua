@@ -24,12 +24,9 @@ return {
       {
         -- fzf-native is a c port of fzf.
         "nvim-telescope/telescope-fzf-native.nvim",
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
         build = "make",
 
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
+        -- `cond` used to determine if plugin should be installed and loaded.
         cond = function()
           return vim.fn.executable("make") == 1
         end,
@@ -60,6 +57,9 @@ return {
             color_devicons = true,
             set_env = {
               ["COLORTERM"] = "truecolor",
+            },
+            preview = {
+              delay = 500,
             },
           },
           pickers = get_pickers(actions),

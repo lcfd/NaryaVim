@@ -20,6 +20,7 @@ return {
       blank = {
         char = "·",
       },
+      picker = {},
     },
     animate = { enabled = true },
     lazygit = { enabled = true },
@@ -32,6 +33,12 @@ return {
     git = { enabled = true },
     dim = { enabled = true },
     zen = { enabled = true },
+    picker = {
+      enabled = true,
+      layout = {
+        preset = "dropdown",
+      },
+    },
     --
     -- DASHBOARD
     --
@@ -154,6 +161,108 @@ Y                  Y    Y             Y             Y]],
         Snacks.zen()
       end,
       desc = "Toggle Zen Mode",
+    },
+    -- Top Pickers & Explorer
+    {
+      "<leader><space>",
+      function()
+        Snacks.picker.smart()
+      end,
+      desc = "Smart Find Files",
+    },
+    -- Find
+    {
+      "<leader>fo",
+      function()
+        Snacks.picker.recent()
+      end,
+      desc = "Recent",
+    },
+    {
+      "<leader>fi",
+      function()
+        Snacks.picker.lines({
+          layout = {
+            preset = "dropdown",
+          }
+        })
+      end,
+      desc = "Search in current buffer",
+    },
+
+    -- Todo
+    {
+      "<leader>gt",
+      function()
+        Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } })
+      end,
+      desc = "Todo/Fix/Fixme",
+    },
+
+    -- LSP
+    {
+      "gd",
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = "Goto Definition",
+    },
+    {
+      "gD",
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = "Goto Declaration",
+    },
+    {
+      "gr",
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      nowait = true,
+      desc = "References",
+    },
+    {
+      "gi",
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = "Goto Implementation",
+    },
+    {
+      "gy",
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = "Goto T[y]pe Definition",
+    },
+    {
+      "gai",
+      function()
+        Snacks.picker.lsp_incoming_calls()
+      end,
+      desc = "C[a]lls Incoming",
+    },
+    {
+      "gao",
+      function()
+        Snacks.picker.lsp_outgoing_calls()
+      end,
+      desc = "C[a]lls Outgoing",
+    },
+    {
+      "<leader>ds",
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = "LSP Symbols",
+    },
+    {
+      "<leader>dS",
+      function()
+        Snacks.picker.lsp_workspace_symbols()
+      end,
+      desc = "LSP Workspace Symbols",
     },
   },
   init = function()
