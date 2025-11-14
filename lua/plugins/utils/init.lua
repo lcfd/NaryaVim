@@ -1,5 +1,3 @@
-local safe_import = require("utils.safe_import")
-
 return {
   -- Motion plugin
   -- {
@@ -14,7 +12,7 @@ return {
     lazy = false,
     config = function()
       -- Examples https://github.com/numToStr/Comment.nvim#examples
-      local comment = safe_import("Comment")
+      local comment = require("Comment")
 
       if comment then
         comment.setup({
@@ -61,7 +59,7 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      local nvim_surround = safe_import("nvim-surround")
+      local nvim_surround = require("nvim-surround")
       -- local get_pickers = require("plugins.telescope.get_pickers")
       local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
 
@@ -76,11 +74,7 @@ return {
   {
     "johmsalas/text-case.nvim",
     config = function()
-      local textcase = safe_import("textcase")
-
-      if textcase then
-        textcase.setup({})
-      end
+      require("textcase").setup({})
     end,
   },
   {
@@ -89,7 +83,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      local spectre = safe_import("spectre")
+      local spectre = require("spectre")
       if spectre then
         spectre.setup()
       end
@@ -112,7 +106,7 @@ return {
       },
     },
     config = function()
-      local illuminate = safe_import("illuminate")
+      local illuminate = require("illuminate")
 
       if illuminate then
         illuminate.configure({

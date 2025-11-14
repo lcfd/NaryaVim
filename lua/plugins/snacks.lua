@@ -2,11 +2,12 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  ---@type snacks.Config
   opts = {
     indent = {
       enabled = true,
       animate = {
-        enabled = false
+        enabled = false,
       },
       indent = {
         -- blank = "∙",
@@ -14,11 +15,11 @@ return {
       scope = {
         animate = {
           enabled = false,
-        }
+        },
       },
       blank = {
         char = "·",
-      }
+      },
     },
     animate = { enabled = true },
     lazygit = { enabled = true },
@@ -51,11 +52,11 @@ S*S    S*S  S*S    S*S  S*S    S%S    S*S    S*S    S*S
 S*S    S*S  S*S    S*S  S*S    S&S    S*S    S*S    S*S
 S*S    SSS  SSS    S*S  S*S    SSS    S*S    SSS    S*S
 SP                 SP   SP            SP            SP
-Y                  Y    Y             Y             Y]]
+Y                  Y    Y             Y             Y]],
       },
       sections = {
         { section = "header" },
-        { section = "keys",   gap = 1, padding = 1 },
+        { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
         {
           pane = 2,
@@ -109,15 +110,51 @@ Y                  Y    Y             Y             Y]]
           end, cmds)
         end,
       },
-    }
+    },
   },
   keys = {
-    { "<leader>gg", function() Snacks.lazygit() end,          desc = "Lazygit" },
-    { "xx",         function() Snacks.bufdelete() end,        desc = "Delete Buffer" },
-    { "xa",         function() Snacks.bufdelete.other() end,  desc = "Delete Buffer" },
-    { "<leader>gb", function() Snacks.git.blame_line() end,   desc = "Git Blame Line" },
-    { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
-    { "<leader>z",  function() Snacks.zen() end,              desc = "Toggle Zen Mode" },
+    {
+      "<leader>gg",
+      function()
+        Snacks.lazygit()
+      end,
+      desc = "Lazygit",
+    },
+    {
+      "xx",
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = "Delete Buffer",
+    },
+    {
+      "xa",
+      function()
+        Snacks.bufdelete.other()
+      end,
+      desc = "Delete Buffer",
+    },
+    {
+      "<leader>gb",
+      function()
+        Snacks.git.blame_line()
+      end,
+      desc = "Git Blame Line",
+    },
+    {
+      "<leader>gf",
+      function()
+        Snacks.lazygit.log_file()
+      end,
+      desc = "Lazygit Current File History",
+    },
+    {
+      "<leader>z",
+      function()
+        Snacks.zen()
+      end,
+      desc = "Toggle Zen Mode",
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {

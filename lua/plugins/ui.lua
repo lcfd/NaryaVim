@@ -1,6 +1,6 @@
 local git_colors = {
   add = "#22c55e",
-  change = "#ec4899",
+  change = "#1331ff",
   delete = "#f43f5e",
   ingore = "#545c7e",
 }
@@ -21,23 +21,6 @@ return {
       })
       vim.cmd([[colorscheme tokyonight]])
     end,
-  },
-  {
-    -- Code path at the top
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      theme = "tokyonight",
-      show_dirname = true,
-      -- show_basename = false,
-      show_basename = true,
-      show_modified = true,
-    },
   },
   {
     "folke/noice.nvim",

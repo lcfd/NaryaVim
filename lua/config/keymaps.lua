@@ -19,7 +19,7 @@ function M.setup()
   keyset("n", ";", ":", { desc = "[Stimpack] Open cmd." })
 
   keyset("n", "<C-j>", "<CMD>w<CR>", { desc = "[Stimpack] Save current buffer." })
-  keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
+  -- keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
 
   -- Go to the start and the end of a sentence
   keyset("n", "H", "^", { desc = "[Stimpack] Go to the start of the line." })
@@ -70,9 +70,9 @@ function M.setup()
     keyset({ "n", "v" }, "<leader>fg", live_grep_args_shortcuts.grep_word_under_cursor, {
       desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
     })
-    -- keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
-    --   desc = "[Telescope] Start live grep with visual selection.",
-    -- })
+    keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
+      desc = "[Telescope] Start live grep with visual selection.",
+    })
 
     keyset("n", "<leader>fb", tsbuiltin.buffers, {
       desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
@@ -98,32 +98,58 @@ function M.setup()
     --   noremap = true,
     -- })
 
+    -- Document symbols
+
     keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
       desc = "[Telescope] Document symbols.",
       noremap = true,
     })
+
+    keyset("n", "<leader>df", function()
+      tsbuiltin.lsp_document_symbols({
+        symbols = { "function" },
+      })
+    end, {
+      desc = "[Telescope] Document Functions.",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>dc", function()
+      tsbuiltin.lsp_document_symbols({
+        symbols = { "class" },
+      })
+    end, {
+      desc = "[Telescope] Document Classes.",
+      noremap = true,
+    })
+
+    keyset("n", "<leader>dv", function()
+      tsbuiltin.lsp_document_symbols({
+        symbols = { "variable" },
+      })
+    end, {
+      desc = "[Telescope] Document Variables.",
+      noremap = true,
+    })
+
+    -- End Document symbols
 
     keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
       desc = "[Telescope] Lists previously open files.",
       noremap = true,
     })
 
-    keyset("n", "<leader>fe", tsbuiltin.symbols, {
-      desc = "[Telescope] Lists of emojis.",
-      noremap = true,
-    })
+    -- keyset("n", "<leader>fe", tsbuiltin.symbols, {
+    --   desc = "[Telescope] Lists of emojis.",
+    --   noremap = true,
+    -- })
 
     keyset("n", "<leader>fc", tsbuiltin.commands, {
       desc = "[Telescope] Lists commands.",
       noremap = true,
     })
 
-    keyset(
-      "n",
-      "<leader>fx",
-      tsbuiltin.resume,
-      { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
-    )
+    keyset("n", "<leader>fx", tsbuiltin.resume, { noremap = true, desc = "[Telescope] Resume last search." })
   end
   -- Text case
   keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
