@@ -160,15 +160,15 @@ function M.setup()
   -- Diagnostic keymaps
   --
 
-  if tsbuiltin then
-    keyset("n", "<leader>lk", function()
-      tsbuiltin.diagnostics({
-        bufnr = 0,
-      })
-    end, {
-      desc = "[Diagnostics] Current buffer.",
-    })
-  end
+  -- if tsbuiltin then
+  --   keyset("n", "<leader>lk", function()
+  --     tsbuiltin.diagnostics({
+  --       bufnr = 0,
+  --     })
+  --   end, {
+  --     desc = "[Diagnostics] Current buffer.",
+  --   })
+  -- end
 
   keyset("n", "<leader>lj", function()
     vim.diagnostic.open_float(nil, {

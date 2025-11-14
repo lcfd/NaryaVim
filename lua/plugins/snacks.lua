@@ -184,7 +184,7 @@ Y                  Y    Y             Y             Y]],
         Snacks.picker.lines({
           layout = {
             preset = "dropdown",
-          }
+          },
         })
       end,
       desc = "Search in current buffer",
@@ -263,6 +263,14 @@ Y                  Y    Y             Y             Y]],
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = "LSP Workspace Symbols",
+    },
+    --search
+    {
+      "<leader>lk",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "Buffer Diagnostics",
     },
   },
   init = function()
