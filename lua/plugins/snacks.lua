@@ -166,9 +166,16 @@ Y                  Y    Y             Y             Y]],
     {
       "<leader><space>",
       function()
-        Snacks.picker.smart()
+        Snacks.picker.files()
       end,
-      desc = "Smart Find Files",
+      desc = "Find Files",
+    },
+    {
+      "<leader>p",
+      function()
+        Snacks.explorer()
+      end,
+      desc = "File Explorer",
     },
     -- Find
     {
@@ -188,6 +195,21 @@ Y                  Y    Y             Y             Y]],
         })
       end,
       desc = "Search in current buffer",
+    },
+    {
+      "<leader>fw",
+      function()
+        Snacks.picker.grep()
+      end,
+      desc = "Find word in the project",
+    },
+    {
+      "<leader>fW",
+      function()
+        Snacks.picker.grep_word()
+      end,
+      desc = "Visual selection or word",
+      mode = { "n", "x" },
     },
 
     -- Todo

@@ -61,66 +61,76 @@ return {
         template = "daily.md",
       },
 
-      mappings = {
-        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-        -- ["gf"] = {
-        --   action = function()
-        --     return require("obsidian").util.gf_passthrough()
-        --   end,
-        --   opts = { noremap = false, expr = true, buffer = true },
-        -- },
-        -- Toggle check-boxes.
-        ["<leader>tt"] = {
-          action = function()
-            return require("obsidian").util.toggle_checkbox()
+      keys = {
+        {
+          "<leader>tt",
+          function()
+            require("obsidian").util.toggle_checkbox()
           end,
-          opts = { buffer = true, desc = "[Obsidian] Toggle checkbox." },
+          desc = "[Obsidian] Toggle checkbox.",
         },
       },
 
-      attachments = {
-        img_folder = "attachments", -- This is the default
-        -- A function that determines the text to insert in the note when pasting an image.
-        -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-        -- This is the default implementation.
-        ---@param client obsidian.Client
-        ---@param path obsidian.Path the absolute path to the image file
-        ---@return string
-        img_text_func = function(client, path)
-          local link_path
-          local vault_relative_path = client:vault_relative_path(path)
-          if vault_relative_path ~= nil then
-            -- Use relative path if the image is saved in the vault dir.
-            link_path = vault_relative_path
-          else
-            -- Otherwise use the absolute path.
-            link_path = tostring(path)
-          end
-          local display_name = vim.fs.basename(link_path)
-          return string.format("![%s](%s)", display_name, link_path)
-        end,
-      },
+      -- mappings = {
+      --   -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+      --   -- ["gf"] = {
+      --   --   action = function()
+      --   --     return require("obsidian").util.gf_passthrough()
+      --   --   end,
+      --   --   opts = { noremap = false, expr = true, buffer = true },
+      --   -- },
+      --   -- Toggle check-boxes.
+      --   ["<leader>tt"] = {
+      --     action = function()
+      --       return require("obsidian").util.toggle_checkbox()
+      --     end,
+      --     opts = { buffer = true, desc = "[Obsidian] Toggle checkbox." },
+      --   },
+      -- },
 
-      -- Optional, customize how note IDs are generated given an optional title.
-      ---@param title string|?
-      ---@return string
-      note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        -- In this case a note with the title 'My new note' will be given an ID that looks
-        -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-        local suffix = ""
-        if title ~= nil then
-          -- If title is given, transform it into valid file name.
-          suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-          -- suffix = title:gsub("[^A-Za-z0-9-]", "")
-        else
-          -- If title is nil, just add 4 random uppercase letters to the suffix.
-          for _ = 1, 4 do
-            suffix = tostring(os.time()) .. "-" .. suffix .. string.char(math.random(65, 90))
-          end
-        end
-        return suffix
-      end,
+      -- attachments = {
+      --   img_folder = "attachments", -- This is the default
+      --   -- A function that determines the text to insert in the note when pasting an image.
+      --   -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+      --   -- This is the default implementation.
+      --   ---@param client obsidian.Client
+      --   ---@param path obsidian.Path the absolute path to the image file
+      --   ---@return string
+      --   img_text_func = function(client, path)
+      --     local link_path
+      --     local vault_relative_path = client:vault_relative_path(path)
+      --     if vault_relative_path ~= nil then
+      --       -- Use relative path if the image is saved in the vault dir.
+      --       link_path = vault_relative_path
+      --     else
+      --       -- Otherwise use the absolute path.
+      --       link_path = tostring(path)
+      --     end
+      --     local display_name = vim.fs.basename(link_path)
+      --     return string.format("![%s](%s)", display_name, link_path)
+      --   end,
+      -- },
+
+      -- -- Optional, customize how note IDs are generated given an optional title.
+      -- ---@param title string|?
+      -- ---@return string
+      -- note_id_func = function(title)
+      --   -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+      --   -- In this case a note with the title 'My new note' will be given an ID that looks
+      --   -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+      --   local suffix = ""
+      --   if title ~= nil then
+      --     -- If title is given, transform it into valid file name.
+      --     suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      --     -- suffix = title:gsub("[^A-Za-z0-9-]", "")
+      --   else
+      --     -- If title is nil, just add 4 random uppercase letters to the suffix.
+      --     for _ = 1, 4 do
+      --       suffix = tostring(os.time()) .. "-" .. suffix .. string.char(math.random(65, 90))
+      --     end
+      --   end
+      --   return suffix
+      -- end,
 
       -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
       -- URL it will be ignored but you can customize this behavior here.
