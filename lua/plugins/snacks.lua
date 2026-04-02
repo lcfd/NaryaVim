@@ -121,6 +121,13 @@ Y                  Y    Y             Y             Y]],
   },
   keys = {
     {
+      "<leader>fr",
+      function()
+        Snacks.picker.resume()
+      end,
+      desc = "Resume Last Picker",
+    },
+    {
       "<leader>gg",
       function()
         Snacks.lazygit()

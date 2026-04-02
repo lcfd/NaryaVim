@@ -58,17 +58,6 @@ return {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
-    config = function()
-      local nvim_surround = require("nvim-surround")
-      local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
-
-      if nvim_surround then
-        nvim_surround.setup({
-
-          keymaps = sorround_mappings,
-        })
-      end
-    end,
   },
   {
     "johmsalas/text-case.nvim",
