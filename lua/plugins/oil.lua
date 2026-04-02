@@ -24,7 +24,7 @@ return {
       oil.setup(setup)
     end
 
-    vim.keymap.set("n", "<leader>p", "<CMD>Oil<CR>", {
+    vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", {
       desc = "[Oil] Open parent directory.",
     })
   end,

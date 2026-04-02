@@ -1,0 +1,51 @@
+{
+  "HtmxView Import dependencies": {
+    "prefix": "htmxview-imports",
+    "body": ["from htmx.HtmxView import HtmxView, ReducerPayloadType, ReducerType"],
+    "description": "Import the dependencies used with HtmxView."
+  },
+  "HtmxView Set Toast": {
+    "prefix": "htmxview-toast",
+    "body": ["self.set_toast(\"My message.\", TOAST_TYPES.error)"],
+    "description": "Create a toast using HtmxView set_toast method.."
+  },
+  "HtmxView": {
+    "prefix": "hxview",
+    "body": [
+      "from htmx.HtmxView import HtmxView, ReducerPayloadType, ReducerType",
+      "",
+      "class ${1:MyHtmxView}(${2:AuthenticationRequiredMixin}, HtmxView):",
+      "    template_name = \"${3:my_app/my_template.html}\"",
+      "",
+      "    def page(self, _: ReducerPayloadType):",
+      "        ${4:form} = ${5:MyForm}()",
+      "",
+      "        self.context = {",
+      "            \"${4:form}\": ${4:form},",
+      "        }",
+      "",
+      "    def ${6:my_action}(self, _: ReducerPayloadType):",
+      "        ${4:form} = ${5:MyForm}(self.request.POST)",
+      "",
+      "        if ${4:form}.is_valid():",
+      "            # Do the things",
+      "            self.set_toast(\"Done.\", TOAST_TYPES.success)",
+      "            self.context: dict = {",
+      "                \"${4:form}\": ${4:form},",
+      "                \"${7:query_result}\": ${7:query_result}",
+      "            }",
+      "        else:",
+      "            self.set_toast(\"Invalid data.\", TOAST_TYPES.error)",
+      "            self.context: dict = {",
+      "                \"${4:form}\": ${4:form},",
+      "            }",
+      "",
+      "    def set_reducer(self) -> ReducerType:",
+      "        return {",
+      "            \"page\": self.page,",
+      "            \"${6:my_action}\": self.${6:my_action},",
+      "        }"
+    ],
+    "description": "A Django-HTMX HtmxView class with a page reducer and an action reducer."
+  }
+}

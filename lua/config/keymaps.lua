@@ -1,4 +1,3 @@
-local safe_import = require("utils.safe_import")
 local M = {}
 
 function M.safe_keymap_set(mode, lhs, rhs, opts)
@@ -17,7 +16,7 @@ function M.setup()
   keyset("n", ";", ":", { desc = "[Stimpack] Open cmd." })
 
   keyset("n", "<C-j>", "<CMD>w<CR>", { desc = "[Stimpack] Save current buffer." })
-  keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
+  -- keyset("i", "jj", "<Esc>", { desc = "[Stimpack] Map esc to jj in Insert Mode." })
 
   -- Go to the start and the end of a sentence
   keyset("n", "H", "^", { desc = "[Stimpack] Go to the start of the line." })
@@ -42,108 +41,26 @@ function M.setup()
   -- LSP
   --
 
-  -- keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename" })
-  -- keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] Code Action" })
-  -- keyset("n", "gi", vim.lsp.buf.implementation, { desc = "[LSP] Go to Implementation" })
-  -- keyset("n", "gD", vim.lsp.buf.declaration, { desc = "[LSP] Go to Declaration" })
+  keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] [R]e[n]ame" })
+  keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] [C]ode [A]ction" })
 
-  --
-  -- telescope.nvim
-  --
-
-  local tsbuiltin = safe_import("telescope.builtin")
-  local telescope = safe_import("telescope")
-
-  if tsbuiltin and telescope then
-    keyset("n", "<leader><space>", tsbuiltin.find_files, {
-      desc = "[Telescope] Lists files in your current working directory, respects .gitignore (find_files).",
-      noremap = true,
-    })
-
-    keyset("n", "<leader>fw", telescope.extensions.live_grep_args.live_grep_args, {
-      desc =
-      "[Telescope] Search for a string in your current working directory and get results live as you type, respects .gitignore (live_grep)",
-      noremap = true,
-    })
-
-    -- Shortcut
-    local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
-    keyset({ "n", "v" }, "<leader>fg", live_grep_args_shortcuts.grep_word_under_cursor, {
-      desc = "[Telescope] Searches for the string under your cursor in your current working directory (grep_string).",
-    })
-    -- keyset({ "v" }, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection, {
-    --   desc = "[Telescope] Start live grep with visual selection.",
-    -- })
-
-    keyset("n", "<leader>fb", tsbuiltin.buffers, {
-      desc = "[Telescope] Lists open buffers in current Neovim instance (buffers).",
-      noremap = true,
-    })
-
-    keyset("n", "<leader>fh", tsbuiltin.help_tags, {
-      desc =
-      "[Telescope] Lists available help tags and opens a new window with the relevant help info on <CR> (help_tags)",
-      noremap = true,
-    })
-
-    keyset("n", "<leader>fi", tsbuiltin.current_buffer_fuzzy_find, {
-      desc = "[Telescope] Live fuzzy search inside of the currently open buffer (current_buffer_fuzzy_find)",
-      noremap = true,
-    })
-
-    -- keyset("n", "<leader>fr", function()
-    --   tsbuiltin.lsp_references({
-    --     show_line = false
-    --   })
-    -- end, {
-    --   desc = "[Telescope] Find references.",
-    --   noremap = true,
-    -- })
-
-    -- keyset("n", "<leader>ds", tsbuiltin.lsp_document_symbols, {
-    --   desc = "[Telescope] Document symbols.",
-    --   noremap = true,
-    -- })
-
-    keyset("n", "<leader>fo", tsbuiltin.oldfiles, {
-      desc = "[Telescope] Lists previously open files.",
-      noremap = true,
-    })
-
-    keyset("n", "<leader>fe", tsbuiltin.symbols, {
-      desc = "[Telescope] Lists of emojis.",
-      noremap = true,
-    })
-
-    keyset("n", "<leader>fc", tsbuiltin.commands, {
-      desc = "[Telescope] Lists commands.",
-      noremap = true,
-    })
-
-    keyset(
-      "n",
-      "<leader>fx",
-      tsbuiltin.resume,
-      { noremap = true, silent = true, desc = "[Telescope] Resume last search." }
-    )
-  end
   -- Text case
-  keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
-  keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
+  -- keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
+  -- keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
 
   --
   -- Diagnostic keymaps
   --
 
-  if tsbuiltin then
-    keyset("n", "<leader>lk", function()
-      tsbuiltin.diagnostics({
-        bufnr = 0,
-      })
-    end, {
-      desc = "[Diagnostics] Current buffer.",
-    })
-  end
+  -- if tsbuiltin then
+  --   keyset("n", "<leader>lk", function()
+  --     tsbuiltin.diagnostics({
+  --       bufnr = 0,
+  --     })
+  --   end, {
+  --     desc = "[Diagnostics] Current buffer.",
+  --   })
+  -- end
 
   keyset("n", "<leader>lj", function()
     vim.diagnostic.open_float(nil, {
@@ -165,7 +82,7 @@ function M.setup()
   -- Neotest
   --
 
-  keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>", { desc = "[Neotest] Run" })
+  -- keyset("n", "<leader>rt", "<CMD>lua require('neotest').run.run()<CR>", { desc = "[Neotest] Run" })
 
   --
   -- Spectre

@@ -2,11 +2,12 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  ---@type snacks.Config
   opts = {
     indent = {
       enabled = true,
       animate = {
-        enabled = false
+        enabled = false,
       },
       indent = {
         -- blank = "∙",
@@ -14,11 +15,12 @@ return {
       scope = {
         animate = {
           enabled = false,
-        }
+        },
       },
       blank = {
         char = "·",
-      }
+      },
+      picker = {},
     },
     animate = { enabled = true },
     lazygit = { enabled = true },
@@ -31,6 +33,12 @@ return {
     git = { enabled = true },
     dim = { enabled = true },
     zen = { enabled = true },
+    picker = {
+      enabled = true,
+      layout = {
+        preset = "dropdown",
+      },
+    },
     --
     -- DASHBOARD
     --
@@ -51,11 +59,11 @@ S*S    S*S  S*S    S*S  S*S    S%S    S*S    S*S    S*S
 S*S    S*S  S*S    S*S  S*S    S&S    S*S    S*S    S*S
 S*S    SSS  SSS    S*S  S*S    SSS    S*S    SSS    S*S
 SP                 SP   SP            SP            SP
-Y                  Y    Y             Y             Y]]
+Y                  Y    Y             Y             Y]],
       },
       sections = {
         { section = "header" },
-        { section = "keys",   gap = 1, padding = 1 },
+        { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
         {
           pane = 2,
@@ -109,15 +117,190 @@ Y                  Y    Y             Y             Y]]
           end, cmds)
         end,
       },
-    }
+    },
   },
   keys = {
-    { "<leader>gg", function() Snacks.lazygit() end,          desc = "Lazygit" },
-    { "xx",         function() Snacks.bufdelete() end,        desc = "Delete Buffer" },
-    { "xa",         function() Snacks.bufdelete.other() end,  desc = "Delete Buffer" },
-    { "<leader>gb", function() Snacks.git.blame_line() end,   desc = "Git Blame Line" },
-    { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
-    { "<leader>z",  function() Snacks.zen() end,              desc = "Toggle Zen Mode" },
+    {
+      "<leader>fr",
+      function()
+        Snacks.picker.resume()
+      end,
+      desc = "Resume Last Picker",
+    },
+    {
+      "<leader>gg",
+      function()
+        Snacks.lazygit()
+      end,
+      desc = "Lazygit",
+    },
+    {
+      "xx",
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = "Delete Buffer",
+    },
+    {
+      "xa",
+      function()
+        Snacks.bufdelete.other()
+      end,
+      desc = "Delete Buffer",
+    },
+    {
+      "<leader>gb",
+      function()
+        Snacks.git.blame_line()
+      end,
+      desc = "Git Blame Line",
+    },
+    {
+      "<leader>gf",
+      function()
+        Snacks.lazygit.log_file()
+      end,
+      desc = "Lazygit Current File History",
+    },
+    {
+      "<leader>z",
+      function()
+        Snacks.zen()
+      end,
+      desc = "Toggle Zen Mode",
+    },
+    -- Top Pickers & Explorer
+    {
+      "<leader><space>",
+      function()
+        Snacks.picker.files()
+      end,
+      desc = "Find Files",
+    },
+    {
+      "<leader>p",
+      function()
+        Snacks.explorer()
+      end,
+      desc = "File Explorer",
+    },
+    -- Find
+    {
+      "<leader>fo",
+      function()
+        Snacks.picker.recent()
+      end,
+      desc = "Recent",
+    },
+    {
+      "<leader>fi",
+      function()
+        Snacks.picker.lines({
+          layout = {
+            preset = "dropdown",
+          },
+        })
+      end,
+      desc = "Search in current buffer",
+    },
+    {
+      "<leader>fw",
+      function()
+        Snacks.picker.grep()
+      end,
+      desc = "Find word in the project",
+    },
+    {
+      "<leader>fW",
+      function()
+        Snacks.picker.grep_word()
+      end,
+      desc = "Visual selection or word",
+      mode = { "n", "x" },
+    },
+
+    -- Todo
+    {
+      "<leader>gt",
+      function()
+        Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } })
+      end,
+      desc = "Todo/Fix/Fixme",
+    },
+
+    -- LSP
+    {
+      "gd",
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = "Goto Definition",
+    },
+    {
+      "gD",
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = "Goto Declaration",
+    },
+    {
+      "gr",
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      nowait = true,
+      desc = "References",
+    },
+    {
+      "gi",
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = "Goto Implementation",
+    },
+    {
+      "gy",
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = "Goto T[y]pe Definition",
+    },
+    {
+      "gai",
+      function()
+        Snacks.picker.lsp_incoming_calls()
+      end,
+      desc = "C[a]lls Incoming",
+    },
+    {
+      "gao",
+      function()
+        Snacks.picker.lsp_outgoing_calls()
+      end,
+      desc = "C[a]lls Outgoing",
+    },
+    {
+      "<leader>ds",
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = "LSP Symbols",
+    },
+    {
+      "<leader>dS",
+      function()
+        Snacks.picker.lsp_workspace_symbols()
+      end,
+      desc = "LSP Workspace Symbols",
+    },
+    --search
+    {
+      "<leader>lk",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "Buffer Diagnostics",
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {

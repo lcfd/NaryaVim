@@ -1,5 +1,3 @@
-local safe_import = require("utils.safe_import")
-
 return {
   -- Motion plugin
   -- {
@@ -14,7 +12,7 @@ return {
     lazy = false,
     config = function()
       -- Examples https://github.com/numToStr/Comment.nvim#examples
-      local comment = safe_import("Comment")
+      local comment = require("Comment")
 
       if comment then
         comment.setup({
@@ -60,27 +58,11 @@ return {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
-    config = function()
-      local nvim_surround = safe_import("nvim-surround")
-      -- local get_pickers = require("plugins.telescope.get_pickers")
-      local sorround_mappings = require("plugins.utils.config_nvim_sorround_mappings")
-
-      if nvim_surround then
-        nvim_surround.setup({
-
-          keymaps = sorround_mappings,
-        })
-      end
-    end,
   },
   {
     "johmsalas/text-case.nvim",
     config = function()
-      local textcase = safe_import("textcase")
-
-      if textcase then
-        textcase.setup({})
-      end
+      require("textcase").setup({})
     end,
   },
   {
@@ -89,7 +71,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      local spectre = safe_import("spectre")
+      local spectre = require("spectre")
       if spectre then
         spectre.setup()
       end
@@ -112,7 +94,7 @@ return {
       },
     },
     config = function()
-      local illuminate = safe_import("illuminate")
+      local illuminate = require("illuminate")
 
       if illuminate then
         illuminate.configure({
@@ -137,21 +119,21 @@ return {
     opts = {},
   },
 
-  -- Open links without netrw
+  -- Open links without netrw // `gd` on link works without plugin
   -- https://github.com/chrishrb/gx.nvim
-  {
-    "chrishrb/gx.nvim",
-    keys = {
-      { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } },
-    },
-    cmd = { "Browse" },
-    init = function()
-      vim.g.netrw_nogx = 1 -- disable netrw gx
-    end,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = true, -- default settings
-    submodules = false, -- not needed, submodules are required only for tests
-  },
+  -- {
+  --   "chrishrb/gx.nvim",
+  --   keys = {
+  --     { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } },
+  --   },
+  --   cmd = { "Browse" },
+  --   init = function()
+  --     vim.g.netrw_nogx = 1 -- disable netrw gx
+  --   end,
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = true, -- default settings
+  --   submodules = false, -- not needed, submodules are required only for tests
+  -- },
   {
     "akinsho/toggleterm.nvim",
     version = "*",
@@ -163,14 +145,15 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    -- cmd = { "TodoTrouble", "TodoTelescope" },
+    cmd = { "TodoTrouble" },
     event = { "BufReadPost", "BufNewFile" },
     config = true,
     -- stylua: ignore
     keys = {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "[TodoComments] Next [TODO]." },
       { "[t",         function() require("todo-comments").jump_prev() end, desc = "[TodoComments] Previous [TODO]." },
-      { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "[Telescope] Todo/Fix/Fixme." },
+      -- { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "[Telescope] Todo/Fix/Fixme." },
     },
   },
   -- {

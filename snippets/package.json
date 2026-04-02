@@ -11,6 +11,13 @@
       },
       {
         "language": [
+          "py",
+          "python"
+        ],
+        "path": "./django-htmx.json"
+      },
+      {
+        "language": [
           "html",
           "htmldjango"
         ],

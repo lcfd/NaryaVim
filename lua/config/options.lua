@@ -81,6 +81,13 @@ function M.setup()
 
   -- Fix markdown indentation settings
   vim.g.markdown_recommended_style = 0
+
+  vim.keymap.del("n", "grr")
+  vim.keymap.del("n", "gra")
+  vim.keymap.del("n", "grn")
+  vim.keymap.del("n", "gri")
+
+  vim.deprecate = function() end
 end
 
 return M

@@ -1,4 +1,3 @@
-local safe_import = require("utils.safe_import")
 local get_pickers = require("plugins.telescope.get_pickers")
 
 local vimgrep_arguments = {
@@ -19,33 +18,29 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     event = "VimEnter",
-    branch = "0.1.x",
+    tag = "v0.1.9",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
         -- fzf-native is a c port of fzf.
         "nvim-telescope/telescope-fzf-native.nvim",
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
         build = "make",
 
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
+        -- `cond` used to determine if plugin should be installed and loaded.
         cond = function()
           return vim.fn.executable("make") == 1
         end,
       },
-      "nvim-telescope/telescope-symbols.nvim",
-      -- Sets vim.ui.select to telescope, for example neovim core stuff can fill the telescope picker.
+      -- -- Sets vim.ui.select to telescope, for example neovim core stuff can fill the telescope picker.
       "nvim-telescope/telescope-ui-select.nvim",
-      -- Enables passing arguments to the grep command
+      -- -- Enables passing arguments to the grep command
       "nvim-telescope/telescope-live-grep-args.nvim",
-      -- "nvim-telescope/telescope-dap.nvim"
+      -- -- "nvim-telescope/telescope-dap.nvim"
     },
     config = function()
-      local telescope = safe_import("telescope")
-      local actions = safe_import("telescope.actions")
-      local themes = safe_import("telescope.themes")
+      local telescope = require("telescope")
+      local actions = require("telescope.actions")
+      local themes = require("telescope.themes")
 
       if telescope and themes then
         telescope.setup({
@@ -62,6 +57,9 @@ return {
             color_devicons = true,
             set_env = {
               ["COLORTERM"] = "truecolor",
+            },
+            preview = {
+              delay = 500,
             },
           },
           pickers = get_pickers(actions),
@@ -87,7 +85,6 @@ return {
         -- fzf
         telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
-
         -- Live grep
         telescope.load_extension("live_grep_args")
       end
