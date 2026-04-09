@@ -53,3 +53,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+
+# AI
+CLAUDE.md
+.cursor/
+.claude/
