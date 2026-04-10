@@ -63,6 +63,7 @@ M.icons = {
 M.kind_filter = {
   default = {
     "Class",
+    "Constant",
     "Constructor",
     "Enum",
     "Field",
@@ -75,6 +76,7 @@ M.kind_filter = {
     "Property",
     "Struct",
     "Trait",
+    "Variable",
   },
   -- you can specify a different filter for each filetype
   lua = {

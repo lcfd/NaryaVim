@@ -282,7 +282,44 @@ Y                  Y    Y             Y             Y]],
     {
       "<leader>ds",
       function()
-        Snacks.picker.lsp_symbols()
+        Snacks.picker.lsp_symbols({
+          tree = true,
+          filter = {
+            default = {
+              "Class",
+              "Method",
+              "Function",
+              "Interface",
+              "Struct",
+              "Variable",
+            },
+          },
+          -- layout = { preset = "vscode", preview = true },
+          -- Custom transform to filter out the noise
+          transform = function(item)
+            -- 1. Get the symbol name
+            local name = item.text
+
+            -- 2. Filter out common React noise
+            -- Excludes symbols starting with 'use' (hooks) or lowercase letters (common vars)
+            -- But keeps Uppercase (Components) and '_' (often used for styled components/exports)
+            if name:match("^use%A") or name:match("^[a-z]") then
+              return false
+            end
+
+            -- 1. Hide actual anonymous labels
+            if name:match("<anonymous>") then
+              return false
+            end
+
+            -- 2. Hide common callback patterns (e.g., "() => ...")
+            if name:match("=>") or name:match("^function%s*%(") then
+              return false
+            end
+
+            return item
+          end,
+        })
       end,
       desc = "LSP Symbols",
     },

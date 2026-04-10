@@ -82,6 +82,9 @@ function M.setup()
   -- Fix markdown indentation settings
   vim.g.markdown_recommended_style = 0
 
+  -- LSP symbol kind filter (used by Snacks.picker.lsp_symbols)
+  vim.g.kind_filter = require("config").kind_filter
+
   vim.keymap.del("n", "grr")
   vim.keymap.del("n", "gra")
   vim.keymap.del("n", "grn")
