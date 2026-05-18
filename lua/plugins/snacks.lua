@@ -28,7 +28,24 @@ return {
     input = { enabled = true },
     notifier = { enabled = true },
     scroll = { enabled = false },
-    scope = { enabled = true },
+    scope = {
+      enabled = true,
+      treesitter = {
+        enabled = true,
+        injections = true,
+        blocks = {
+          enabled = true, -- Auto-extracts loops, conditionals, methods, functions, and classes
+          "function_declaration",
+          "function_definition",
+          "method_declaration",
+          "method_definition",
+          "if_statement",
+          "for_statement",
+          "while_statement",
+          "class_declaration",
+        },
+      },
+    },
     bufdelete = { enabled = true },
     git = { enabled = true },
     dim = { enabled = true },
@@ -337,6 +354,164 @@ Y                  Y    Y             Y             Y]],
         Snacks.picker.diagnostics_buffer()
       end,
       desc = "Buffer Diagnostics",
+    },
+
+    -- ==========================================
+    -- 1. SELECT (Text Objects)
+    -- ==========================================
+    {
+      "ii",
+      function()
+        Snacks.scope.textobject({ edge = false })
+      end,
+      mode = { "o", "x" },
+      desc = "inner conditional/scope block",
+    },
+    {
+      "ai",
+      function()
+        Snacks.scope.textobject({ edge = true })
+      end,
+      mode = { "o", "x" },
+      desc = "outer conditional/scope block",
+    },
+
+    {
+      "il",
+      function()
+        Snacks.scope.textobject({ edge = false })
+      end,
+      mode = { "o", "x" },
+      desc = "inner loop structural block",
+    },
+    {
+      "al",
+      function()
+        Snacks.scope.textobject({ edge = true })
+      end,
+      mode = { "o", "x" },
+      desc = "outer loop structural block",
+    },
+
+    {
+      "if",
+      function()
+        Snacks.scope.textobject({ edge = false })
+      end,
+      mode = { "o", "x" },
+      desc = "inner method/function def",
+    },
+    {
+      "af",
+      function()
+        Snacks.scope.textobject({ edge = true })
+      end,
+      mode = { "o", "x" },
+      desc = "outer method/function def",
+    },
+
+    {
+      "ic",
+      function()
+        Snacks.scope.textobject({ edge = false })
+      end,
+      mode = { "o", "x" },
+      desc = "inner class structure",
+    },
+    {
+      "ac",
+      function()
+        Snacks.scope.textobject({ edge = true })
+      end,
+      mode = { "o", "x" },
+      desc = "outer class structure",
+    },
+
+    -- Parameters and calls handled via native expression mapping
+    {
+      "ia",
+      "v:lua.vim.treesitter.textobjects.select('@parameter.inner')",
+      expr = true,
+      mode = { "o", "x" },
+      desc = "inner parameter/argument",
+    },
+    {
+      "aa",
+      "v:lua.vim.treesitter.textobjects.select('@parameter.outer')",
+      expr = true,
+      mode = { "o", "x" },
+      desc = "outer parameter/argument",
+    },
+    {
+      "im",
+      "v:lua.vim.treesitter.textobjects.select('@call.inner')",
+      expr = true,
+      mode = { "o", "x" },
+      desc = "inner function call",
+    },
+    {
+      "am",
+      "v:lua.vim.treesitter.textobjects.select('@call.outer')",
+      expr = true,
+      mode = { "o", "x" },
+      desc = "outer function call",
+    },
+
+    -- ==========================================
+    -- 2. MOVE (Stable Navigation Fix)
+    -- ==========================================
+    -- Method/Function jumps using Snacks.words
+    {
+      "]m",
+      function()
+        Snacks.words.jump(1)
+      end,
+      mode = { "n", "t" },
+      desc = "Next method/function def start",
+    },
+    {
+      "[m",
+      function()
+        Snacks.words.jump(-1)
+      end,
+      mode = { "n", "t" },
+      desc = "Prev method/function def start",
+    },
+    {
+      "]M",
+      function()
+        Snacks.words.jump(1)
+        vim.cmd("normal! $")
+      end,
+      mode = { "n" },
+      desc = "Next method/function def end",
+    },
+    {
+      "[M",
+      function()
+        Snacks.words.jump(-1)
+        vim.cmd("normal! $")
+      end,
+      mode = { "n" },
+      desc = "Prev method/function def end",
+    },
+
+    -- Generic context scope jump mappings
+    {
+      "]s",
+      function()
+        Snacks.scope.jump({ bottom = true })
+      end,
+      mode = { "n" },
+      desc = "Next scope block",
+    },
+    {
+      "[s",
+      function()
+        Snacks.scope.jump({ bottom = false })
+      end,
+      mode = { "n" },
+      desc = "Prev scope block",
     },
   },
   init = function()

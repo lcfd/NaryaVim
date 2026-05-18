@@ -44,24 +44,6 @@ function M.setup()
   keyset("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[LSP] [R]e[n]ame" })
   keyset("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[LSP] [C]ode [A]ction" })
 
-  -- Text case
-  -- keyset("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
-  -- keyset("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "[Telescope] Text case" })
-
-  --
-  -- Diagnostic keymaps
-  --
-
-  -- if tsbuiltin then
-  --   keyset("n", "<leader>lk", function()
-  --     tsbuiltin.diagnostics({
-  --       bufnr = 0,
-  --     })
-  --   end, {
-  --     desc = "[Diagnostics] Current buffer.",
-  --   })
-  -- end
-
   keyset("n", "<leader>lj", function()
     vim.diagnostic.open_float(nil, {
       focus = false,

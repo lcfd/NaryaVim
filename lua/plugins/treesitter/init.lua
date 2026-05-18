@@ -1,20 +1,20 @@
 local ensure_installed = require("plugins.treesitter.config_ensure_installed")
-local movements = require("plugins.treesitter.config_movements")
+-- local movements = require("plugins.treesitter.config_movements")
 
 return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    version = false,
+    -- version = false,
+    branch = "main",
+    lazy = false,
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      -- "nvim-treesitter/nvim-treesitter-textobjects",
+      -- "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
-      local treesitter = require("nvim-treesitter.configs")
-
-      treesitter.setup({
+      require("nvim-treesitter").setup({
         modules = {},
 
         highlight = {
@@ -55,14 +55,16 @@ return {
       })
     end,
   },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    lazy = true,
-    config = function()
-      local treesitter = require("nvim-treesitter.configs")
-      treesitter.setup({
-        textobjects = movements,
-      })
-    end,
-  },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter-textobjects",
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   -- lazy = true,
+  --   config = function()
+  --     -- require("nvim-treesitter-textobjects").setup({
+  --     --   textobjects = movements,
+  --     -- })
+  --     -- require("nvim-treesitter").setup({
+  --     -- })
+  --   end,
+  -- },
 }

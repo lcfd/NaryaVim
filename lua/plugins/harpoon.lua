@@ -14,7 +14,6 @@ return {
   branch = "harpoon2",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    --  "nvim-telescope/telescope.nvim"
   },
   config = function()
     local harpoon = safe_import("harpoon")
