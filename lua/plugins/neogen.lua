@@ -26,18 +26,14 @@ return {
           annotation_convention = "jsdoc",
         },
       },
-      {
-        typescript = {
-          template = {
-            annotation_convention = "tsdoc",
-          },
+      typescript = {
+        template = {
+          annotation_convention = "tsdoc",
         },
       },
-      {
-        typescriptreact = {
-          template = {
-            annotation_convention = "tsdoc",
-          },
+      typescriptreact = {
+        template = {
+          annotation_convention = "tsdoc",
         },
       },
     },

@@ -16,8 +16,7 @@ return {
       local neotest_python = safe_import("neotest-python")
 
       if neotest and neotest_python then
-        local venv_python = vim.fn.getcwd() .. ".venv/bin/python"
-
+        local venv_python = vim.fn.getcwd() .. "/.venv/bin/python"
 
         local setup = {
           adapters = { neotest_python },

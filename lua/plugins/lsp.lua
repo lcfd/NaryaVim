@@ -1,8 +1,5 @@
 return {
   "mason-org/mason.nvim",
-  dependencies = {
-    "neovim/nvim-lspconfig",
-  },
   config = function()
     require("mason").setup({
       ui = {
@@ -65,11 +62,4 @@ return {
       "lua_ls",
     })
   end,
-  -- keys = {
-    -- {
-    --   "gr",
-    --   vim.lsp.buf.references,
-    --   desc = "References",
-    -- },
-  -- },
 }

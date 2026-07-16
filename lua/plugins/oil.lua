@@ -17,7 +17,7 @@ return {
           ["<C-h>"] = false,
         },
         view_options = {
-          show_idden = true,
+          show_hidden = true,
         },
       }
 
