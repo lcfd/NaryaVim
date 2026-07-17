@@ -13,6 +13,8 @@ return {
 
     vim.lsp.config["lua_ls"] = {}
     vim.lsp.config["vtsls"] = {
+      cmd = { "vtsls", "--stdio" },
+      root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
       settings = {
         -- typescript = {
         --   preferences = { includePackageJsonAutoImports = "off" },
