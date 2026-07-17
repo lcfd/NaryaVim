@@ -19,6 +19,7 @@
 <!-- ![screenshot-2](img/screen-2.png "Screenshot 2") -->
 
 - [Why](#why)
+- [Requirements](#requirements)
 - [Install](#install)
 - [Usage](#usage)
   - [Python](#python)
@@ -43,6 +44,10 @@ This configuration is intended to be used primarily with:
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
 - [HTMX](https://github.com/bigskysoftware/htmx)
 - [Alpine.js](https://github.com/alpinejs/alpine)
+
+## Requirements
+
+- The [`tree-sitter`](https://github.com/tree-sitter/tree-sitter) CLI must be on your `$PATH` (nvim-treesitter's `main` branch uses it to compile parsers). Install it with `brew install tree-sitter-cli` (macOS) — the plain `tree-sitter` Homebrew formula only installs the runtime library, not the CLI.
 
 ## Install
 
