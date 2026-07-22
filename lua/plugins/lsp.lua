@@ -1,5 +1,10 @@
 return {
   "mason-org/mason.nvim",
+  dependencies = {
+    -- provides default lsp/*.lua configs (cmd, filetypes, root_markers) that
+    -- vim.lsp.config merges with; must be loaded before vim.lsp.enable() below
+    "neovim/nvim-lspconfig",
+  },
   config = function()
     require("mason").setup({
       ui = {
