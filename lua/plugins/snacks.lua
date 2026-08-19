@@ -310,6 +310,10 @@ Y                  Y    Y             Y             Y]],
               "Struct",
               "Variable",
             },
+            markdown = true,
+            sh = true,
+            bash = true,
+            help = true,
           },
           -- layout = { preset = "vscode", preview = true },
           -- Custom transform to filter out the noise
@@ -317,10 +321,19 @@ Y                  Y    Y             Y             Y]],
             -- 1. Get the symbol name
             local name = item.text
 
+            -- React-noise filtering only makes sense for JS/TS files; other
+            -- filetypes (markdown headings, shell functions) commonly use
+            -- lowercase names that this would otherwise strip out.
+            local ft = vim.bo[item.buf].filetype
+            local is_react_ft = ft == "javascript"
+              or ft == "javascriptreact"
+              or ft == "typescript"
+              or ft == "typescriptreact"
+
             -- 2. Filter out common React noise
             -- Excludes symbols starting with 'use' (hooks) or lowercase letters (common vars)
             -- But keeps Uppercase (Components) and '_' (often used for styled components/exports)
-            if name:match("^use%A") or name:match("^[a-z]") then
+            if is_react_ft and (name:match("^use%A") or name:match("^[a-z]")) then
               return false
             end
 
@@ -330,7 +343,7 @@ Y                  Y    Y             Y             Y]],
             end
 
             -- 2. Hide common callback patterns (e.g., "() => ...")
-            if name:match("=>") or name:match("^function%s*%(") then
+            if is_react_ft and (name:match("=>") or name:match("^function%s*%(")) then
               return false
             end
 

@@ -49,6 +49,7 @@ return {
     vim.lsp.config["dockerls"] = {}
     vim.lsp.config["docker_compose_language_service"] = {}
     vim.lsp.config["marksman"] = {}
+    vim.lsp.config["bashls"] = {}
 
     vim.lsp.enable({
       "ruff",
@@ -65,6 +66,7 @@ return {
       "dockerls",
       "docker_compose_language_service",
       "marksman",
+      "bashls",
       "vtsls",
       "lua_ls",
     })

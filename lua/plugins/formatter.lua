@@ -48,11 +48,7 @@ return {
 
         css = prettier,
 
-        markdown = {
-          "prettier",
-          "markdown-toc",
-          "markdownlint",
-        },
+        markdown = prettier,
         json = prettier,
         go = {
           "gofmt",
