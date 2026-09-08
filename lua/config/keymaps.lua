@@ -75,6 +75,14 @@ function M.setup()
   keyset("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
     desc = "[Spectre] Search on current file.",
   })
+
+  --
+  -- Text case
+  --
+
+  keyset({ "n", "x" }, "<leader>tc", function()
+    require("custom.textcase_picker").select()
+  end, { desc = "[TextCase] Pick case for word/selection." })
 end
 
 return M

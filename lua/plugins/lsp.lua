@@ -48,7 +48,22 @@ return {
     vim.lsp.config["html"] = {}
     vim.lsp.config["dockerls"] = {}
     vim.lsp.config["docker_compose_language_service"] = {}
-    vim.lsp.config["marksman"] = {}
+    vim.lsp.config["marksman"] = {
+      -- Fall back to the file's own directory when no project root
+      -- (.marksman.toml/.git) is found, so standalone .md files outside
+      -- any repo still get a working LSP session. Also ignore a `.git`
+      -- found at $HOME (e.g. a dotfiles repo tracking the home dir) —
+      -- otherwise marksman treats the whole home directory as its
+      -- workspace and never finishes indexing it.
+      root_dir = function(bufnr, on_dir)
+        local fname = vim.api.nvim_buf_get_name(bufnr)
+        local root = vim.fs.root(fname, { ".marksman.toml", ".git" })
+        if root == vim.uv.os_homedir() then
+          root = nil
+        end
+        on_dir(root or vim.fs.dirname(fname))
+      end,
+    }
     vim.lsp.config["bashls"] = {}
 
     vim.lsp.enable({
