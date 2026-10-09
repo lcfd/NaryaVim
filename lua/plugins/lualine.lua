@@ -49,6 +49,16 @@ return {
             },
           },
           lualine_x = {
+            {
+              function()
+                return require("custom.mpd").statusline()
+              end,
+              -- empty when nothing plays or the window is too narrow
+              cond = function()
+                return require("custom.mpd").statusline() ~= ""
+              end,
+              separator = "•",
+            },
             { "filetype", separator = "•", padding = { left = 1, right = 1 } },
             {
               "diff",

@@ -83,6 +83,23 @@ function M.setup()
   keyset({ "n", "x" }, "<leader>tc", function()
     require("custom.textcase_picker").select()
   end, { desc = "[TextCase] Pick case for word/selection." })
+
+  --
+  -- MPD
+  --
+
+  local mpd = function(fn)
+    return function()
+      require("custom.mpd")[fn]()
+    end
+  end
+  keyset("n", "<leader>mm", mpd("command_center"), { desc = "[MPD] Command center." })
+  keyset("n", "<leader>ms", mpd("find_song"), { desc = "[MPD] Add song." })
+  keyset("n", "<leader>ma", mpd("find_album"), { desc = "[MPD] Add album." })
+  keyset("n", "<leader>mp", mpd("toggle"), { desc = "[MPD] Toggle play/pause." })
+  keyset("n", "<leader>mn", mpd("next"), { desc = "[MPD] Next track." })
+  keyset("n", "<leader>mb", mpd("prev"), { desc = "[MPD] Previous track." })
+  keyset("n", "<leader>mc", mpd("current"), { desc = "[MPD] Now playing." })
 end
 
 return M
