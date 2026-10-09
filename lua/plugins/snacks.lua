@@ -49,7 +49,13 @@ return {
     bufdelete = { enabled = true },
     git = { enabled = true },
     dim = { enabled = true },
-    zen = { enabled = true },
+    zen = {
+      enabled = true,
+      win = {
+        -- solid backdrop: the default is semi-transparent, leaving the underlying buffer visible
+        backdrop = { transparent = false, blend = 40 },
+      },
+    },
     picker = {
       enabled = true,
       layout = {
