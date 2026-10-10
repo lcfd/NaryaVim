@@ -332,6 +332,56 @@ function M.shuffle(cb)
   end)
 end
 
+--- Calls `cb(status)` with the server status as a key -> value table.
+local function with_status(cb)
+  M.request("status", function(res)
+    local status = {}
+    for _, kv in ipairs(res) do
+      status[kv[1]] = kv[2]
+    end
+    cb(status)
+  end)
+end
+
+--- Sends `cmds`, then notifies `msg` and calls `cb`.
+local function set_options(cmds, msg, cb)
+  M.request(cmds, function()
+    notify(msg)
+    if cb then
+      cb()
+    end
+  end)
+end
+
+function M.toggle_random(cb)
+  with_status(function(st)
+    local on = st.random == "1"
+    set_options({ "random", on and "0" or "1" }, on and "Random off" or "Random on", cb)
+  end)
+end
+
+--- Repeat modes are MPD's `repeat` + `single` flags: repeat alone loops the
+--- queue, repeat with single loops the current song.
+function M.toggle_repeat(cb)
+  with_status(function(st)
+    if st["repeat"] == "1" and st.single ~= "1" then
+      set_options({ "repeat", "0" }, "Repeat queue off", cb)
+    else
+      set_options({ { "repeat", "1" }, { "single", "0" } }, "Repeat queue on", cb)
+    end
+  end)
+end
+
+function M.toggle_repeat_song(cb)
+  with_status(function(st)
+    if st["repeat"] == "1" and st.single == "1" then
+      set_options({ { "repeat", "0" }, { "single", "0" } }, "Repeat song off", cb)
+    else
+      set_options({ { "repeat", "1" }, { "single", "1" } }, "Repeat song on", cb)
+    end
+  end)
+end
+
 function M.clear(cb)
   M.request("clear", function()
     notify("Queue cleared")
@@ -506,6 +556,9 @@ local commands = {
       M.seek(-10, cb)
     end,
   },
+  { text = "Random", key = "r", icon = "󰒟", fn = M.toggle_random },
+  { text = "Repeat Queue", key = "R", icon = "󰑖", fn = M.toggle_repeat },
+  { text = "Repeat Song", key = "o", icon = "󰑘", fn = M.toggle_repeat_song },
   { text = "Add Song", key = "s", icon = "󰐒", fn = M.find_song, leaves = true },
   { text = "Add Album", key = "a", icon = "󰀥", fn = M.find_album, leaves = true },
   { text = "Shuffle Queue", icon = "󰒝", fn = M.shuffle },
@@ -774,7 +827,7 @@ local function new_bar()
           ("Volume %s%%  ·  Random %s  ·  Repeat %s  ·  Track %d of %d"):format(
             st.volume or "?",
             st.random == "1" and "on" or "off",
-            st["repeat"] == "1" and "on" or "off",
+            st["repeat"] ~= "1" and "off" or st.single == "1" and "song" or "queue",
             tonumber(song.Pos) + 1,
             #state.queue
           ),

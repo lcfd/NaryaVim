@@ -15,6 +15,12 @@ function M.setup()
   end
 
   vim.api.nvim_create_user_command("RunDeploy", runDeploy, {})
+
+  --
+  -- RPG toolkit (active when the cwd contains rpg.toml)
+  --
+
+  require("custom.rpg").setup()
 end
 
 return M
