@@ -33,6 +33,9 @@ return {
   "gowork",
   -- Rust
   "rust",
+  -- C
+  "c",
+  "cpp",
   -- Meta for Neovim
   "vim",
   "query",
