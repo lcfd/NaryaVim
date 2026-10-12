@@ -101,6 +101,16 @@ function M.setup()
   keyset("n", "<leader>mn", mpd("next"), { desc = "[MPD] Next track." })
   keyset("n", "<leader>mb", mpd("prev"), { desc = "[MPD] Previous track." })
   keyset("n", "<leader>mc", mpd("current"), { desc = "[MPD] Now playing." })
+
+  --
+  -- Graph view
+  --
+
+  keyset("n", "<leader>Gg", "<cmd>Graph<CR>", { desc = "[Graph] Global graph." })
+  keyset("n", "<leader>Gl", "<cmd>Graph local<CR>", { desc = "[Graph] Local graph of this note." })
+  keyset("n", "<leader>Gb", "<cmd>Graph browser<CR>", { desc = "[Graph] Global graph in the browser." })
+  keyset("n", "<leader>GB", "<cmd>Graph browser local<CR>", { desc = "[Graph] Local graph in the browser." })
+  keyset("n", "<leader>Gs", "<cmd>Graph stop<CR>", { desc = "[Graph] Stop the browser server." })
 end
 
 return M

@@ -6,27 +6,27 @@ return {
     ft = {
       "markdown",
       "text",
-      "plaintex"
+      "plaintex",
     },
   },
   {
-    'arnamak/stay-centered.nvim',
+    "arnamak/stay-centered.nvim",
     ft = {
       "markdown",
       "text",
-      "plaintex"
+      "plaintex",
     },
     config = function()
       local st_ce = safe_import("stay-centered")
 
       if st_ce then
-        require('stay-centered').setup({
+        require("stay-centered").setup({
           -- :lua print(vim.bo.filetype)
           skip_filetypes = {},
           -- Set to false to disable by default
           enabled = true,
         })
       end
-    end
+    end,
   },
 }

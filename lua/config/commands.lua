@@ -21,6 +21,12 @@ function M.setup()
   --
 
   require("custom.rpg").setup()
+
+  --
+  -- Obsidian-style graph view (:Graph, :Graph local, :Graph browser)
+  --
+
+  require("custom.graph").setup()
 end
 
 return M

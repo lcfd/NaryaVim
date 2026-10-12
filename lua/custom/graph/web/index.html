@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- self-contained: no CDN or third-party requests, only Neovim's local server -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Graph view</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --panel: #262626;
+    --panel-border: #363636;
+    --text: #dadada;
+    --text-muted: #999;
+    --text-faint: #666;
+    --input: #1a1a1a;
+    --accent: #8a6cf0;
+    --node: #a3a3a3;
+    --node-unresolved: #a3a3a3;
+    --tag: #7bbf5a;
+    --attachment: #e0c55c;
+    --link: #4a4a4a;
+    --link-highlight: #8a6cf0;
+    --label: #dadada;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #ffffff;
+      --panel: #f6f6f6;
+      --panel-border: #e0e0e0;
+      --text: #222;
+      --text-muted: #5c5c5c;
+      --text-faint: #ababab;
+      --input: #fff;
+      --accent: #7350e6;
+      --node: #5c5c5c;
+      --node-unresolved: #5c5c5c;
+      --tag: #4a9a2a;
+      --attachment: #b08a10;
+      --link: #d0d0d0;
+      --link-highlight: #7350e6;
+      --label: #222;
+      color-scheme: light;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text);
+    font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; }
+  canvas { position: fixed; inset: 0; display: block; cursor: default; }
+  canvas.grabbing { cursor: grabbing; }
+  canvas.pointer { cursor: pointer; }
+
+  .topbar { position: fixed; top: 12px; left: 12px; display: flex; gap: 8px; align-items: center; z-index: 2; }
+  .seg { display: inline-flex; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; overflow: hidden; }
+  .seg button { background: none; border: 0; color: var(--text-muted); padding: 6px 12px; font: inherit; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  .crumb { color: var(--text-muted); font-size: 12px; }
+  .crumb b { color: var(--text); font-weight: 600; }
+  .crumb a { color: var(--accent); cursor: pointer; margin-left: 6px; }
+
+  .gear { position: fixed; top: 12px; right: 12px; z-index: 3; width: 32px; height: 32px; border-radius: 8px;
+    border: 1px solid var(--panel-border); background: var(--panel); color: var(--text-muted); cursor: pointer;
+    display: grid; place-items: center; }
+  .gear:hover { color: var(--text); }
+  .panel { position: fixed; top: 12px; right: 12px; width: 280px; max-height: calc(100% - 24px); overflow-y: auto;
+    background: var(--panel); border: 1px solid var(--panel-border); border-radius: 10px; z-index: 4;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35); padding: 6px 0 10px; }
+  .panel[hidden] { display: none; }
+  .panel-head { display: flex; justify-content: flex-end; gap: 4px; padding: 2px 8px; }
+  .icon-btn { background: none; border: 0; color: var(--text-muted); cursor: pointer; padding: 4px 6px; border-radius: 6px; font: inherit; }
+  .icon-btn:hover { color: var(--text); background: rgba(127,127,127,.15); }
+  details { border-top: 1px solid var(--panel-border); }
+  details:first-of-type { border-top: 0; }
+  summary { list-style: none; cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--text); user-select: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "›"; display: inline-block; width: 14px; color: var(--text-muted); transition: transform .15s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  .rows { padding: 0 14px 8px; display: grid; gap: 10px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--text-muted); }
+  .row.col { flex-direction: column; align-items: stretch; gap: 4px; }
+  input[type=text], input[type=search] { width: 100%; background: var(--input); color: var(--text);
+    border: 1px solid var(--panel-border); border-radius: 6px; padding: 6px 8px; font: inherit; }
+  input[type=text]:focus, input[type=search]:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .toggle { position: relative; width: 34px; height: 19px; flex: none; }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle span { position: absolute; inset: 0; border-radius: 19px; background: var(--text-faint); transition: background .15s; cursor: pointer; }
+  .toggle span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 15px; height: 15px; border-radius: 50%; background: #fff; transition: transform .15s; }
+  .toggle input:checked + span { background: var(--accent); }
+  .toggle input:checked + span::after { transform: translateX(15px); }
+  .group { display: flex; gap: 6px; align-items: center; }
+  .group input[type=color] { width: 26px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; flex: none; }
+  .btn { background: var(--input); color: var(--text); border: 1px solid var(--panel-border); border-radius: 6px;
+    padding: 6px 10px; font: inherit; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .hint { color: var(--text-faint); font-size: 11px; }
+
+  .status { position: fixed; left: 12px; bottom: 10px; color: var(--text-faint); font-size: 12px; z-index: 2; pointer-events: none; }
+  .banner { position: fixed; left: 50%; top: 12px; transform: translateX(-50%); background: #b3412e; color: #fff;
+    padding: 6px 12px; border-radius: 6px; z-index: 5; font-size: 12px; }
+  .banner[hidden] { display: none; }
+  .menu { position: fixed; z-index: 6; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px;
+    padding: 4px; min-width: 190px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+  .menu[hidden] { display: none; }
+  .menu .title { padding: 4px 10px 6px; color: var(--text-muted); font-size: 12px; border-bottom: 1px solid var(--panel-border); margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  .menu button { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--text);
+    padding: 6px 10px; border-radius: 5px; font: inherit; cursor: pointer; }
+  .menu button:hover { background: var(--accent); color: #fff; }
+
+  .picker-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 10; display: flex;
+    align-items: flex-start; justify-content: center; padding: 10vh 16px 16px; }
+  .picker-backdrop[hidden] { display: none; }
+  .picker { width: min(1000px, 100%); height: min(560px, 80vh); display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-rows: auto minmax(0, 1fr) auto; background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 10px; overflow: hidden; box-shadow: 0 16px 50px rgba(0,0,0,.5); }
+  .picker-input { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+    border-bottom: 1px solid var(--panel-border); }
+  .picker-input .prompt { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .picker-input input { flex: 1; background: none; border: 0; outline: none; color: var(--text); font: inherit; font-size: 15px; }
+  .picker-input .count { color: var(--text-faint); font-size: 12px; white-space: nowrap; }
+  .picker-list { overflow-y: auto; border-right: 1px solid var(--panel-border); padding: 4px 0; }
+  .picker-item { display: flex; align-items: baseline; gap: 8px; padding: 4px 12px; cursor: pointer; white-space: nowrap; }
+  .picker-item .label { overflow: hidden; text-overflow: ellipsis; }
+  .picker-item .detail { color: var(--text-faint); font-size: 12px; overflow: hidden; text-overflow: ellipsis; margin-left: auto; padding-left: 8px; }
+  .picker-item mark { background: none; color: var(--accent); font-weight: 700; }
+  .picker-item.on { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+  .picker-item .lvl { color: var(--text-faint); font-size: 11px; font-family: ui-monospace, Menlo, monospace; }
+  .picker-empty { padding: 12px; color: var(--text-faint); }
+  .picker-preview { overflow: auto; margin: 0; padding: 8px 0; font: 12px/1.55 ui-monospace, "JetBrainsMono Nerd Font", Menlo, monospace;
+    color: var(--text-muted); }
+  .picker-preview div { display: flex; white-space: pre; padding-right: 12px; }
+  .picker-preview .ln { flex: none; width: 4ch; text-align: right; margin-right: 1.5ch; color: var(--text-faint); user-select: none; }
+  .picker-preview .h { color: var(--text); font-weight: 700; }
+  .picker-preview .hit { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+  .picker-foot { grid-column: 1 / -1; display: flex; gap: 14px; padding: 6px 12px; border-top: 1px solid var(--panel-border);
+    color: var(--text-faint); font-size: 11px; flex-wrap: wrap; }
+  .picker-foot kbd { font: inherit; color: var(--text-muted); border: 1px solid var(--panel-border); border-radius: 4px; padding: 0 4px; }
+  @media (max-width: 720px) {
+    .picker { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) auto; }
+    .picker-list { border-right: 0; border-bottom: 1px solid var(--panel-border); }
+  }
+
+  @media (max-width: 520px) {
+    .panel { left: 8px; right: 8px; width: auto; top: 52px; }
+    .topbar { left: 8px; top: 8px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<div class="topbar">
+  <div class="seg" role="tablist">
+    <button id="mode-global" class="on">Global</button>
+    <button id="mode-local">Local</button>
+  </div>
+  <span class="crumb" id="crumb"></span>
+</div>
+
+<button class="gear" id="gear" title="Graph settings" aria-label="Graph settings">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<aside class="panel" id="panel" hidden>
+  <div class="panel-head">
+    <button class="icon-btn" id="reset" title="Restore the vault's Obsidian settings">↺</button>
+    <button class="icon-btn" id="close-panel" title="Close">✕</button>
+  </div>
+
+  <details open id="sec-filters">
+    <summary>Filters</summary>
+    <div class="rows">
+      <input type="search" id="search" placeholder="Search files..." autocomplete="off" spellcheck="false">
+      <label class="row">Tags <span class="toggle"><input type="checkbox" data-setting="showTags"><span></span></span></label>
+      <label class="row">Attachments <span class="toggle"><input type="checkbox" data-setting="showAttachments"><span></span></span></label>
+      <label class="row">Existing files only <span class="toggle"><input type="checkbox" data-setting="hideUnresolved"><span></span></span></label>
+      <label class="row">Orphans <span class="toggle"><input type="checkbox" data-setting="showOrphans"><span></span></span></label>
+    </div>
+  </details>
+
+  <details id="sec-local">
+    <summary>Local graph</summary>
+    <div class="rows">
+      <label class="row col">Depth <input type="range" min="1" max="5" step="1" data-setting="localJumps"></label>
+      <label class="row">Incoming links <span class="toggle"><input type="checkbox" data-setting="localBacklinks"><span></span></span></label>
+      <label class="row">Outgoing links <span class="toggle"><input type="checkbox" data-setting="localForelinks"><span></span></span></label>
+      <label class="row">Neighbor links <span class="toggle"><input type="checkbox" data-setting="localInterlinks"><span></span></span></label>
+    </div>
+  </details>
+
+  <details open id="sec-groups">
+    <summary>Groups</summary>
+    <div class="rows">
+      <div id="groups" class="rows" style="padding:0"></div>
+      <button class="btn primary" id="add-group">New group</button>
+    </div>
+  </details>
+
+  <details id="sec-display">
+    <summary>Display</summary>
+    <div class="rows">
+      <label class="row">Arrows <span class="toggle"><input type="checkbox" data-setting="showArrow"><span></span></span></label>
+      <label class="row col">Text fade threshold <input type="range" min="-3" max="3" step="0.01" data-setting="textFadeMultiplier"></label>
+      <label class="row col">Node size <input type="range" min="0.1" max="5" step="0.01" data-setting="nodeSizeMultiplier"></label>
+      <label class="row col">Link thickness <input type="range" min="0.1" max="5" step="0.01" data-setting="lineSizeMultiplier"></label>
+      <button class="btn primary" id="animate">Animate</button>
+    </div>
+  </details>
+
+  <details id="sec-forces">
+    <summary>Forces</summary>
+    <div class="rows">
+      <label class="row col">Center force <input type="range" min="0" max="1" step="0.001" data-setting="centerStrength"></label>
+      <label class="row col">Repel force <input type="range" min="0" max="20" step="0.01" data-setting="repelStrength"></label>
+      <label class="row col">Link force <input type="range" min="0" max="1" step="0.001" data-setting="linkStrength"></label>
+      <label class="row col">Link distance <input type="range" min="30" max="500" step="1" data-setting="linkDistance"></label>
+    </div>
+  </details>
+  <div class="rows" style="padding-top:8px"><span class="hint">Settings are shared with <code>:Graph</code> in Neovim. ↺ restores the vault's <code>.obsidian/graph.json</code>.</span></div>
+</aside>
+
+<div class="menu" id="menu" hidden></div>
+<div class="picker-backdrop" id="picker" hidden>
+  <div class="picker" role="dialog" aria-modal="true">
+    <label class="picker-input"><span class="prompt" id="picker-title"></span><input id="picker-query" autocomplete="off" spellcheck="false"><span class="count" id="picker-count"></span></label>
+    <div class="picker-list" id="picker-list" role="listbox"></div>
+    <pre class="picker-preview" id="picker-preview"></pre>
+    <div class="picker-foot" id="picker-foot"></div>
+  </div>
+</div>
+<div class="banner" id="banner" hidden>Disconnected from Neovim — run <code>:Graph browser</code> again.</div>
+<div class="status" id="status"></div>
+
+<script>
+"use strict";
+const params = new URLSearchParams(location.search);
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+const MOD = isMac ? "⌘" : "Ctrl+";
+const TOKEN = params.get("t");
+const $ = (id) => document.getElementById(id);
+const canvas = $("canvas");
+const ctx = canvas.getContext("2d");
+
+// ---------------------------------------------------------------- API
+
+function api(path, body) {
+  const url = path + (path.includes("?") ? "&" : "?") + "t=" + TOKEN;
+  const opts = body === undefined ? {} : { method: "POST", body: JSON.stringify(body), headers: { "Content-Type": "application/json" } };
+  return fetch(url, opts).then((r) => {
+    if (!r.ok) throw new Error(r.status + " " + r.statusText);
+    return r.status === 204 ? null : r.json();
+  });
+}
+
+// ---------------------------------------------------------------- state
+
+const state = {
+  graph: { nodes: [], links: [] },
+  settings: null,
+  active: null,          // id of the note open in Neovim
+  localMode: params.get("local") === "1",
+  pinnedCenter: null,    // id chosen from the context menu; null follows `active`
+  searchSet: null,       // Set of indices matching the search filter, or null
+  groupSets: [],         // per color group: Set | null
+  positions: new Map(),  // id -> sim node, so layouts survive rebuilds
+  reveal: null,          // timelapse: number of nodes shown, or null
+};
+
+let view = { nodes: [], links: [], depth: null, colors: new Map(), degree: new Map(), neighbors: new Map() };
+let sim = null;
+const camera = { x: 0, y: 0, scale: 1, follow: true };
+let hover = null;         // hovered node index
+let selected = null;      // node picked with ⌘K, highlighted until dismissed
+let cameraTarget = null;  // node index the camera glides to
+let fade = 0;             // 0..1 highlight transition
+let dragging = null;      // { node, moved }
+let panning = null;
+let needsDraw = true;
+
+// ---------------------------------------------------------------- physics (mirrors physics.lua)
+
+const THETA2 = 0.81, DIST_MIN2 = 1;
+function forces(s) {
+  return { charge: -s.repelStrength * 40, center: s.centerStrength * 0.1, linkStrength: s.linkStrength, linkDistance: s.linkDistance };
+}
+function jiggle() { return (Math.random() - 0.5) * 1e-6; }
+
+class Simulation {
+  constructor(nodes, links, f) {
+    this.nodes = nodes; this.links = links;
+    this.alpha = 1; this.alphaMin = 0.001; this.alphaTarget = 0;
+    this.alphaDecay = 1 - Math.pow(0.001, 1 / 300); this.velocityDecay = 0.6;
+    nodes.forEach((n, i) => {
+      if (n.x === undefined) {
+        const r = 10 * Math.sqrt(0.5 + i), a = i * Math.PI * (3 - Math.sqrt(5));
+        n.x = r * Math.cos(a); n.y = r * Math.sin(a);
+      }
+      n.vx = n.vx || 0; n.vy = n.vy || 0;
+    });
+    this.setForces(f);
+  }
+  setForces(f) {
+    this.f = f;
+    const count = new Map();
+    for (const [a, b] of this.links) { count.set(a, (count.get(a) || 0) + 1); count.set(b, (count.get(b) || 0) + 1); }
+    this.bias = this.links.map(([a, b]) => count.get(a) / (count.get(a) + count.get(b)));
+    this.strength = this.links.map(([a, b]) => f.linkStrength / Math.min(count.get(a), count.get(b)));
+  }
+  reheat(a) { this.alpha = Math.max(this.alpha, a); }
+  tree() {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (const n of this.nodes) { if (n.x < x0) x0 = n.x; if (n.y < y0) y0 = n.y; if (n.x > x1) x1 = n.x; if (n.y > y1) y1 = n.y; }
+    const root = { x0, y0, size: Math.max(x1 - x0, y1 - y0, 1) };
+    const insert = (q, n, depth) => {
+      if (q.children) {
+        const half = q.size / 2, ix = n.x >= q.x0 + half ? 1 : 0, iy = n.y >= q.y0 + half ? 1 : 0, slot = ix + iy * 2;
+        let c = q.children[slot];
+        if (!c) c = q.children[slot] = { x0: q.x0 + ix * half, y0: q.y0 + iy * half, size: half };
+        insert(c, n, depth + 1);
+      } else if (q.points && depth < 24) {
+        const pts = q.points; q.points = null; q.children = [];
+        for (const p of pts) insert(q, p, depth);
+        insert(q, n, depth);
+      } else {
+        (q.points || (q.points = [])).push(n);
+      }
+    };
+    for (const n of this.nodes) insert(root, n, 0);
+    const charge = this.f.charge;
+    const acc = (q) => {
+      let s = 0, cx = 0, cy = 0;
+      if (q.children) {
+        for (const c of q.children) if (c) { acc(c); s += c.value; cx += c.value * c.cx; cy += c.value * c.cy; }
+      } else {
+        for (const p of q.points) { s += charge; cx += charge * p.x; cy += charge * p.y; }
+      }
+      q.value = s; q.cx = cx / s; q.cy = cy / s;
+    };
+    acc(root);
+    return root;
+  }
+  applyCharge(q, n, alpha) {
+    let dx = q.cx - n.x, dy = q.cy - n.y, l = dx * dx + dy * dy;
+    if (q.children) {
+      if (q.size * q.size / THETA2 < l) {
+        if (l < DIST_MIN2) l = Math.sqrt(DIST_MIN2 * l);
+        n.vx += dx * q.value * alpha / l; n.vy += dy * q.value * alpha / l;
+        return;
+      }
+      for (const c of q.children) if (c) this.applyCharge(c, n, alpha);
+      return;
+    }
+    const charge = this.f.charge;
+    for (const p of q.points) {
+      if (p === n) continue;
+      dx = p.x - n.x || jiggle(); dy = p.y - n.y || jiggle();
+      l = dx * dx + dy * dy;
+      if (l < DIST_MIN2) l = Math.sqrt(DIST_MIN2 * l);
+      n.vx += dx * charge * alpha / l; n.vy += dy * charge * alpha / l;
+    }
+  }
+  tick() {
+    if (this.alpha < this.alphaMin && this.alphaTarget === 0) return false;
+    this.alpha += (this.alphaTarget - this.alpha) * this.alphaDecay;
+    const alpha = this.alpha, nodes = this.nodes, f = this.f;
+    this.links.forEach(([si, ti], k) => {
+      const s = nodes[si], t = nodes[ti];
+      let x = t.x + t.vx - s.x - s.vx || jiggle(), y = t.y + t.vy - s.y - s.vy || jiggle();
+      let l = Math.sqrt(x * x + y * y);
+      l = (l - f.linkDistance) / l * alpha * this.strength[k];
+      x *= l; y *= l;
+      const b = this.bias[k];
+      t.vx -= x * b; t.vy -= y * b; s.vx += x * (1 - b); s.vy += y * (1 - b);
+    });
+    if (nodes.length > 1) {
+      const root = this.tree();
+      for (const n of nodes) this.applyCharge(root, n, alpha);
+    }
+    const keep = 1 - this.velocityDecay;
+    for (const n of nodes) {
+      n.vx -= n.x * f.center * alpha; n.vy -= n.y * f.center * alpha;
+      if (n.fx != null) { n.x = n.fx; n.vx = 0; } else { n.vx *= keep; n.x += n.vx; }
+      if (n.fy != null) { n.y = n.fy; n.vy = 0; } else { n.vy *= keep; n.y += n.vy; }
+    }
+    return true;
+  }
+}
+
+// ---------------------------------------------------------------- visible graph (mirrors model.lua)
+
+function centerIndex() {
+  if (!state.localMode) return null;
+  const id = state.pinnedCenter || state.active;
+  const i = id ? state.graph.index.get(id) : undefined;
+  return i === undefined ? null : i;
+}
+
+function computeView() {
+  const s = state.settings, g = state.graph, nodes = g.nodes;
+  const center = centerIndex();
+  const keep = new Uint8Array(nodes.length);
+  nodes.forEach((n, i) => {
+    const t = n.type;
+    if (t === "note" || (t === "attachment" && s.showAttachments) || (t === "tag" && s.showTags) || (t === "unresolved" && !s.hideUnresolved)) {
+      keep[i] = !n.path || !state.searchSet || state.searchSet.has(i) ? 1 : 0;
+    }
+  });
+  if (center !== null) keep[center] = 1;
+
+  const links = [], linked = new Uint8Array(nodes.length);
+  for (const l of g.links) {
+    if (keep[l[0]] && keep[l[1]]) { links.push(l); if (nodes[l[0]].path) linked[l[1]] = 1; }
+  }
+  nodes.forEach((n, i) => { if (keep[i] && !n.path && !linked[i] && i !== center) keep[i] = 0; });
+
+  let depth = null;
+  if (center !== null) {
+    depth = new Map([[center, 0]]);
+    const out = new Map(), inc = new Map();
+    for (const [a, b] of links) {
+      (out.get(a) || out.set(a, []).get(a)).push(b);
+      (inc.get(b) || inc.set(b, []).get(b)).push(a);
+    }
+    let frontier = [center];
+    for (let d = 1; d <= s.localJumps; d++) {
+      const next = [];
+      const visit = (list) => { for (const j of list || []) if (!depth.has(j)) { depth.set(j, d); next.push(j); } };
+      for (const i of frontier) { if (s.localForelinks) visit(out.get(i)); if (s.localBacklinks) visit(inc.get(i)); }
+      frontier = next;
+    }
+    for (let i = 0; i < keep.length; i++) if (keep[i] && !depth.has(i)) keep[i] = 0;
+  }
+
+  const degree = new Map(), visibleLinks = [];
+  for (const l of links) {
+    const [a, b] = l;
+    if (!keep[a] || !keep[b]) continue;
+    if (depth && depth.get(a) === depth.get(b) && !s.localInterlinks) continue;
+    visibleLinks.push(l);
+    degree.set(a, (degree.get(a) || 0) + 1); degree.set(b, (degree.get(b) || 0) + 1);
+  }
+  let visible = [];
+  for (let i = 0; i < nodes.length; i++) if (keep[i] && (s.showOrphans || depth || degree.has(i))) visible.push(i);
+
+  let vlinks = visibleLinks;
+  if (state.reveal !== null) {
+    const order = visible.slice().sort((a, b) => nodes[a].ctime - nodes[b].ctime);
+    const shown = new Set(order.slice(0, state.reveal));
+    state.revealTotal = order.length;
+    visible = visible.filter((i) => shown.has(i));
+    vlinks = visibleLinks.filter(([a, b]) => shown.has(a) && shown.has(b));
+  }
+
+  const colors = new Map();
+  for (let gi = s.colorGroups.length - 1; gi >= 0; gi--) {
+    const set = state.groupSets[gi];
+    if (!set) continue;
+    const c = s.colorGroups[gi].color;
+    const css = "#" + (c.rgb >>> 0).toString(16).padStart(6, "0");
+    for (const i of set) colors.set(i, css);
+  }
+  return { nodes: visible, links: vlinks, depth, colors, center };
+}
+
+function rebuild(alpha = 0.3) {
+  if (!state.settings) return;
+  const v = computeView();
+  const slot = new Map();
+  const simNodes = v.nodes.map((i, k) => {
+    slot.set(i, k);
+    const id = state.graph.nodes[i].id;
+    let p = state.positions.get(id);
+    if (!p) { p = {}; state.positions.set(id, p); }
+    return p;
+  });
+  const neighbors = new Map(), degree = new Map();
+  const simLinks = v.links.map(([a, b]) => {
+    (neighbors.get(a) || neighbors.set(a, new Set()).get(a)).add(b);
+    (neighbors.get(b) || neighbors.set(b, new Set()).get(b)).add(a);
+    degree.set(a, (degree.get(a) || 0) + 1); degree.set(b, (degree.get(b) || 0) + 1);
+    return [slot.get(a), slot.get(b)];
+  });
+  // new nodes appear next to a neighbor that already has a position
+  v.nodes.forEach((i, k) => {
+    const p = simNodes[k];
+    if (p.x !== undefined) return;
+    for (const j of neighbors.get(i) || []) {
+      const q = state.positions.get(state.graph.nodes[j].id);
+      if (q && q.x !== undefined) { p.x = q.x + (Math.random() - 0.5) * 30; p.y = q.y + (Math.random() - 0.5) * 30; break; }
+    }
+  });
+  if (v.center !== null && slot.has(v.center)) { const p = simNodes[slot.get(v.center)]; if (p.x === undefined) { p.x = 0; p.y = 0; } }
+  view = { ...v, slot, neighbors, degree };
+  sim = new Simulation(simNodes, simLinks, forces(state.settings));
+  sim.alpha = alpha;
+  if (hover !== null && !slot.has(hover)) hover = null;
+  if (selected !== null && !slot.has(selected)) selected = null;
+  updateChrome();
+  wake();
+}
+
+// ---------------------------------------------------------------- rendering
+
+let W = 0, H = 0, DPR = 1;
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + "px"; canvas.style.height = H + "px";
+  wake();
+}
+window.addEventListener("resize", resize);
+
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+let palette = {};
+function readPalette() {
+  palette = Object.fromEntries(["--bg", "--node", "--node-unresolved", "--tag", "--attachment", "--link", "--link-highlight", "--label", "--accent"]
+    .map((n) => [n.slice(2), css(n)]));
+  wake();
+}
+matchMedia("(prefers-color-scheme: light)").addEventListener("change", readPalette);
+
+const toScreen = (x, y) => [(x - camera.x) * camera.scale + W / 2, (y - camera.y) * camera.scale + H / 2];
+const toWorld = (sx, sy) => [(sx - W / 2) / camera.scale + camera.x, (sy - H / 2) / camera.scale + camera.y];
+
+function radius(i) {
+  const d = view.degree.get(i) || 0;
+  return state.settings.nodeSizeMultiplier * (4 + Math.sqrt(d) * 2);
+}
+
+function nodeColor(i) {
+  const n = state.graph.nodes[i];
+  if (n.id === state.active) return palette.accent;
+  const group = view.colors.get(i);
+  if (group) return group;
+  if (n.type === "tag") return palette.tag;
+  if (n.type === "attachment") return palette.attachment;
+  if (n.type === "unresolved") return palette["node-unresolved"];
+  return palette.node;
+}
+
+function fitCamera() {
+  const ns = sim ? sim.nodes : [];
+  if (!ns.length) return;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const n of ns) { x0 = Math.min(x0, n.x); y0 = Math.min(y0, n.y); x1 = Math.max(x1, n.x); y1 = Math.max(y1, n.y); }
+  const pad = 80;
+  const target = Math.min((W - pad * 2) / Math.max(x1 - x0, 1), (H - pad * 2) / Math.max(y1 - y0, 1), 2);
+  camera.x += ((x0 + x1) / 2 - camera.x) * 0.2;
+  camera.y += ((y0 + y1) / 2 - camera.y) * 0.2;
+  camera.scale += (target - camera.scale) * 0.2;
+}
+
+function draw() {
+  const s = state.settings;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.fillStyle = palette.bg;
+  ctx.fillRect(0, 0, W, H);
+  if (!sim) return;
+
+  const focus = hover !== null ? hover : selected;
+  const related = focus !== null ? view.neighbors.get(focus) || new Set() : null;
+  const dimAlpha = 1 - 0.8 * fade;
+  const nodes = sim.nodes;
+
+  // links
+  const lw = Math.max(0.4, s.lineSizeMultiplier * Math.min(Math.max(camera.scale, 0.35), 1.6));
+  ctx.lineWidth = lw;
+  ctx.strokeStyle = palette.link;
+  ctx.globalAlpha = focus !== null ? dimAlpha : 1;
+  ctx.beginPath();
+  const highlighted = [];
+  sim.links.forEach(([a, b], k) => {
+    const link = view.links[k];
+    if (focus !== null && (link[0] === focus || link[1] === focus)) { highlighted.push(k); return; }
+    const [x0, y0] = toScreen(nodes[a].x, nodes[a].y), [x1, y1] = toScreen(nodes[b].x, nodes[b].y);
+    ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+  });
+  ctx.stroke();
+  if (highlighted.length) {
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = palette["link-highlight"];
+    ctx.lineWidth = lw * (1 + fade);
+    ctx.beginPath();
+    for (const k of highlighted) {
+      const [a, b] = sim.links[k];
+      const [x0, y0] = toScreen(nodes[a].x, nodes[a].y), [x1, y1] = toScreen(nodes[b].x, nodes[b].y);
+      ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+    }
+    ctx.stroke();
+  }
+
+  // arrows point at the target's edge
+  if (s.showArrow && camera.scale > 0.25) {
+    sim.links.forEach(([a, b], k) => {
+      const link = view.links[k];
+      const isHl = focus !== null && (link[0] === focus || link[1] === focus);
+      ctx.globalAlpha = focus !== null && !isHl ? dimAlpha : 1;
+      ctx.fillStyle = isHl ? palette["link-highlight"] : palette.link;
+      const [x0, y0] = toScreen(nodes[a].x, nodes[a].y), [x1, y1] = toScreen(nodes[b].x, nodes[b].y);
+      const ang = Math.atan2(y1 - y0, x1 - x0);
+      const r = radius(link[1]) * camera.scale + 1;
+      const tx = x1 - Math.cos(ang) * r, ty = y1 - Math.sin(ang) * r;
+      const size = Math.max(4, 6 * Math.min(camera.scale, 1.5)) * Math.sqrt(s.lineSizeMultiplier);
+      ctx.beginPath();
+      ctx.moveTo(tx, ty);
+      ctx.lineTo(tx - size * Math.cos(ang - 0.45), ty - size * Math.sin(ang - 0.45));
+      ctx.lineTo(tx - size * Math.cos(ang + 0.45), ty - size * Math.sin(ang + 0.45));
+      ctx.fill();
+    });
+  }
+
+  // nodes
+  view.nodes.forEach((i, k) => {
+    const n = nodes[k];
+    const [x, y] = toScreen(n.x, n.y);
+    const r = Math.max(1.2, radius(i) * camera.scale);
+    if (x < -r || y < -r || x > W + r || y > H + r) return;
+    const isRel = focus === null || i === focus || related.has(i);
+    const node = state.graph.nodes[i];
+    ctx.globalAlpha = (isRel ? 1 : dimAlpha) * (node.type === "unresolved" ? 0.5 : 1);
+    ctx.fillStyle = i === focus && fade > 0 ? palette["link-highlight"] : nodeColor(i);
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    if (node.id === state.active) {
+      ctx.globalAlpha = 1; ctx.strokeStyle = palette.accent; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(x, y, r + 3, 0, Math.PI * 2); ctx.stroke();
+    }
+  });
+
+  // labels fade in with zoom; the text fade threshold shifts that point
+  const threshold = 0.9 * Math.pow(1.6, s.textFadeMultiplier || 0);
+  const base = Math.min(Math.max((camera.scale - threshold * 0.55) / (threshold * 0.45), 0), 1);
+  const fontPx = Math.max(10, Math.min(14, 12 * Math.sqrt(camera.scale)));
+  ctx.font = `${fontPx}px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif`;
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.fillStyle = palette.label;
+  view.nodes.forEach((i, k) => {
+    const isFocus = i === focus, isRel = focus !== null && (isFocus || related.has(i));
+    let a = isRel ? Math.max(base, fade) : base;
+    if (focus !== null && !isRel) a *= dimAlpha;
+    if (state.graph.nodes[i].id === state.active) a = Math.max(a, 0.9);
+    if (a <= 0.02) return;
+    const n = nodes[k];
+    const [x, y] = toScreen(n.x, n.y);
+    if (x < -200 || y < -50 || x > W + 200 || y > H + 50) return;
+    ctx.globalAlpha = a;
+    ctx.fillText(state.graph.nodes[i].name, x, y + radius(i) * camera.scale + 4);
+  });
+  ctx.globalAlpha = 1;
+}
+
+let rafPending = false;
+function wake() {
+  needsDraw = true;
+  if (!rafPending) { rafPending = true; requestAnimationFrame(frame); }
+}
+function frame() {
+  rafPending = false;
+  let busy = false;
+  if (sim && sim.tick()) busy = true;
+  const targetFade = hover !== null || selected !== null ? 1 : 0;
+  if (fade !== targetFade) { fade += Math.sign(targetFade - fade) * 0.12; fade = Math.min(1, Math.max(0, fade)); busy = true; }
+  if (camera.follow && sim && sim.alpha > 0.02) { fitCamera(); busy = true; }
+  if (cameraTarget !== null && sim && view.slot.has(cameraTarget)) {
+    const n = sim.nodes[view.slot.get(cameraTarget)];
+    const scale = Math.max(camera.scale, 1.1);
+    camera.x += (n.x - camera.x) * 0.15; camera.y += (n.y - camera.y) * 0.15;
+    camera.scale += (scale - camera.scale) * 0.15;
+    if (Math.abs(n.x - camera.x) * camera.scale < 1 && Math.abs(n.y - camera.y) * camera.scale < 1 && Math.abs(scale - camera.scale) < 0.01) cameraTarget = null;
+    busy = true;
+  }
+  if (busy || needsDraw) { draw(); needsDraw = false; }
+  if (busy) wake();
+}
+
+// ---------------------------------------------------------------- interaction
+
+function nodeAt(sx, sy) {
+  if (!sim) return null;
+  let best = null, bestD = Infinity;
+  view.nodes.forEach((i, k) => {
+    const [x, y] = toScreen(sim.nodes[k].x, sim.nodes[k].y);
+    const r = Math.max(radius(i) * camera.scale, 4) + 3;
+    const d = (x - sx) ** 2 + (y - sy) ** 2;
+    if (d <= r * r && d < bestD) { best = i; bestD = d; }
+  });
+  return best;
+}
+
+canvas.addEventListener("mousemove", (e) => {
+  if (dragging) {
+    const [x, y] = toWorld(e.clientX, e.clientY);
+    dragging.p.fx = x; dragging.p.fy = y;
+    dragging.moved = true;
+    sim.alphaTarget = 0.3; sim.reheat(0.3);
+    wake();
+    return;
+  }
+  if (panning) {
+    camera.x = panning.cx - (e.clientX - panning.x) / camera.scale;
+    camera.y = panning.cy - (e.clientY - panning.y) / camera.scale;
+    panning.moved = panning.moved || Math.abs(e.clientX - panning.x) + Math.abs(e.clientY - panning.y) > 3;
+    wake();
+    return;
+  }
+  const h = nodeAt(e.clientX, e.clientY);
+  if (h !== hover) { hover = h; canvas.classList.toggle("pointer", h !== null); updateStatus(); wake(); }
+});
+
+canvas.addEventListener("mousedown", (e) => {
+  hideMenu();
+  if (e.button !== 0) return;
+  const i = nodeAt(e.clientX, e.clientY);
+  if (i !== null) {
+    const p = sim.nodes[view.slot.get(i)];
+    dragging = { i, p, moved: false };
+  } else {
+    panning = { x: e.clientX, y: e.clientY, cx: camera.x, cy: camera.y, moved: false };
+    canvas.classList.add("grabbing");
+  }
+  camera.follow = false;
+  cameraTarget = null;
+});
+
+window.addEventListener("mouseup", (e) => {
+  if (dragging) {
+    const { i, p, moved } = dragging;
+    p.fx = null; p.fy = null;
+    sim.alphaTarget = 0;
+    dragging = null;
+    if (!moved && e.button === 0) openNode(i, e.metaKey || e.ctrlKey ? "tab" : e.shiftKey ? "vsplit" : "edit");
+  }
+  if (panning) {
+    if (!panning.moved && selected !== null) { selected = null; updateStatus(); wake(); }
+    panning = null; canvas.classList.remove("grabbing");
+  }
+});
+
+canvas.addEventListener("auxclick", (e) => {
+  if (e.button === 1) { const i = nodeAt(e.clientX, e.clientY); if (i !== null) openNode(i, "tab"); }
+});
+
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  hideMenu();
+  camera.follow = false;
+  cameraTarget = null;
+  const [wx, wy] = toWorld(e.clientX, e.clientY);
+  const factor = Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015));
+  camera.scale = Math.min(Math.max(camera.scale * factor, 0.02), 8);
+  camera.x = wx - (e.clientX - W / 2) / camera.scale;
+  camera.y = wy - (e.clientY - H / 2) / camera.scale;
+  wake();
+}, { passive: false });
+
+canvas.addEventListener("dblclick", (e) => {
+  if (nodeAt(e.clientX, e.clientY) === null) { camera.follow = true; if (sim) sim.reheat(0.05); wake(); }
+});
+
+canvas.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  const i = nodeAt(e.clientX, e.clientY);
+  if (i === null) return hideMenu();
+  const node = state.graph.nodes[i];
+  const menu = $("menu");
+  menu.innerHTML = "";
+  const title = document.createElement("div");
+  title.className = "title"; title.textContent = node.path || node.name;
+  menu.append(title);
+  const items = [
+    ["Open in Neovim", () => openNode(i, "edit")],
+    ["Open in split", () => openNode(i, "vsplit")],
+    ["Open in new tab", () => openNode(i, "tab")],
+    ...(node.type === "note" ? [["Show titles list", () => showHeadings(i)]] : []),
+    ["Show local graph", () => { state.pinnedCenter = node.id; setMode(true); }],
+  ];
+  for (const [label, fn] of items) {
+    const b = document.createElement("button");
+    b.textContent = label;
+    b.onclick = () => { hideMenu(); fn(); };
+    menu.append(b);
+  }
+  menu.hidden = false;
+  menu.style.left = Math.min(e.clientX, W - 200) + "px";
+  menu.style.top = Math.min(e.clientY, H - 200) + "px";
+});
+function hideMenu() { $("menu").hidden = true; }
+window.addEventListener("keydown", (e) => {
+  if ((isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    hideMenu();
+    if (picker.open) closePicker(); else searchNotes();
+    return;
+  }
+  if (picker.open) return;
+  if (e.key === "Escape") {
+    hideMenu();
+    if (selected !== null) { selected = null; updateStatus(); wake(); }
+    else if (!$("panel").hidden && document.activeElement === document.body) $("panel").hidden = true;
+  }
+});
+
+function openNode(i, mode, line) {
+  api("/api/open", { id: state.graph.nodes[i].id, mode, line }).catch(showDisconnected);
+}
+
+// ---------------------------------------------------------------- picker (⌘K notes, headings)
+
+const picker = { open: false, items: [], shown: [], index: 0, opts: null, previewSeq: 0 };
+const noteCache = new Map();
+
+function fetchNote(id) {
+  if (!noteCache.has(id)) noteCache.set(id, api("/api/note?id=" + encodeURIComponent(id)).catch((e) => { noteCache.delete(id); throw e; }));
+  return noteCache.get(id);
+}
+
+// fzf-style subsequence match: consecutive and word-start characters score higher
+function fuzzy(query, text) {
+  if (!query) return { score: 0, positions: [] };
+  const q = query.toLowerCase(), t = text.toLowerCase();
+  const positions = [];
+  let score = 0, ti = 0, prev = -2;
+  for (const ch of q) {
+    if (ch === " ") continue;
+    const at = t.indexOf(ch, ti);
+    if (at < 0) return null;
+    score += at === prev + 1 ? 8 : 1;
+    if (at === 0 || /[\s\/_\-.(]/.test(t[at - 1])) score += 6;
+    positions.push(at);
+    prev = at; ti = at + 1;
+  }
+  return { score: score - t.length * 0.01, positions };
+}
+
+function highlight(el, text, positions) {
+  // positions index UTF-16 code units, the same units as `text`
+  const set = new Set(positions);
+  let start = 0;
+  for (let k = 0; k <= text.length; k++) {
+    const boundary = k === text.length || set.has(k) !== set.has(start);
+    if (!boundary) continue;
+    const part = text.slice(start, k);
+    if (set.has(start)) { const m = document.createElement("mark"); m.textContent = part; el.append(m); } else el.append(part);
+    start = k;
+  }
+}
+
+/**
+ * opts: { title, placeholder, items: [{ label, detail, level, data }], hints: [[key, text]],
+ *         preview(item) -> Promise<{ lines, line }>, onSelect(item, event), sort: bool }
+ */
+function openPicker(opts) {
+  picker.opts = opts;
+  picker.items = opts.items;
+  picker.open = true;
+  hover = null;
+  $("picker").hidden = false;
+  $("picker-title").textContent = opts.title;
+  const input = $("picker-query");
+  input.value = "";
+  input.placeholder = opts.placeholder || "";
+  const foot = $("picker-foot");
+  foot.innerHTML = "";
+  for (const [key, text] of [...(opts.hints || []), ["Esc", "close"]]) {
+    const span = document.createElement("span");
+    const kbd = document.createElement("kbd");
+    kbd.textContent = key;
+    span.append(kbd, " " + text);
+    foot.append(span);
+  }
+  filterPicker();
+  input.focus();
+}
+
+function closePicker() {
+  picker.open = false;
+  $("picker").hidden = true;
+  canvas.focus?.();
+}
+
+function filterPicker() {
+  const q = $("picker-query").value.trim();
+  const out = [];
+  for (const item of picker.items) {
+    const m = fuzzy(q, item.label);
+    const d = m ? null : item.detail ? fuzzy(q, item.label + " " + item.detail) : null;
+    if (m || d) out.push({ item, score: (m || d).score - (m ? 0 : 20), positions: m ? m.positions : [] });
+  }
+  if (q && picker.opts.sort !== false) out.sort((a, b) => b.score - a.score);
+  picker.shown = out;
+  picker.index = 0;
+  $("picker-count").textContent = `${out.length}/${picker.items.length}`;
+  renderPickerList();
+}
+
+function renderPickerList() {
+  const list = $("picker-list");
+  list.innerHTML = "";
+  if (!picker.shown.length) {
+    const empty = document.createElement("div");
+    empty.className = "picker-empty";
+    empty.textContent = picker.items.length ? "No matches" : picker.opts.empty || "Nothing to show";
+    list.append(empty);
+    $("picker-preview").innerHTML = "";
+    return;
+  }
+  // render in chunks of the visible window to stay fast on large vaults
+  const limit = Math.min(picker.shown.length, 500);
+  for (let k = 0; k < limit; k++) {
+    const { item, positions } = picker.shown[k];
+    const row = document.createElement("div");
+    row.className = "picker-item" + (k === picker.index ? " on" : "");
+    row.setAttribute("role", "option");
+    if (item.level) {
+      row.style.paddingLeft = 12 + (item.level - 1) * 14 + "px";
+      const lvl = document.createElement("span");
+      lvl.className = "lvl"; lvl.textContent = "H" + item.level;
+      row.append(lvl);
+    }
+    const label = document.createElement("span");
+    label.className = "label";
+    highlight(label, item.label, positions);
+    row.append(label);
+    if (item.detail) {
+      const detail = document.createElement("span");
+      detail.className = "detail"; detail.textContent = item.detail;
+      row.append(detail);
+    }
+    row.onmousemove = () => { if (picker.index !== k) { picker.index = k; updatePickerSelection(); } };
+    row.onclick = (e) => choosePicker(e);
+    list.append(row);
+  }
+  updatePickerSelection();
+}
+
+function updatePickerSelection() {
+  const rows = $("picker-list").children;
+  for (let k = 0; k < rows.length; k++) rows[k].classList.toggle("on", k === picker.index);
+  rows[picker.index]?.scrollIntoView({ block: "nearest" });
+  renderPreview();
+}
+
+async function renderPreview() {
+  const pre = $("picker-preview");
+  const entry = picker.shown[picker.index];
+  const seq = ++picker.previewSeq;
+  if (!entry || !picker.opts.preview) { pre.innerHTML = ""; return; }
+  let result;
+  try { result = await picker.opts.preview(entry.item); } catch (e) { result = { lines: ["(preview unavailable)"] }; }
+  if (seq !== picker.previewSeq) return;
+  pre.innerHTML = "";
+  const { lines, line } = result;
+  const frag = document.createDocumentFragment();
+  let target = null;
+  lines.slice(0, 2000).forEach((text, k) => {
+    const row = document.createElement("div");
+    if (/^#{1,6}\s/.test(text)) row.classList.add("h");
+    if (line && k + 1 === line) { row.classList.add("hit"); target = row; }
+    const ln = document.createElement("span");
+    ln.className = "ln"; ln.textContent = k + 1;
+    const body = document.createElement("span");
+    body.textContent = text || " ";
+    row.append(ln, body);
+    frag.append(row);
+  });
+  pre.append(frag);
+  pre.scrollTop = target ? Math.max(0, target.offsetTop - 24) : 0;
+}
+
+function choosePicker(e) {
+  const entry = picker.shown[picker.index];
+  if (!entry) return;
+  closePicker();
+  picker.opts.onSelect(entry.item, e);
+}
+
+$("picker-query").addEventListener("input", filterPicker);
+$("picker-query").addEventListener("keydown", (e) => {
+  const move = (d) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!picker.shown.length) return;
+    picker.index = (picker.index + d + picker.shown.length) % Math.min(picker.shown.length, 500);
+    updatePickerSelection();
+  };
+  if (e.key === "ArrowDown" || (e.ctrlKey && (e.key === "n" || e.key === "j"))) move(1);
+  else if (e.key === "ArrowUp" || (e.ctrlKey && (e.key === "p" || e.key === "k"))) move(-1);
+  else if (e.key === "PageDown") move(10);
+  else if (e.key === "PageUp") move(-10);
+  else if (e.key === "Enter") { e.preventDefault(); choosePicker(e); }
+  else if (e.key === "Escape") { e.preventDefault(); closePicker(); }
+});
+$("picker").addEventListener("mousedown", (e) => { if (e.target === $("picker")) closePicker(); });
+
+
+function notePreview(id) {
+  return fetchNote(id).then((n) => ({ lines: n.lines.length ? n.lines : ["(attachment)"] }));
+}
+
+/** Highlights a node and glides the camera to it; falls back to its local graph when filtered out. */
+function focusNode(i) {
+  if (!view.slot.has(i)) {
+    state.pinnedCenter = state.graph.nodes[i].id;
+    setMode(true);
+  }
+  camera.follow = false;
+  selected = i;
+  cameraTarget = i;
+  updateStatus();
+  wake();
+}
+
+function searchNotes() {
+  const items = state.graph.nodes
+    .map((n, i) => ({ n, i }))
+    .filter(({ n }) => n.path)
+    .sort((a, b) => a.n.name.localeCompare(b.n.name))
+    .map(({ n, i }) => {
+      const dir = n.path.includes("/") ? n.path.slice(0, n.path.lastIndexOf("/")) : "";
+      return { label: n.name, detail: dir, data: i };
+    });
+  openPicker({
+    title: "Notes",
+    placeholder: "Search notes…",
+    items,
+    hints: [["↵", "show in graph"], [MOD + "↵", "open in Neovim"], ["⇧↵", "open in split"], ["Ctrl+n/p", "move"]],
+    preview: (item) => notePreview(state.graph.nodes[item.data].id),
+    onSelect: (item, e) => {
+      if (e.metaKey || e.ctrlKey) openNode(item.data, "edit");
+      else if (e.shiftKey) openNode(item.data, "vsplit");
+      else focusNode(item.data);
+    },
+  });
+}
+
+async function showHeadings(i) {
+  const node = state.graph.nodes[i];
+  let note;
+  try { note = await fetchNote(node.id); } catch (e) { return showDisconnected(); }
+  openPicker({
+    title: node.name,
+    placeholder: "Filter titles…",
+    sort: true,
+    empty: "This note has no headings",
+    items: note.headings.map((h) => ({ label: h.text, detail: ":" + h.line, level: h.level, data: h.line })),
+    hints: [["↵", "open at title"], ["⇧↵", "open in split"], ["Ctrl+n/p", "move"]],
+    preview: (item) => Promise.resolve({ lines: note.lines, line: item.data }),
+    onSelect: (item, e) => openNode(i, e.shiftKey ? "vsplit" : "edit", item.data),
+  });
+}
+
+// ---------------------------------------------------------------- chrome / settings panel
+
+function updateStatus() {
+  const n = state.graph.nodes;
+  let text = `${view.nodes.length} nodes · ${view.links.length} links`;
+  const shown = hover !== null ? hover : selected;
+  if (shown !== null) text = `${n[shown].path || n[shown].name} · ${view.degree.get(shown) || 0} links`;
+  else text += ` · ${MOD}K search notes`;
+  if (state.reveal !== null) text += ` · ▶ ${Math.min(state.reveal, state.revealTotal || 0)}/${state.revealTotal || 0}`;
+  $("status").textContent = text;
+}
+
+function updateChrome() {
+  $("mode-global").classList.toggle("on", !state.localMode);
+  $("mode-local").classList.toggle("on", state.localMode);
+  $("sec-local").style.display = state.localMode ? "" : "none";
+  const crumb = $("crumb");
+  crumb.innerHTML = "";
+  const vault = document.createElement("b");
+  vault.textContent = state.graph.vault || "";
+  crumb.append(vault);
+  if (state.localMode) {
+    const c = centerIndex();
+    crumb.append(" · " + (c !== null ? state.graph.nodes[c].name : "no note open in Neovim"));
+    if (state.pinnedCenter) {
+      const a = document.createElement("a");
+      a.textContent = "follow current note";
+      a.onclick = () => { state.pinnedCenter = null; camera.follow = true; rebuild(0.8); };
+      crumb.append(a);
+    }
+  }
+  document.title = (state.localMode ? "Local graph" : "Graph") + " · " + (state.graph.vault || "");
+  updateStatus();
+}
+
+function setMode(local) {
+  state.localMode = local;
+  const u = new URL(location.href);
+  if (local) u.searchParams.set("local", "1"); else u.searchParams.delete("local");
+  history.replaceState(null, "", u);
+  camera.follow = true;
+  rebuild(0.8);
+}
+$("mode-global").onclick = () => setMode(false);
+$("mode-local").onclick = () => setMode(true);
+
+$("gear").onclick = () => { $("panel").hidden = false; };
+$("close-panel").onclick = () => { $("panel").hidden = true; };
+
+let saveTimer = null;
+function saveSettings() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => api("/api/settings", state.settings).catch(showDisconnected), 250);
+}
+
+const FORCE_KEYS = new Set(["centerStrength", "repelStrength", "linkStrength", "linkDistance"]);
+const DRAW_KEYS = new Set(["showArrow", "textFadeMultiplier", "nodeSizeMultiplier", "lineSizeMultiplier"]);
+
+document.querySelectorAll("[data-setting]").forEach((el) => {
+  const key = el.dataset.setting;
+  el.addEventListener("input", () => {
+    state.settings[key] = el.type === "checkbox" ? el.checked : Number(el.value);
+    saveSettings();
+    if (FORCE_KEYS.has(key)) { sim.setForces(forces(state.settings)); sim.reheat(0.5); wake(); }
+    else if (DRAW_KEYS.has(key)) wake();
+    else rebuild(0.5);
+  });
+});
+
+function syncInputs() {
+  const s = state.settings;
+  document.querySelectorAll("[data-setting]").forEach((el) => {
+    const v = s[el.dataset.setting];
+    if (el.type === "checkbox") el.checked = !!v; else el.value = v;
+  });
+  if (document.activeElement !== $("search")) $("search").value = s.search || "";
+  renderGroups();
+}
+
+let matchTimer = null;
+function scheduleMatch(delay = 250) {
+  clearTimeout(matchTimer);
+  matchTimer = setTimeout(refreshMatches, delay);
+}
+async function refreshMatches() {
+  const s = state.settings;
+  const queries = [s.search || "", ...s.colorGroups.map((g) => g.query || "")];
+  try {
+    const results = await api("/api/match", { queries });
+    const sets = results.map((r) => (r === null ? null : new Set(r)));
+    state.searchSet = sets[0];
+    state.groupSets = sets.slice(1);
+    rebuild(0.3);
+  } catch (e) { showDisconnected(); }
+}
+
+$("search").addEventListener("input", (e) => {
+  state.settings.search = e.target.value;
+  camera.follow = true;
+  saveSettings();
+  scheduleMatch();
+});
+
+function renderGroups() {
+  const box = $("groups");
+  box.innerHTML = "";
+  state.settings.colorGroups.forEach((g, k) => {
+    const row = document.createElement("div");
+    row.className = "group";
+    const color = document.createElement("input");
+    color.type = "color";
+    color.value = "#" + (g.color.rgb >>> 0).toString(16).padStart(6, "0");
+    color.oninput = () => { g.color.rgb = parseInt(color.value.slice(1), 16); saveSettings(); rebuild(0); };
+    const q = document.createElement("input");
+    q.type = "text"; q.value = g.query; q.placeholder = "Enter query..."; q.spellcheck = false;
+    q.oninput = () => { g.query = q.value; saveSettings(); scheduleMatch(); };
+    const del = document.createElement("button");
+    del.className = "icon-btn"; del.textContent = "✕"; del.title = "Delete group";
+    del.onclick = () => { state.settings.colorGroups.splice(k, 1); saveSettings(); renderGroups(); scheduleMatch(0); };
+    const up = document.createElement("button");
+    up.className = "icon-btn"; up.textContent = "↑"; up.title = "Move up (earlier groups win)";
+    up.disabled = k === 0;
+    up.onclick = () => { const a = state.settings.colorGroups; [a[k - 1], a[k]] = [a[k], a[k - 1]]; saveSettings(); renderGroups(); scheduleMatch(0); };
+    row.append(color, q, up, del);
+    box.append(row);
+  });
+}
+$("add-group").onclick = () => {
+  const hue = Math.floor(Math.random() * 360);
+  const c = hslToRgb(hue / 360, 0.65, 0.6);
+  state.settings.colorGroups.push({ query: "", color: { a: 1, rgb: c } });
+  saveSettings();
+  renderGroups();
+  const inputs = $("groups").querySelectorAll("input[type=text]");
+  inputs[inputs.length - 1].focus();
+};
+function hslToRgb(h, s, l) {
+  const f = (n) => { const k = (n + h * 12) % 12, a = s * Math.min(l, 1 - l); return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); };
+  return (f(0) << 16) | (f(8) << 8) | f(4);
+}
+
+$("reset").onclick = async () => {
+  try {
+    state.settings = await api("/api/settings/reset", {});
+    syncInputs();
+    camera.follow = true;
+    refreshMatches();
+  } catch (e) { showDisconnected(); }
+};
+
+let revealTimer = null;
+$("animate").onclick = () => {
+  if (revealTimer) { clearInterval(revealTimer); revealTimer = null; state.reveal = null; $("animate").textContent = "Animate"; rebuild(0.3); return; }
+  state.positions.clear();
+  state.reveal = 0;
+  camera.follow = true;
+  rebuild(1);
+  const step = Math.max(1, Math.ceil((state.revealTotal || 0) / 150));
+  $("animate").textContent = "Stop";
+  revealTimer = setInterval(() => {
+    state.reveal += step;
+    if (state.reveal >= (state.revealTotal || 0)) {
+      clearInterval(revealTimer); revealTimer = null; state.reveal = null; $("animate").textContent = "Animate";
+    }
+    rebuild(Math.max(sim ? sim.alpha : 0, 0.4));
+  }, 50);
+};
+
+function showDisconnected() { $("banner").hidden = false; }
+
+// ---------------------------------------------------------------- data loading & live updates
+
+async function loadGraph() {
+  const g = await api("/api/graph");
+  g.index = new Map(g.nodes.map((n, i) => [n.id, i]));
+  state.graph = g;
+  state.active = g.active;
+}
+
+async function init() {
+  if (!TOKEN) { showDisconnected(); return; }
+  readPalette();
+  resize();
+  try {
+    await loadGraph();
+    state.settings = await api("/api/settings");
+  } catch (e) { showDisconnected(); return; }
+  syncInputs();
+  await refreshMatches();
+
+  const events = new EventSource("/events?t=" + TOKEN);
+  events.addEventListener("open", () => { $("banner").hidden = true; });
+  events.addEventListener("error", () => {
+    // EventSource retries on its own; only complain when Neovim is really gone
+    api("/api/settings").then(() => { $("banner").hidden = true; }).catch(showDisconnected);
+  });
+  events.addEventListener("graph", async () => {
+    noteCache.clear();
+    await loadGraph();
+    refreshMatches();
+  });
+  events.addEventListener("settings", async (e) => {
+    const data = JSON.parse(e.data || "{}");
+    if (data.from_browser) return;
+    state.settings = await api("/api/settings");
+    syncInputs();
+    refreshMatches();
+  });
+  events.addEventListener("active", (e) => {
+    state.active = JSON.parse(e.data).id;
+    if (state.localMode && !state.pinnedCenter) { camera.follow = true; rebuild(0.8); }
+    else { updateChrome(); wake(); }
+  });
+}
+init();
+</script>
+</body>
+</html>

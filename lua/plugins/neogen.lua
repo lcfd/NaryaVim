@@ -12,7 +12,7 @@ return {
       ":lua require('neogen').generate({ type = 'func' })<CR>",
       opts,
     },
-     {
+    {
       "<leader>nc",
       ":lua require('neogen').generate({ type = 'class' })<CR>",
       opts,
