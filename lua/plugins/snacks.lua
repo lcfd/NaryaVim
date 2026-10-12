@@ -305,6 +305,13 @@ Y                  Y    Y             Y             Y]],
     {
       "<leader>ds",
       function()
+        for level = 1, 6 do
+          vim.api.nvim_set_hl(
+            0,
+            "SnacksPickerIconH" .. level,
+            { link = "@markup.heading." .. level .. ".markdown", default = true }
+          )
+        end
         Snacks.picker.lsp_symbols({
           tree = true,
           filter = {
@@ -321,6 +328,17 @@ Y                  Y    Y             Y             Y]],
             bash = true,
             help = true,
           },
+          -- Per-level heading icons for markdown (see transform below)
+          icons = {
+            kinds = {
+              H1 = "󰉫 ",
+              H2 = "󰉬 ",
+              H3 = "󰉭 ",
+              H4 = "󰉮 ",
+              H5 = "󰉯 ",
+              H6 = "󰉰 ",
+            },
+          },
           -- layout = { preset = "vscode", preview = true },
           -- Custom transform to filter out the noise
           transform = function(item)
@@ -331,6 +349,17 @@ Y                  Y    Y             Y             Y]],
             -- filetypes (markdown headings, shell functions) commonly use
             -- lowercase names that this would otherwise strip out.
             local ft = vim.bo[item.buf].filetype
+
+            -- Markdown servers report headings with arbitrary kinds
+            -- (markdown-oxide: Struct, marksman: String). Read the heading
+            -- level from the line itself and use the matching H1-H6 kind.
+            if ft == "markdown" and item.pos then
+              local line = vim.api.nvim_buf_get_lines(item.buf, item.pos[1] - 1, item.pos[1], false)[1] or ""
+              local hashes = line:match("^%s*(#+)%s")
+              if hashes and #hashes <= 6 then
+                item.kind = "H" .. #hashes
+              end
+            end
             local is_react_ft = ft == "javascript"
               or ft == "javascriptreact"
               or ft == "typescript"

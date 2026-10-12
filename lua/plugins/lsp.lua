@@ -98,6 +98,14 @@ return {
       },
       filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
     }
+    -- Keep tailwindcss off markdown: for notes outside a project its root
+    -- resolves to $HOME (dotfiles .git), and its completion requests then
+    -- stall until blink.cmp's 2s timeout, delaying every other source.
+    vim.lsp.config["tailwindcss"] = {
+      filetypes = vim.tbl_filter(function(ft)
+        return ft ~= "markdown" and ft ~= "mdx"
+      end, vim.lsp.config.tailwindcss.filetypes),
+    }
     vim.lsp.config["marksman"] = {
       -- Fall back to the file's own directory when no project root
       -- (.marksman.toml/.git) is found, so standalone .md files outside

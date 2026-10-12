@@ -72,9 +72,12 @@ return {
           "lsp",
           "path",
           "snippets",
+          "wikilinks",
         },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+          -- [[wikilinks]] where neither marksman nor obsidian.nvim provide them
+          wikilinks = { name = "Wikilinks", module = "custom.blink_wikilinks" },
         },
       },
 
