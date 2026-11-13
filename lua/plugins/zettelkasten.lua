@@ -24,6 +24,14 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+    keys = {
+      {
+        "<leader>tt",
+        "<cmd>Obsidian toggle_checkbox<CR>",
+        ft = "markdown",
+        desc = "[Obsidian] Toggle checkbox.",
+      },
+    },
     ---@module 'obsidian'
     ---@type obsidian.config
     opts = {
@@ -43,16 +51,6 @@ return {
         alias_format = "%B %-d, %Y",
         -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
         template = "daily.md",
-      },
-
-      keys = {
-        {
-          "<leader>tt",
-          function()
-            require("obsidian").util.toggle_checkbox()
-          end,
-          desc = "[Obsidian] Toggle checkbox.",
-        },
       },
     },
   },

@@ -51,11 +51,15 @@ function M.setup()
     desc = "[Diagnostic] of element in hover.",
   })
 
-  keyset("n", "[d", vim.diagnostic.goto_prev, {
+  keyset("n", "[d", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+  end, {
     desc = "[Diagnostic] Go to previous error.",
   })
 
-  keyset("n", "]d", vim.diagnostic.goto_next, {
+  keyset("n", "]d", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+  end, {
     desc = "[Diagnostic] Go to next error.",
   })
 

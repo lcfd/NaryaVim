@@ -74,6 +74,9 @@ return {
           "snippets",
           "wikilinks",
         },
+        per_filetype = {
+          lua = { inherit_defaults = true, "lazydev" },
+        },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
           -- [[wikilinks]] where neither marksman nor obsidian.nvim provide them

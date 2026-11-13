@@ -78,17 +78,17 @@ return {
     {
       "<leader>7",
       jumpToFile(7),
-      desc = "[Harpoon] To file 6.",
+      desc = "[Harpoon] To file 7.",
     },
     {
       "<leader>8",
       jumpToFile(8),
-      desc = "[Harpoon] To file 6.",
+      desc = "[Harpoon] To file 8.",
     },
     {
       "<leader>9",
       jumpToFile(9),
-      desc = "[Harpoon] To file 6.",
+      desc = "[Harpoon] To file 9.",
     },
   },
 }

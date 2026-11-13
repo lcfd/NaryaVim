@@ -5,7 +5,7 @@ return {
   },
   opts = {},
   keys = {
-    { "<leader>vs", "<cmd>VenvSelect<cr>", { desc = "[VenvSelector] Select." } },
-    { "<leader>vc", "<cmd>VenvSelectCached<cr>", { desc = "[VenvSelector] Select cached." } },
+    { "<leader>vs", "<cmd>VenvSelect<cr>", desc = "[VenvSelector] Select." },
+    { "<leader>vc", "<cmd>VenvSelectCached<cr>", desc = "[VenvSelector] Select cached." },
   },
 }

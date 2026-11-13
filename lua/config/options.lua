@@ -82,6 +82,11 @@ function M.setup()
   -- Fix markdown indentation settings
   vim.g.markdown_recommended_style = 0
 
+  -- Treat .h as C, not C++ (the default). clangd needs the matching
+  -- -xc-header flag in its own config (~/Library/Preferences/clangd/config.yaml),
+  -- otherwise it suggests C++ headers like <ctime> instead of <time.h>.
+  vim.g.c_syntax_for_h = 1
+
   -- LSP symbol kind filter (used by Snacks.picker.lsp_symbols)
   vim.g.kind_filter = require("config").kind_filter
 

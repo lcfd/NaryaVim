@@ -1,5 +1,3 @@
-local opts = { noremap = true, silent = true }
-
 return {
   "danymat/neogen",
   dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.cmp" },
@@ -9,13 +7,13 @@ return {
   keys = {
     {
       "<leader>nf",
-      ":lua require('neogen').generate({ type = 'func' })<CR>",
-      opts,
+      "<cmd>lua require('neogen').generate({ type = 'func' })<CR>",
+      desc = "[Neogen] Function docstring.",
     },
     {
       "<leader>nc",
-      ":lua require('neogen').generate({ type = 'class' })<CR>",
-      opts,
+      "<cmd>lua require('neogen').generate({ type = 'class' })<CR>",
+      desc = "[Neogen] Class docstring.",
     },
   },
   opts = {

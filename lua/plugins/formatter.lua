@@ -4,16 +4,7 @@ return {
   {
     "stevearc/conform.nvim",
     cmd = { "ConformInfo" },
-    keys = {
-      {
-        "<leader>ff",
-        function()
-          require("conform").format({ async = true, lsp_format = "fallback" })
-        end,
-        mode = "",
-        desc = "[F]ormat buffer",
-      },
-    },
+    -- <leader>ff lives in config/keymaps.lua (it would override a mapping here)
     opts = {
       notify_on_error = false,
       formatters_by_ft = {
