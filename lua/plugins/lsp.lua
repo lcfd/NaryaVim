@@ -106,6 +106,24 @@ return {
         return ft ~= "markdown" and ft ~= "mdx"
       end, vim.lsp.config.tailwindcss.filetypes),
     }
+    -- Python servers: resolve the root from the server's own root_markers,
+    -- but ignore a match at $HOME (the dotfiles .git). With no root, on_dir(nil)
+    -- starts the server in single-file mode instead of indexing the whole home
+    -- directory, which pegs pyright for minutes on a stray script.
+    for _, name in ipairs({ "pyright", "ty", "ruff" }) do
+      local markers = vim.lsp.config[name].root_markers
+      vim.lsp.config[name] = {
+        -- emptied: vim.lsp.start re-resolves root_markers when root_dir is nil
+        root_markers = {},
+        root_dir = function(bufnr, on_dir)
+          local root = vim.fs.root(bufnr, markers)
+          if root == vim.uv.os_homedir() then
+            root = nil
+          end
+          on_dir(root)
+        end,
+      }
+    end
     vim.lsp.config["marksman"] = {
       -- Fall back to the file's own directory when no project root
       -- (.marksman.toml/.git) is found, so standalone .md files outside
